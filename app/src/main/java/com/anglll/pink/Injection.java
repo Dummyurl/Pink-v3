@@ -8,6 +8,6 @@ import android.content.Context;
 
 public class Injection {
     public static Context provideContext(){
-        return LockApplication.getInstance();
+        return PinkApplication.getInstance();
     }
 }

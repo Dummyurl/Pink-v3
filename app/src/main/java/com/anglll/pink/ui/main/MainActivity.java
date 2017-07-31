@@ -4,6 +4,7 @@ import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -16,11 +17,13 @@ import com.anglll.pink.data.model.WeatherInfo;
 import com.anglll.pink.data.retrofit.RetrofitAPI;
 import com.anglll.pink.event.WeatherEvent;
 
+import io.reactivex.Observer;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.annotations.NonNull;
 import io.reactivex.disposables.Disposable;
 import io.reactivex.functions.Consumer;
 import io.reactivex.schedulers.Schedulers;
+import retrofit2.Retrofit;
 
 public class MainActivity extends BaseActivity {
 
@@ -34,27 +37,54 @@ public class MainActivity extends BaseActivity {
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View view) {
-                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();
+            public void onClick(final View view) {
+                RetrofitAPI.getInstance()
+                        .getRemoteService()
+                        .getWeatherInfo("101010100")
+                        .subscribeOn(Schedulers.io())
+                        .observeOn(AndroidSchedulers.mainThread())
+                        .subscribe(new Observer<WeatherInfo>() {
+                            @Override
+                            public void onSubscribe(@NonNull Disposable d) {
+                                Log.d("anglll_rxjava2","onSubscribe");
+                            }
+
+                            @Override
+                            public void onNext(@NonNull WeatherInfo weatherInfo) {
+
+                                Log.d("anglll_rxjava2","onNext");
+                            }
+
+                            @Override
+                            public void onError(@NonNull Throwable e) {
+
+                                Log.d("anglll_rxjava2","onError");
+                            }
+
+                            @Override
+                            public void onComplete() {
+
+                                Log.d("anglll_rxjava2","onComplete");
+                            }
+                        });
             }
         });
 
-        RetrofitAPI.getInstance().getRemoteService()
-                .getWeatherInfo("101010100")
-                .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new Consumer<WeatherInfo>() {
-                    @Override
-                    public void accept(@NonNull WeatherInfo weatherInfo) throws Exception {
-                        RxBus.get().post(new WeatherEvent(weatherInfo));
-                    }
-                }, new Consumer<Throwable>() {
-                    @Override
-                    public void accept(@NonNull Throwable throwable) throws Exception {
-                        Toast.makeText(MainActivity.this,"异常", Toast.LENGTH_SHORT).show();
-                    }
-                });
+//        RetrofitAPI.getInstance().getRemoteService()
+//                .getWeatherInfo("101010100")
+//                .subscribeOn(Schedulers.io())
+//                .observeOn(AndroidSchedulers.mainThread())
+//                .subscribe(new Consumer<WeatherInfo>() {
+//                    @Override
+//                    public void accept(@NonNull WeatherInfo weatherInfo) throws Exception {
+//                        RxBus.get().post(new WeatherEvent(weatherInfo));
+//                    }
+//                }, new Consumer<Throwable>() {
+//                    @Override
+//                    public void accept(@NonNull Throwable throwable) throws Exception {
+//                        Toast.makeText(MainActivity.this,"异常", Toast.LENGTH_SHORT).show();
+//                    }
+//                });
     }
 
     @Override

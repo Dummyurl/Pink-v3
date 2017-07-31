@@ -14,4 +14,7 @@ public interface RemoteService {
     //http://mobile.weather.com.cn/data/forecast/101010100.html
     @GET("data/forecast/{cityId}.html")
     Observable<WeatherInfo> getWeatherInfo(@Path("cityId") String cityId);
+
+    @GET("data/forecast/101010100.html")
+    Observable<String> getString();
 }

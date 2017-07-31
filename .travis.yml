@@ -1,0 +1,21 @@
+language: android
+android:
+  components:
+    - platform-tools
+    - tools
+    - build-tools-25.0.2
+    - android-25
+    - extra-android-support
+    - extra-android-m2repository
+
+jdk:
+  - oraclejdk8
+
+before_install:
+  - chmod +x gradlew
+script:
+  - ./gradlew assembleRelease
+
+after_failure:
+  - cat /home/travis/build/homelajiang/Pink-v2/Pink-v2/build/outputs/lint-results.html
+  - cat /home/travis/build/homelajiang/Pink-v2/Pink-v2/build/outputs/lint-results.xml

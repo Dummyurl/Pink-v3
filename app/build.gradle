@@ -47,4 +47,12 @@ dependencies {
     compile 'org.greenrobot:greendao:3.2.2'
     compile 'com.jakewharton:butterknife:8.7.0'
     annotationProcessor 'com.jakewharton:butterknife-compiler:8.7.0'
+    compile 'com.airbnb.android:epoxy:2.2.0'
+    annotationProcessor 'com.airbnb.android:epoxy-processor:2.2.0'
+    compile 'com.facebook.fresco:fresco:1.4.0'
+    compile 'com.facebook.fresco:imagepipeline-okhttp3:1.4.0'
+    debugCompile 'com.squareup.leakcanary:leakcanary-android:1.5.1'
+    releaseCompile 'com.squareup.leakcanary:leakcanary-android-no-op:1.5.1'
+    testCompile 'com.squareup.leakcanary:leakcanary-android-no-op:1.5.1'
+    compile 'com.jaeger.statusbarutil:library:1.4.0'
 }
