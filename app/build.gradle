@@ -6,7 +6,7 @@ android {
     compileSdkVersion 26
     buildToolsVersion "26.0.0"
     defaultConfig {
-        applicationId "com.yuan.lock"
+        applicationId "com.anglll.pink"
         minSdkVersion 15
         targetSdkVersion 26
         versionCode 1
@@ -23,7 +23,7 @@ android {
 
 greendao {
     schemaVersion 1
-    daoPackage 'com.lxy.pink.data.db'
+    daoPackage 'com.anglll.pink.data.db'
     targetGenDir 'src/main/java'
 }
 
