@@ -29,7 +29,7 @@ public class RetrofitAPI {
     public RemoteService getRemoteService() {
         synchronized (RetrofitAPI.class) {
             if (this.remoteService == null) {
-                this.remoteService = getRxJavaService(normalClient, Config.HOST_WEATHER, RemoteService.class);
+                this.remoteService = getRxJavaService(normalClient, Config.HOST, RemoteService.class);
             }
         }
         return remoteService;
