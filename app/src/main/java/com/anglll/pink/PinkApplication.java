@@ -15,8 +15,6 @@ import okhttp3.OkHttpClient;
 
 public class PinkApplication extends Application {
     private static PinkApplication instance;
-    OkHttpClient okHttpClient; // build on your own
-
 
     public static PinkApplication getInstance() {
         return instance;
@@ -27,6 +25,8 @@ public class PinkApplication extends Application {
         super.onCreate();
         instance = this;
         //init
+        initLeakCanary();
+        initFresco();
     }
 
 
@@ -41,7 +41,7 @@ public class PinkApplication extends Application {
 
     private void initFresco() {
         ImagePipelineConfig config = OkHttpImagePipelineConfigFactory
-                .newBuilder(this, okHttpClient)
+                .newBuilder(this, new OkHttpClient())
 //                . // other setters
 //    . // setNetworkFetcher is already called for you
                 .build();
