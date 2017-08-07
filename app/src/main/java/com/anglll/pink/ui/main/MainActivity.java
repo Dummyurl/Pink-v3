@@ -1,5 +1,6 @@
 package com.anglll.pink.ui.main;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.AppBarLayout;
 import android.support.design.widget.NavigationView;
@@ -16,6 +17,8 @@ import com.anglll.pink.RxBus;
 import com.anglll.pink.base.BaseActivity;
 import com.anglll.pink.data.model.WeatherInfo;
 import com.anglll.pink.event.WeatherEvent;
+import com.anglll.pink.ui.TestActivity;
+import com.anglll.pink.ui.home.HomeFragment;
 import com.jaeger.library.StatusBarUtil;
 
 import butterknife.BindView;
@@ -44,13 +47,16 @@ public class MainActivity extends BaseActivity
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         ButterKnife.bind(this);
-        StatusBarUtil.setTranslucentForDrawerLayout(this,mDrawerLayout,0);
+        StatusBarUtil.setTranslucentForDrawerLayout(this, mDrawerLayout, 0);
         initView();
         initData();
     }
 
     private void initData() {
-
+        HomeFragment homeFragment = new HomeFragment();
+        getSupportFragmentManager().beginTransaction()
+                .replace(R.id.fragment_container, homeFragment)
+                .commit();
     }
 
     private void initView() {
@@ -101,7 +107,7 @@ public class MainActivity extends BaseActivity
         if (id == R.id.nav_share) {
 
         } else if (id == R.id.nav_send) {
-
+            startActivity(new Intent(getContext(), TestActivity.class));
         }
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
