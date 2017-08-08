@@ -9,6 +9,7 @@ import com.airbnb.epoxy.EpoxyHolder;
 import com.airbnb.epoxy.EpoxyModelClass;
 import com.airbnb.epoxy.EpoxyModelWithHolder;
 import com.anglll.pink.R;
+import com.anglll.pink.data.model.Weather;
 import com.facebook.drawee.view.SimpleDraweeView;
 
 import butterknife.BindView;
@@ -19,12 +20,12 @@ import butterknife.ButterKnife;
  */
 @EpoxyModelClass(layout = R.layout.home_weather_model)
 public abstract class WeatherModel extends EpoxyModelWithHolder<WeatherModel.WeatherHolder> {
-    @EpoxyAttribute String des;
+    @EpoxyAttribute
+    Weather weather;
 
     @Override
     public void bind(WeatherHolder holder) {
         super.bind(holder);
-        holder.mWeatherTemp.setText(des);
     }
 
     @Override

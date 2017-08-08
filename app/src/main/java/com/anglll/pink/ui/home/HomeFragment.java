@@ -34,8 +34,6 @@ public class HomeFragment extends BaseFragment {
     SwipeRefreshLayout mSwipeRefreshLayout;
     private HomeController controller;
     private List<HomeCard> cardList = new ArrayList<>();
-    private Handler handler;
-    private Runnable r;
 
 
     @Nullable
@@ -63,16 +61,8 @@ public class HomeFragment extends BaseFragment {
         mRecyclerView.setAdapter(controller.getAdapter());
         cardList.add(new HomeCard(HomeCard.TYPE_WEATHER, IDUtils.generateID()));
         cardList.add(new HomeCard(HomeCard.TYPE_MUSIC, IDUtils.generateID()));
+        cardList.add(new HomeCard(HomeCard.TYPE_EVENT, IDUtils.generateID()));
         updateController();
-        handler= new Handler();
-        r = new Runnable() {
-            @Override
-            public void run() {
-                updateController();
-                handler.postDelayed(r,3);
-            }
-        };
-       handler.post(r);
     }
 
     private void updateController() {

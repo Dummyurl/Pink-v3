@@ -3,6 +3,7 @@ package com.anglll.pink.ui.home;
 import com.airbnb.epoxy.AutoModel;
 import com.airbnb.epoxy.TypedEpoxyController;
 import com.anglll.pink.data.model.HomeCard;
+import com.anglll.pink.ui.home.model.EventModelGroup;
 import com.anglll.pink.ui.home.model.MusicModel_;
 import com.anglll.pink.ui.home.model.WeatherModel_;
 
@@ -28,7 +29,6 @@ public class HomeController extends TypedEpoxyController<List<HomeCard>> {
                 case HomeCard.TYPE_WEATHER:
                     add(new WeatherModel_()
                             .id(card.getId())
-                            .des(String.valueOf(new Random().nextFloat()))
                     );
                     break;
                 case HomeCard.TYPE_MUSIC:
@@ -36,6 +36,7 @@ public class HomeController extends TypedEpoxyController<List<HomeCard>> {
                             .id(card.getId()));
                     break;
                 case HomeCard.TYPE_EVENT:
+                    add(new EventModelGroup(card));
                     break;
                 default:
                     break;
