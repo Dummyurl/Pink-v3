@@ -1,6 +1,7 @@
 package com.anglll.pink.ui.home;
 
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.annotation.Nullable;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.GridLayoutManager;
@@ -9,10 +10,14 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.airbnb.epoxy.EpoxyModelWithHolder;
 import com.anglll.pink.R;
 import com.anglll.pink.base.BaseFragment;
+import com.anglll.pink.data.model.HomeCard;
+import com.anglll.pink.utils.IDUtils;
 
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Objects;
 
 import butterknife.BindView;
@@ -28,6 +33,10 @@ public class HomeFragment extends BaseFragment {
     @BindView(R.id.swipeRefreshLayout)
     SwipeRefreshLayout mSwipeRefreshLayout;
     private HomeController controller;
+    private List<HomeCard> cardList = new ArrayList<>();
+    private Handler handler;
+    private Runnable r;
+
 
     @Nullable
     @Override
@@ -36,7 +45,7 @@ public class HomeFragment extends BaseFragment {
         ButterKnife.bind(this, view);
         initView();
         initData();
-        return super.onCreateView(inflater, container, savedInstanceState);
+        return view;
     }
 
     private void initData() {
@@ -52,11 +61,22 @@ public class HomeFragment extends BaseFragment {
 
         mRecyclerView.setHasFixedSize(true);
         mRecyclerView.setAdapter(controller.getAdapter());
+        cardList.add(new HomeCard(HomeCard.TYPE_WEATHER, IDUtils.generateID()));
+        cardList.add(new HomeCard(HomeCard.TYPE_MUSIC, IDUtils.generateID()));
         updateController();
+        handler= new Handler();
+        r = new Runnable() {
+            @Override
+            public void run() {
+                updateController();
+                handler.postDelayed(r,3);
+            }
+        };
+       handler.post(r);
     }
 
     private void updateController() {
-        controller.setData(new ArrayList<Object>());
+        controller.setData(cardList);
     }
 
     @Override
