@@ -12,7 +12,7 @@ public class HomeCard {
     long id;
     Weather weather;
     PlayList playList;
-    EventList eventList;
+    Todo todo;
 
     public HomeCard(int type, long id) {
         this.type = type;
@@ -51,11 +51,11 @@ public class HomeCard {
         this.playList = playList;
     }
 
-    public EventList getEventList() {
-        return eventList;
+    public Todo getTodo() {
+        return todo;
     }
 
-    public void setEventList(EventList eventList) {
-        this.eventList = eventList;
+    public void setTodo(Todo todo) {
+        this.todo = todo;
     }
 }

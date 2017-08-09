@@ -13,7 +13,9 @@ import android.view.ViewGroup;
 import com.airbnb.epoxy.EpoxyModelWithHolder;
 import com.anglll.pink.R;
 import com.anglll.pink.base.BaseFragment;
+import com.anglll.pink.data.model.Event;
 import com.anglll.pink.data.model.HomeCard;
+import com.anglll.pink.data.model.Todo;
 import com.anglll.pink.utils.IDUtils;
 
 import java.util.ArrayList;
@@ -30,8 +32,6 @@ import butterknife.ButterKnife;
 public class HomeFragment extends BaseFragment {
     @BindView(R.id.recyclerView)
     RecyclerView mRecyclerView;
-    @BindView(R.id.swipeRefreshLayout)
-    SwipeRefreshLayout mSwipeRefreshLayout;
     private HomeController controller;
     private List<HomeCard> cardList = new ArrayList<>();
 
@@ -39,7 +39,7 @@ public class HomeFragment extends BaseFragment {
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.recyclerview_with_refresh, container, false);
+        View view = inflater.inflate(R.layout.recyclerview, container, false);
         ButterKnife.bind(this, view);
         initView();
         initData();
@@ -61,7 +61,15 @@ public class HomeFragment extends BaseFragment {
         mRecyclerView.setAdapter(controller.getAdapter());
         cardList.add(new HomeCard(HomeCard.TYPE_WEATHER, IDUtils.generateID()));
         cardList.add(new HomeCard(HomeCard.TYPE_MUSIC, IDUtils.generateID()));
-        cardList.add(new HomeCard(HomeCard.TYPE_EVENT, IDUtils.generateID()));
+        HomeCard homeCard = new HomeCard(HomeCard.TYPE_EVENT, IDUtils.generateID());
+        Todo todo = new Todo();
+        List<Event> events = new ArrayList<>();
+        events.add(new Event());
+        events.add(new Event());
+        events.add(new Event());
+        todo.setEvents(events);
+        homeCard.setTodo(todo);
+        cardList.add(homeCard);
         updateController();
     }
 

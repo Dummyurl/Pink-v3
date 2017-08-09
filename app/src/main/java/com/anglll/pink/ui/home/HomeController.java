@@ -1,6 +1,5 @@
 package com.anglll.pink.ui.home;
 
-import com.airbnb.epoxy.AutoModel;
 import com.airbnb.epoxy.TypedEpoxyController;
 import com.anglll.pink.data.model.HomeCard;
 import com.anglll.pink.ui.home.model.EventModelGroup;
@@ -8,7 +7,6 @@ import com.anglll.pink.ui.home.model.MusicModel_;
 import com.anglll.pink.ui.home.model.WeatherModel_;
 
 import java.util.List;
-import java.util.Random;
 
 /**
  * Created by yuan on 2017/8/7 0007.
