@@ -2,6 +2,7 @@ package com.anglll.pink.ui.home;
 
 import android.os.Bundle;
 import android.os.Handler;
+import android.os.Parcelable;
 import android.support.annotation.Nullable;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.GridLayoutManager;
@@ -34,6 +35,8 @@ public class HomeFragment extends BaseFragment {
     RecyclerView mRecyclerView;
     private HomeController controller;
     private List<HomeCard> cardList = new ArrayList<>();
+    private RecyclerView.RecycledViewPool recycledViewPool;
+    private static final String CARD_DATA_KEY = "card_data_key";
 
 
     @Nullable
@@ -41,7 +44,7 @@ public class HomeFragment extends BaseFragment {
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.recyclerview, container, false);
         ButterKnife.bind(this, view);
-        initView();
+        initView(savedInstanceState);
         initData();
         return view;
     }
@@ -50,13 +53,13 @@ public class HomeFragment extends BaseFragment {
         updateController();
     }
 
-    private void initView() {
-        controller = new HomeController(null);
+    private void initView(Bundle savedInstanceState) {
+        recycledViewPool = mRecyclerView.getRecycledViewPool();
+        controller = new HomeController(null,recycledViewPool);
         controller.setSpanCount(2);
         GridLayoutManager gridLayoutManager = new GridLayoutManager(getContext(), 2);
         gridLayoutManager.setSpanSizeLookup(controller.getSpanSizeLookup());
         mRecyclerView.setLayoutManager(gridLayoutManager);
-
         mRecyclerView.setHasFixedSize(true);
         mRecyclerView.setAdapter(controller.getAdapter());
         cardList.add(new HomeCard(HomeCard.TYPE_WEATHER, IDUtils.generateID()));
@@ -70,7 +73,23 @@ public class HomeFragment extends BaseFragment {
         todo.setEvents(events);
         homeCard.setTodo(todo);
         cardList.add(homeCard);
+        if (savedInstanceState != null) {
+            cardList = savedInstanceState.getParcelableArrayList(CARD_DATA_KEY);
+        }
         updateController();
+    }
+
+    @Override
+    public void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+        outState.putParcelableArrayList(CARD_DATA_KEY,(ArrayList<? extends Parcelable>)cardList);
+        controller.onSaveInstanceState(outState);
+    }
+
+    @Override
+    public void onViewStateRestored(@Nullable Bundle savedInstanceState) {
+        super.onViewStateRestored(savedInstanceState);
+        controller.onRestoreInstanceState(savedInstanceState);
     }
 
     private void updateController() {

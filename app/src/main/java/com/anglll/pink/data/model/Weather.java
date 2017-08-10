@@ -1,12 +1,16 @@
 package com.anglll.pink.data.model;
 
+import android.os.Parcel;
+import android.os.Parcelable;
+
+import java.util.ArrayList;
 import java.util.List;
 
 /**
  * Created by yuan on 2017/8/8.
  */
 
-public class Weather {
+public class Weather implements Parcelable {
 
     private LocationBean location;
     private NowBean now;
@@ -45,7 +49,7 @@ public class Weather {
         this.daily = daily;
     }
 
-    public static class LocationBean {
+    public static class LocationBean implements Parcelable {
 
         private String id;
         private String name;
@@ -101,9 +105,48 @@ public class Weather {
         public void setTimezone_offset(String timezone_offset) {
             this.timezone_offset = timezone_offset;
         }
+
+        @Override
+        public int describeContents() {
+            return 0;
+        }
+
+        @Override
+        public void writeToParcel(Parcel dest, int flags) {
+            dest.writeString(this.id);
+            dest.writeString(this.name);
+            dest.writeString(this.country);
+            dest.writeString(this.path);
+            dest.writeString(this.timezone);
+            dest.writeString(this.timezone_offset);
+        }
+
+        public LocationBean() {
+        }
+
+        protected LocationBean(Parcel in) {
+            this.id = in.readString();
+            this.name = in.readString();
+            this.country = in.readString();
+            this.path = in.readString();
+            this.timezone = in.readString();
+            this.timezone_offset = in.readString();
+        }
+
+        public static final Creator<LocationBean> CREATOR = new Creator<LocationBean>() {
+            @Override
+            public LocationBean createFromParcel(Parcel source) {
+                return new LocationBean(source);
+            }
+
+            @Override
+            public LocationBean[] newArray(int size) {
+                return new LocationBean[size];
+            }
+        };
     }
 
-    public static class NowBean {
+    public static class NowBean implements Parcelable {
 
         private String text;
         private String code;
@@ -132,6 +175,39 @@ public class Weather {
         public void setTemperature(String temperature) {
             this.temperature = temperature;
         }
+
+        @Override
+        public int describeContents() {
+            return 0;
+        }
+
+        @Override
+        public void writeToParcel(Parcel dest, int flags) {
+            dest.writeString(this.text);
+            dest.writeString(this.code);
+            dest.writeString(this.temperature);
+        }
+
+        public NowBean() {
+        }
+
+        protected NowBean(Parcel in) {
+            this.text = in.readString();
+            this.code = in.readString();
+            this.temperature = in.readString();
+        }
+
+        public static final Creator<NowBean> CREATOR = new Creator<NowBean>() {
+            @Override
+            public NowBean createFromParcel(Parcel source) {
+                return new NowBean(source);
+            }
+
+            @Override
+            public NowBean[] newArray(int size) {
+                return new NowBean[size];
+            }
+        };
     }
 
     public static class DailyBean {
@@ -245,4 +321,40 @@ public class Weather {
             this.wind_scale = wind_scale;
         }
     }
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeParcelable(this.location, flags);
+        dest.writeParcelable(this.now, flags);
+        dest.writeString(this.last_update);
+        dest.writeList(this.daily);
+    }
+
+    public Weather() {
+    }
+
+    protected Weather(Parcel in) {
+        this.location = in.readParcelable(LocationBean.class.getClassLoader());
+        this.now = in.readParcelable(NowBean.class.getClassLoader());
+        this.last_update = in.readString();
+        this.daily = new ArrayList<DailyBean>();
+        in.readList(this.daily, DailyBean.class.getClassLoader());
+    }
+
+    public static final Parcelable.Creator<Weather> CREATOR = new Parcelable.Creator<Weather>() {
+        @Override
+        public Weather createFromParcel(Parcel source) {
+            return new Weather(source);
+        }
+
+        @Override
+        public Weather[] newArray(int size) {
+            return new Weather[size];
+        }
+    };
 }

@@ -1,5 +1,7 @@
 package com.anglll.pink.ui.home;
 
+import android.support.v7.widget.RecyclerView;
+
 import com.airbnb.epoxy.TypedEpoxyController;
 import com.anglll.pink.data.model.HomeCard;
 import com.anglll.pink.ui.home.model.EventModelGroup;
@@ -14,10 +16,12 @@ import java.util.List;
 
 public class HomeController extends TypedEpoxyController<List<HomeCard>> {
 
+    private final RecyclerView.RecycledViewPool recycledViewPool;
     private HomeCallbacks callback;
 
-    HomeController(HomeCallbacks callback) {
+    HomeController(HomeCallbacks callback, RecyclerView.RecycledViewPool recycledViewPool) {
         this.callback = callback;
+        this.recycledViewPool = recycledViewPool;
     }
 
     @Override
@@ -34,7 +38,7 @@ public class HomeController extends TypedEpoxyController<List<HomeCard>> {
                             .id(card.getId()));
                     break;
                 case HomeCard.TYPE_EVENT:
-                    add(new EventModelGroup(card));
+                    add(new EventModelGroup(card,callback,recycledViewPool));
                     break;
                 default:
                     break;
