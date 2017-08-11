@@ -3,6 +3,8 @@ package com.anglll.pink.data.model;
 import android.os.Parcel;
 import android.os.Parcelable;
 
+import com.anglll.pink.utils.IDUtils;
+
 /**
  * Created by yuan on 2017/8/8 0008.
  */
@@ -12,14 +14,13 @@ public class HomeCard implements Parcelable {
     public static final int TYPE_MUSIC = 2;
     public static final int TYPE_EVENT = 3;
     int type;
-    long id;
+    public long id = IDUtils.generateID();
     Weather weather;
     PlayList playList;
     Todo todo;
 
-    public HomeCard(int type, long id) {
+    public HomeCard(int type) {
         this.type = type;
-        this.id = type;
     }
 
     public int getType() {
@@ -28,14 +29,6 @@ public class HomeCard implements Parcelable {
 
     public void setType(int type) {
         this.type = type;
-    }
-
-    public long getId() {
-        return id;
-    }
-
-    public void setId(long id) {
-        this.id = id;
     }
 
     public Weather getWeather() {

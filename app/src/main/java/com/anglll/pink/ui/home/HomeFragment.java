@@ -5,6 +5,7 @@ import android.os.Handler;
 import android.os.Parcelable;
 import android.support.annotation.Nullable;
 import android.support.v4.widget.SwipeRefreshLayout;
+import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -33,9 +34,9 @@ import butterknife.ButterKnife;
 public class HomeFragment extends BaseFragment {
     @BindView(R.id.recyclerView)
     RecyclerView mRecyclerView;
-    private HomeController controller;
+    private RecyclerView.RecycledViewPool recycledViewPool = new RecyclerView.RecycledViewPool();
+    private HomeController controller = new HomeController(null, recycledViewPool);
     private List<HomeCard> cardList = new ArrayList<>();
-    private RecyclerView.RecycledViewPool recycledViewPool;
     private static final String CARD_DATA_KEY = "card_data_key";
 
 
@@ -54,19 +55,27 @@ public class HomeFragment extends BaseFragment {
     }
 
     private void initView(Bundle savedInstanceState) {
-        recycledViewPool = mRecyclerView.getRecycledViewPool();
-        controller = new HomeController(null,recycledViewPool);
+        mRecyclerView.setRecycledViewPool(recycledViewPool);
         controller.setSpanCount(2);
         GridLayoutManager gridLayoutManager = new GridLayoutManager(getContext(), 2);
         gridLayoutManager.setSpanSizeLookup(controller.getSpanSizeLookup());
         mRecyclerView.setLayoutManager(gridLayoutManager);
         mRecyclerView.setHasFixedSize(true);
+        mRecyclerView.setItemAnimator(new DefaultItemAnimator());
         mRecyclerView.setAdapter(controller.getAdapter());
-        cardList.add(new HomeCard(HomeCard.TYPE_WEATHER, IDUtils.generateID()));
-        cardList.add(new HomeCard(HomeCard.TYPE_MUSIC, IDUtils.generateID()));
-        HomeCard homeCard = new HomeCard(HomeCard.TYPE_EVENT, IDUtils.generateID());
+        cardList.add(new HomeCard(HomeCard.TYPE_WEATHER));
+        cardList.add(new HomeCard(HomeCard.TYPE_WEATHER));
+        cardList.add(new HomeCard(HomeCard.TYPE_WEATHER));
+        cardList.add(new HomeCard(HomeCard.TYPE_WEATHER));
+        cardList.add(new HomeCard(HomeCard.TYPE_MUSIC));
+        HomeCard homeCard = new HomeCard(HomeCard.TYPE_EVENT);
         Todo todo = new Todo();
         List<Event> events = new ArrayList<>();
+        events.add(new Event());
+        events.add(new Event());
+        events.add(new Event());
+        events.add(new Event());
+        events.add(new Event());
         events.add(new Event());
         events.add(new Event());
         events.add(new Event());
@@ -82,7 +91,7 @@ public class HomeFragment extends BaseFragment {
     @Override
     public void onSaveInstanceState(Bundle outState) {
         super.onSaveInstanceState(outState);
-        outState.putParcelableArrayList(CARD_DATA_KEY,(ArrayList<? extends Parcelable>)cardList);
+        outState.putParcelableArrayList(CARD_DATA_KEY, (ArrayList<? extends Parcelable>) cardList);
         controller.onSaveInstanceState(outState);
     }
 

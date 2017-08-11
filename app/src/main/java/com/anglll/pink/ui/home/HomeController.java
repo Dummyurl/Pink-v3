@@ -3,6 +3,7 @@ package com.anglll.pink.ui.home;
 import android.support.v7.widget.RecyclerView;
 
 import com.airbnb.epoxy.TypedEpoxyController;
+import com.anglll.pink.BuildConfig;
 import com.anglll.pink.data.model.HomeCard;
 import com.anglll.pink.ui.home.model.EventModelGroup;
 import com.anglll.pink.ui.home.model.MusicModel_;
@@ -22,6 +23,8 @@ public class HomeController extends TypedEpoxyController<List<HomeCard>> {
     HomeController(HomeCallbacks callback, RecyclerView.RecycledViewPool recycledViewPool) {
         this.callback = callback;
         this.recycledViewPool = recycledViewPool;
+        if(BuildConfig.DEBUG)
+        setDebugLoggingEnabled(true);
     }
 
     @Override
@@ -30,12 +33,12 @@ public class HomeController extends TypedEpoxyController<List<HomeCard>> {
             switch (card.getType()) {
                 case HomeCard.TYPE_WEATHER:
                     add(new WeatherModel_()
-                            .id(card.getId())
+                            .id(card.id)
                     );
                     break;
                 case HomeCard.TYPE_MUSIC:
                     add(new MusicModel_()
-                            .id(card.getId()));
+                            .id(card.id));
                     break;
                 case HomeCard.TYPE_EVENT:
                     add(new EventModelGroup(card,callback,recycledViewPool));

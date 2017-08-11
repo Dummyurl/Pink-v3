@@ -22,21 +22,22 @@ public class EventModelGroup extends EpoxyModelGroup {
                            HomeController.HomeCallbacks homeCallbacks,
                            RecyclerView.RecycledViewPool recycledViewPool) {
         super(R.layout.home_calendar_model, buildModels(homeCard, homeCallbacks, recycledViewPool));
-        id(homeCard.getId());
+        id(homeCard.id);
     }
 
     private static List<EpoxyModel<?>> buildModels(HomeCard homeCard, HomeController.HomeCallbacks homeCallbacks, RecyclerView.RecycledViewPool recycledViewPool) {
         ArrayList<EpoxyModel<?>> models = new ArrayList<>();
         models.add(new EventHeaderModel_());
+        models.add(new EventHeaderModel_());
 
-        List<EventItemModel_> itemList = new ArrayList<>();
-        for (Event event : homeCard.getTodo().getEvents()) {
-            itemList.add(new EventItemModel_()
-                    .id(event.getId()));
-        }
-        models.add(new EventModel_()
-                .recycledViewPool(recycledViewPool)
-                .models(itemList));
+//        List<EventItemModel_> itemList = new ArrayList<>();
+//        for (Event event : homeCard.getTodo().getEvents()) {
+//            itemList.add(new EventItemModel_()
+//                    .id(event.getId()));
+//        }
+//        models.add(new EventModel_()
+//                .recycledViewPool(recycledViewPool)
+//                .models(itemList));
         return models;
     }
 
