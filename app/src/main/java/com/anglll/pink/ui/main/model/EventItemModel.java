@@ -1,6 +1,5 @@
-package com.anglll.pink.ui.home.model;
+package com.anglll.pink.ui.main.model;
 
-import android.support.v7.widget.AppCompatImageView;
 import android.view.View;
 import android.widget.TextView;
 
@@ -15,15 +14,16 @@ import butterknife.ButterKnife;
 /**
  * Created by yuan on 2017/8/8.
  */
-@EpoxyModelClass(layout = R.layout.home_calendar_header)
-public abstract class EventHeaderModel extends EpoxyModelWithHolder<EventHeaderModel.EventHeaderHolder> {
+@EpoxyModelClass(layout = R.layout.home_calendar_item)
+public abstract class EventItemModel extends EpoxyModelWithHolder<EventItemModel.EventItemHoder> {
+
     @Override
-    public void bind(EventHeaderHolder holder) {
+    public void bind(EventItemHoder holder) {
         super.bind(holder);
     }
 
     @Override
-    public void unbind(EventHeaderHolder holder) {
+    public void unbind(EventItemHoder holder) {
         super.unbind(holder);
     }
 
@@ -32,11 +32,17 @@ public abstract class EventHeaderModel extends EpoxyModelWithHolder<EventHeaderM
         return totalSpanCount;
     }
 
-    public static class EventHeaderHolder extends EpoxyHolder {
+    public static class EventItemHoder extends EpoxyHolder {
+        @BindView(R.id.event_color)
+        TextView mEventColor;
         @BindView(R.id.event_title)
         TextView mEventTitle;
-        @BindView(R.id.event_add)
-        AppCompatImageView mEventAdd;
+        @BindView(R.id.event_time)
+        TextView mEventTime;
+        @BindView(R.id.event_type_color)
+        TextView mEventTypeColor;
+        @BindView(R.id.event_type)
+        TextView mEventType;
 
         @Override
         protected void bindView(View itemView) {

@@ -1,13 +1,13 @@
-package com.anglll.pink.ui.home;
+package com.anglll.pink.ui.main;
 
 import android.support.v7.widget.RecyclerView;
 
 import com.airbnb.epoxy.TypedEpoxyController;
 import com.anglll.pink.BuildConfig;
 import com.anglll.pink.data.model.HomeCard;
-import com.anglll.pink.ui.home.model.EventModelGroup;
-import com.anglll.pink.ui.home.model.MusicModel_;
-import com.anglll.pink.ui.home.model.WeatherModel_;
+import com.anglll.pink.ui.main.model.EventModelGroup;
+import com.anglll.pink.ui.main.model.MusicModel_;
+import com.anglll.pink.ui.main.model.WeatherModel_;
 
 import java.util.List;
 

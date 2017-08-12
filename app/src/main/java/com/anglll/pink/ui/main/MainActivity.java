@@ -2,24 +2,32 @@ package com.anglll.pink.ui.main;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Parcelable;
 import android.support.design.widget.AppBarLayout;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
+import android.support.v7.widget.DefaultItemAnimator;
+import android.support.v7.widget.GridLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
-import android.widget.FrameLayout;
 import android.widget.Toast;
 
 import com.anglll.pink.R;
 import com.anglll.pink.RxBus;
 import com.anglll.pink.base.BaseActivity;
+import com.anglll.pink.data.model.Event;
+import com.anglll.pink.data.model.HomeCard;
+import com.anglll.pink.data.model.Todo;
 import com.anglll.pink.data.model.WeatherInfo;
 import com.anglll.pink.event.WeatherEvent;
 import com.anglll.pink.ui.TestActivity;
-import com.anglll.pink.ui.home.HomeFragment;
 import com.jaeger.library.StatusBarUtil;
+
+import java.util.ArrayList;
+import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -31,8 +39,6 @@ import io.reactivex.functions.Consumer;
 public class MainActivity extends BaseActivity
         implements NavigationView.OnNavigationItemSelectedListener {
 
-    @BindView(R.id.fragment_container)
-    FrameLayout mFragmentContainer;
     @BindView(R.id.toolbar)
     Toolbar mToolbar;
     @BindView(R.id.app_bar_layout)
@@ -41,6 +47,13 @@ public class MainActivity extends BaseActivity
     NavigationView mNavView;
     @BindView(R.id.drawer_layout)
     DrawerLayout mDrawerLayout;
+    @BindView(R.id.recyclerView)
+    RecyclerView mRecyclerView;
+    private RecyclerView.RecycledViewPool recycledViewPool = new RecyclerView.RecycledViewPool();
+    private HomeController controller = new HomeController(null, recycledViewPool);
+    private List<HomeCard> cardList = new ArrayList<>();
+    private static final String CARD_DATA_KEY = "card_data_key";
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -48,18 +61,6 @@ public class MainActivity extends BaseActivity
         setContentView(R.layout.activity_main);
         ButterKnife.bind(this);
         StatusBarUtil.setTranslucentForDrawerLayout(this, mDrawerLayout, 0);
-        initView();
-        initData();
-    }
-
-    private void initData() {
-        HomeFragment homeFragment = new HomeFragment();
-        getSupportFragmentManager().beginTransaction()
-                .replace(R.id.fragment_container, homeFragment)
-                .commit();
-    }
-
-    private void initView() {
         setSupportActionBar(mToolbar);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
                 this, mDrawerLayout, mToolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
@@ -67,6 +68,39 @@ public class MainActivity extends BaseActivity
         toggle.syncState();
         mNavView.setNavigationItemSelectedListener(this);
 
+        mRecyclerView.setRecycledViewPool(recycledViewPool);
+        controller.setSpanCount(2);
+        GridLayoutManager gridLayoutManager=new GridLayoutManager(getContext(), 2);
+        gridLayoutManager.setSpanSizeLookup(controller.getSpanSizeLookup());
+        mRecyclerView.setLayoutManager(gridLayoutManager);
+        mRecyclerView.setHasFixedSize(true);
+        mRecyclerView.setItemAnimator(new DefaultItemAnimator());
+        mRecyclerView.setAdapter(controller.getAdapter());
+        if (savedInstanceState != null) {
+            cardList = savedInstanceState.getParcelableArrayList(CARD_DATA_KEY);
+        } else {
+            cardList.add(new HomeCard(HomeCard.TYPE_WEATHER));
+            cardList.add(new HomeCard(HomeCard.TYPE_MUSIC));
+            HomeCard homeCard = new HomeCard(HomeCard.TYPE_EVENT);
+            Todo todo = new Todo();
+            List<Event> events = new ArrayList<>();
+            events.add(new Event());
+            events.add(new Event());
+            events.add(new Event());
+            events.add(new Event());
+            events.add(new Event());
+            events.add(new Event());
+            events.add(new Event());
+            events.add(new Event());
+            todo.setEvents(events);
+            homeCard.setTodo(todo);
+            cardList.add(homeCard);
+        }
+        updateController();
+    }
+
+    private void updateController() {
+        controller.setData(cardList);
     }
 
     @Override
@@ -113,5 +147,18 @@ public class MainActivity extends BaseActivity
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
         return true;
+    }
+
+    @Override
+    protected void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+        outState.putParcelableArrayList(CARD_DATA_KEY, (ArrayList<? extends Parcelable>) cardList);
+        controller.onSaveInstanceState(outState);
+    }
+
+    @Override
+    protected void onRestoreInstanceState(Bundle savedInstanceState) {
+        super.onRestoreInstanceState(savedInstanceState);
+        controller.onRestoreInstanceState(savedInstanceState);
     }
 }

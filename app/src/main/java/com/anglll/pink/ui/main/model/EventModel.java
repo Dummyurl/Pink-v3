@@ -1,4 +1,4 @@
-package com.anglll.pink.ui.home.model;
+package com.anglll.pink.ui.main.model;
 
 import android.content.Context;
 import android.support.annotation.Nullable;
