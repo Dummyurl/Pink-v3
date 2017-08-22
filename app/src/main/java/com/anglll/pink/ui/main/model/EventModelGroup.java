@@ -2,10 +2,13 @@ package com.anglll.pink.ui.main.model;
 
 import android.support.v7.widget.RecyclerView;
 
+import com.airbnb.epoxy.AutoModel;
 import com.airbnb.epoxy.EpoxyModel;
 import com.airbnb.epoxy.EpoxyModelGroup;
 import com.anglll.pink.R;
+import com.anglll.pink.data.model.Event;
 import com.anglll.pink.data.model.HomeCard;
+import com.anglll.pink.data.model.Todo;
 import com.anglll.pink.ui.main.HomeController;
 
 import java.util.ArrayList;
@@ -17,26 +20,29 @@ import java.util.List;
 
 public class EventModelGroup extends EpoxyModelGroup {
 
-    public EventModelGroup(HomeCard homeCard,
+    public EventModelGroup(Todo todo,
                            HomeController.HomeCallbacks homeCallbacks,
                            RecyclerView.RecycledViewPool recycledViewPool) {
-        super(R.layout.home_calendar_model, buildModels(homeCard, homeCallbacks, recycledViewPool));
-        id(homeCard.id);
+        super(R.layout.home_calendar_model, buildModels(todo, homeCallbacks, recycledViewPool));
+        id(todo.id);
     }
 
-    private static List<EpoxyModel<?>> buildModels(HomeCard homeCard, HomeController.HomeCallbacks homeCallbacks, RecyclerView.RecycledViewPool recycledViewPool) {
+    private static List<EpoxyModel<?>> buildModels(Todo todo, HomeController.HomeCallbacks homeCallbacks, RecyclerView.RecycledViewPool recycledViewPool) {
         ArrayList<EpoxyModel<?>> models = new ArrayList<>();
         models.add(new EventHeaderModel_());
-        models.add(new EventHeaderModel_());
 
-//        List<EventItemModel_> itemList = new ArrayList<>();
-//        for (Event event : homeCard.getTodo().getEvents()) {
-//            itemList.add(new EventItemModel_()
-//                    .id(event.getId()));
+        List<EventItemModel_> itemList = new ArrayList<>();
+        for (Event event : todo.getEvents()) {
+            itemList.add(new EventItemModel_()
+                    .id(event.getId()));
+        }
+        models.add(new EventModel_()
+                .recycledViewPool(recycledViewPool)
+                .models(itemList));
+
+//        if (todo.getEvents().size() == 0) {
+//            models.add(emptyModel);
 //        }
-//        models.add(new EventModel_()
-//                .recycledViewPool(recycledViewPool)
-//                .models(itemList));
         return models;
     }
 

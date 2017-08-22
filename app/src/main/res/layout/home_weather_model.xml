@@ -26,7 +26,7 @@
             android:layout_marginLeft="30dp"
             android:layout_marginStart="30dp"
             android:textSize="42sp"
-            android:text="37℃" />
+            tools:text="37℃" />
 
         <TextView
             android:id="@+id/weather_info"
@@ -38,7 +38,7 @@
             android:layout_marginStart="5dp"
             android:layout_toEndOf="@+id/weather_temp"
             android:layout_toRightOf="@+id/weather_temp"
-            android:text="多云转晴" />
+            tools:text="多云转晴" />
 
         <TextView
             android:id="@+id/update_time"
@@ -50,7 +50,7 @@
             android:layout_marginEnd="30dp"
             android:layout_marginRight="30dp"
             android:textSize="16sp"
-            android:text="08:30" />
+            tools:text="08:30" />
 
         <TextView
             android:id="@+id/address_parent"
@@ -61,7 +61,7 @@
             android:layout_alignStart="@+id/weather_temp"
             android:layout_marginTop="30dp"
             android:textSize="16sp"
-            android:text="New York" />
+            tools:text="New York" />
 
         <TextView
             android:id="@+id/address_child"
@@ -71,7 +71,7 @@
             android:layout_alignStart="@+id/address_parent"
             android:layout_below="@+id/address_parent"
             android:layout_marginTop="3dp"
-            android:text="New York" />
+            tools:text="New York" />
 
         <android.support.v7.widget.AppCompatImageView
             android:id="@+id/weather_icon"

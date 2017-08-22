@@ -2,27 +2,25 @@ package com.anglll.pink.ui.main;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.os.Parcelable;
 import android.support.design.widget.AppBarLayout;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
-import android.widget.Toast;
 
 import com.anglll.pink.R;
 import com.anglll.pink.RxBus;
 import com.anglll.pink.base.BaseActivity;
 import com.anglll.pink.data.model.Event;
 import com.anglll.pink.data.model.HomeCard;
+import com.anglll.pink.data.model.SuperModel;
 import com.anglll.pink.data.model.Todo;
-import com.anglll.pink.data.model.WeatherInfo;
-import com.anglll.pink.event.WeatherEvent;
 import com.anglll.pink.ui.TestActivity;
 import com.jaeger.library.StatusBarUtil;
 
@@ -49,11 +47,12 @@ public class MainActivity extends BaseActivity
     DrawerLayout mDrawerLayout;
     @BindView(R.id.recyclerView)
     RecyclerView mRecyclerView;
+    public static final String SAVED_SUPER = "saved_super";
+    @BindView(R.id.swipeRefreshLayout)
+    SwipeRefreshLayout mSwipeRefreshLayout;
     private RecyclerView.RecycledViewPool recycledViewPool = new RecyclerView.RecycledViewPool();
     private HomeController controller = new HomeController(null, recycledViewPool);
-    private List<HomeCard> cardList = new ArrayList<>();
-    private static final String CARD_DATA_KEY = "card_data_key";
-
+    private SuperModel superModel = new SuperModel();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -67,57 +66,43 @@ public class MainActivity extends BaseActivity
         mDrawerLayout.addDrawerListener(toggle);
         toggle.syncState();
         mNavView.setNavigationItemSelectedListener(this);
+        mNavView.getMenu().getItem(0).setChecked(true);
 
         mRecyclerView.setRecycledViewPool(recycledViewPool);
         controller.setSpanCount(2);
-        GridLayoutManager gridLayoutManager=new GridLayoutManager(getContext(), 2);
+        GridLayoutManager gridLayoutManager = new GridLayoutManager(getContext(), 2);
         gridLayoutManager.setSpanSizeLookup(controller.getSpanSizeLookup());
         mRecyclerView.setLayoutManager(gridLayoutManager);
         mRecyclerView.setHasFixedSize(true);
         mRecyclerView.setItemAnimator(new DefaultItemAnimator());
         mRecyclerView.setAdapter(controller.getAdapter());
         if (savedInstanceState != null) {
-            cardList = savedInstanceState.getParcelableArrayList(CARD_DATA_KEY);
-        } else {
-            cardList.add(new HomeCard(HomeCard.TYPE_WEATHER));
-            cardList.add(new HomeCard(HomeCard.TYPE_MUSIC));
-            HomeCard homeCard = new HomeCard(HomeCard.TYPE_EVENT);
-            Todo todo = new Todo();
-            List<Event> events = new ArrayList<>();
-            events.add(new Event());
-            events.add(new Event());
-            events.add(new Event());
-            events.add(new Event());
-            events.add(new Event());
-            events.add(new Event());
-            events.add(new Event());
-            events.add(new Event());
-            todo.setEvents(events);
-            homeCard.setTodo(todo);
-            cardList.add(homeCard);
+//            superModel = savedInstanceState.getParcelable(SAVED_SUPER);
+            // TODO: 2017/8/22 0022 获取存储的诗句
+        }
+        switch (superModel.getType()) {
+            case SuperModel.TYPE_MUSIC:
+                break;
+            case SuperModel.TYPE_VIDEO:
+                break;
+            default://default TYPE_HOME
         }
         updateController();
     }
 
     private void updateController() {
-        controller.setData(cardList);
+        controller.setData(superModel);
     }
 
     @Override
     protected Disposable subscribeEvents() {
         return RxBus.get()
-                .toObservable(WeatherEvent.class)
+                .toObservable()
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new Consumer<WeatherEvent>() {
+                .subscribe(new Consumer<Object>() {
                     @Override
-                    public void accept(@NonNull WeatherEvent event) throws Exception {
-                        StringBuilder sb = new StringBuilder();
-                        WeatherInfo weatherInfo = event.getWeatherInfo();
-                        if (weatherInfo == null) {
-                            sb.append("weather info is null!");
-                        } else {
-                        }
-                        Toast.makeText(getContext(), sb.toString(), Toast.LENGTH_SHORT).show();
+                    public void accept(@NonNull Object o) throws Exception {
+
                     }
                 });
     }
@@ -135,24 +120,30 @@ public class MainActivity extends BaseActivity
     @SuppressWarnings("StatementWithEmptyBody")
     @Override
     public boolean onNavigationItemSelected(MenuItem item) {
-        // Handle navigation view item clicks here.
-        int id = item.getItemId();
-
-        if (id == R.id.nav_share) {
-
-        } else if (id == R.id.nav_send) {
-            startActivity(new Intent(getContext(), TestActivity.class));
+        switch (item.getItemId()) {
+            case R.id.nav_home:
+                if (superModel.getType() != SuperModel.TYPE_HOME) {
+                    superModel.setType(SuperModel.TYPE_HOME);
+                    updateController();
+                }
+                break;
+            case R.id.nav_music:
+                break;
+            case R.id.nav_video:
+                break;
+            case R.id.nav_send:
+                startActivity(new Intent(getContext(), TestActivity.class));
+                break;
         }
-
-        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
-        drawer.closeDrawer(GravityCompat.START);
+        mDrawerLayout.closeDrawer(GravityCompat.START);
         return true;
     }
 
     @Override
     protected void onSaveInstanceState(Bundle outState) {
         super.onSaveInstanceState(outState);
-        outState.putParcelableArrayList(CARD_DATA_KEY, (ArrayList<? extends Parcelable>) cardList);
+//        outState.putParcelable(SAVED_SUPER, (ArrayList<? extends Parcelable>) superModel);
+        // TODO: 2017/8/22 0022 存储数据
         controller.onSaveInstanceState(outState);
     }
 

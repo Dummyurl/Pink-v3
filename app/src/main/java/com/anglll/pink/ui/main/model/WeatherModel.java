@@ -14,6 +14,7 @@ import com.facebook.drawee.view.SimpleDraweeView;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import static com.airbnb.epoxy.EpoxyAttribute.Option.DoNotHash;
 
 /**
  * Created by yuan on 2017/8/2 0002.
@@ -22,15 +23,16 @@ import butterknife.ButterKnife;
 public abstract class WeatherModel extends EpoxyModelWithHolder<WeatherModel.WeatherHolder> {
     @EpoxyAttribute
     Weather weather;
+    @EpoxyAttribute(DoNotHash) View.OnClickListener clickListener;
 
     @Override
     public void bind(WeatherHolder holder) {
-        super.bind(holder);
+        holder.itemView.setOnClickListener(clickListener);
     }
 
     @Override
     public void unbind(WeatherHolder holder) {
-        super.unbind(holder);
+        holder.itemView.setOnClickListener(null);
     }
 
     @Override
@@ -53,10 +55,12 @@ public abstract class WeatherModel extends EpoxyModelWithHolder<WeatherModel.Wea
         TextView mAddressChild;
         @BindView(R.id.weather_icon)
         AppCompatImageView mWeatherIcon;
+        View itemView;
 
         @Override
         protected void bindView(View itemView) {
             ButterKnife.bind(this, itemView);
+            this.itemView = itemView;
         }
     }
 

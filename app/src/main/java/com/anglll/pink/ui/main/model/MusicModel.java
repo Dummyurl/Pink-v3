@@ -5,10 +5,12 @@ import android.view.View;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
+import com.airbnb.epoxy.EpoxyAttribute;
 import com.airbnb.epoxy.EpoxyHolder;
 import com.airbnb.epoxy.EpoxyModelClass;
 import com.airbnb.epoxy.EpoxyModelWithHolder;
 import com.anglll.pink.R;
+import com.anglll.pink.data.model.SongList;
 import com.facebook.drawee.view.SimpleDraweeView;
 
 import butterknife.BindView;
@@ -20,13 +22,22 @@ import butterknife.ButterKnife;
 @EpoxyModelClass(layout = R.layout.home_music_model)
 public abstract class MusicModel extends EpoxyModelWithHolder<MusicModel.MusicHolder> {
 
+    @EpoxyAttribute
+    SongList songList;
+    @EpoxyAttribute
+    View.OnClickListener clickListener;
+
 
     @Override
     public void bind(MusicHolder holder) {
+        holder.itemView.setOnClickListener(clickListener);
+        holder.mMusicPlay.setOnClickListener(clickListener);
     }
 
     @Override
     public void unbind(MusicHolder holder) {
+        holder.itemView.setOnClickListener(null);
+        holder.mMusicPlay.setOnClickListener(null);
     }
 
     @Override
@@ -47,10 +58,12 @@ public abstract class MusicModel extends EpoxyModelWithHolder<MusicModel.MusicHo
         AppCompatImageView mMusicPlay;
         @BindView(R.id.divider)
         TextView mDivider;
+        View itemView;
 
         @Override
         protected void bindView(View itemView) {
             ButterKnife.bind(this, itemView);
+            this.itemView = itemView;
         }
     }
 }
