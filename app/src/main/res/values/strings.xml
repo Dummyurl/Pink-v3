@@ -37,4 +37,8 @@
 
     <string name="navigation_drawer_open">Open navigation drawer</string>
     <string name="navigation_drawer_close">Close navigation drawer</string>
+    <string name="test_text">测试文字，测试文字，abcdefghijk</string>
+    <string name="private_fm">私人FM</string>
+    <string name="every_recommend">每日推荐</string>
+    <string name="hot_ranking">热歌榜</string>
 </resources>

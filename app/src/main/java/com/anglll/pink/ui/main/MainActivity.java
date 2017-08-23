@@ -17,15 +17,9 @@ import android.view.MenuItem;
 import com.anglll.pink.R;
 import com.anglll.pink.RxBus;
 import com.anglll.pink.base.BaseActivity;
-import com.anglll.pink.data.model.Event;
-import com.anglll.pink.data.model.HomeCard;
 import com.anglll.pink.data.model.SuperModel;
-import com.anglll.pink.data.model.Todo;
 import com.anglll.pink.ui.TestActivity;
 import com.jaeger.library.StatusBarUtil;
-
-import java.util.ArrayList;
-import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -51,7 +45,7 @@ public class MainActivity extends BaseActivity
     @BindView(R.id.swipeRefreshLayout)
     SwipeRefreshLayout mSwipeRefreshLayout;
     private RecyclerView.RecycledViewPool recycledViewPool = new RecyclerView.RecycledViewPool();
-    private HomeController controller = new HomeController(null, recycledViewPool);
+    private MainController controller = new MainController(null, recycledViewPool);
     private SuperModel superModel = new SuperModel();
 
     @Override

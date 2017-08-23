@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.v7.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:fresco="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    app:cardCornerRadius="1dp">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="?attr/selectableItemBackground"
+        android:orientation="vertical">
+
+        <com.facebook.drawee.view.SimpleDraweeView
+            android:id="@+id/video_cover"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            fresco:actualImageScaleType="centerCrop"
+            fresco:viewAspectRatio="1.85" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            android:paddingBottom="6.7dp"
+            android:paddingLeft="8.5dp"
+            android:paddingRight="8.5dp"
+            android:paddingTop="7dp">
+
+            <TextView
+                android:id="@+id/video_title"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:lines="2"
+                android:textSize="13.3sp"
+                tools:text="自制-原曲:老人与海。这不仅是一首歌,更是一首普通的歌，还是一首xiaj8唱的歌" />
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="11.7dp"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:id="@+id/video_play_count"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:drawablePadding="3dp"
+                    android:drawableStart="@drawable/ic_play_gray_13dp"
+                    android:textSize="10.7sp"
+                    tools:text="2.8万" />
+
+                <TextView
+                    android:id="@+id/video_danmu_count"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentEnd="true"
+                    android:drawablePadding="3dp"
+                    android:drawableStart="@drawable/ic_danmu_gray_13dp"
+                    android:textSize="10.7sp"
+                    tools:text="1057" />
+            </RelativeLayout>
+        </LinearLayout>
+    </LinearLayout>
+</android.support.v7.widget.CardView>

@@ -5,19 +5,22 @@ import android.support.v7.widget.RecyclerView;
 import com.airbnb.epoxy.AutoModel;
 import com.airbnb.epoxy.TypedEpoxyController;
 import com.anglll.pink.BuildConfig;
+import com.anglll.pink.data.model.Event;
 import com.anglll.pink.data.model.HomeCard;
 import com.anglll.pink.data.model.SuperModel;
+import com.anglll.pink.data.model.Todo;
 import com.anglll.pink.ui.main.model.EventModelGroup;
 import com.anglll.pink.ui.main.model.MusicModel_;
 import com.anglll.pink.ui.main.model.WeatherModel_;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
  * Created by yuan on 2017/8/7 0007.
  */
 
-public class HomeController extends TypedEpoxyController<SuperModel> {
+public class MainController extends TypedEpoxyController<SuperModel> {
 
     private final RecyclerView.RecycledViewPool recycledViewPool;
     private HomeCallbacks callback;
@@ -26,20 +29,18 @@ public class HomeController extends TypedEpoxyController<SuperModel> {
     WeatherModel_ weatherModel;
     @AutoModel
     MusicModel_ musicModel;
-    private EventModelGroup eventModelGroup;
 
 
-    HomeController(HomeCallbacks callback, RecyclerView.RecycledViewPool recycledViewPool) {
+    MainController(HomeCallbacks callback, RecyclerView.RecycledViewPool recycledViewPool) {
         this.callback = callback;
         this.recycledViewPool = recycledViewPool;
-        eventModelGroup = new EventModelGroup(null, callback, recycledViewPool);
     }
 
     @Override
     protected void buildModels(SuperModel superModel) {
         switch (superModel.getType()) {
             case SuperModel.TYPE_HOME:
-                showHomeView();
+                showHomeView(superModel);
                 break;
             case SuperModel.TYPE_MUSIC:
                 showMusicView();
@@ -52,9 +53,11 @@ public class HomeController extends TypedEpoxyController<SuperModel> {
     }
 
 
-    private void showHomeView() {
+    private void showHomeView(SuperModel superModel) {
         add(weatherModel);
         add(musicModel);
+        EventModelGroup eventModelGroup =
+                new EventModelGroup(superModel.getTodo(), callback, recycledViewPool);
         add(eventModelGroup);
     }
 

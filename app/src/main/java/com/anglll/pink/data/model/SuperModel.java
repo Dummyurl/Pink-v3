@@ -1,5 +1,7 @@
 package com.anglll.pink.data.model;
 
+import android.support.annotation.NonNull;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -15,7 +17,8 @@ public class SuperModel {
     private List<SongList> songLists = new ArrayList<>();
     private Weather weather;
     private SongList songList;
-    private Todo todo;
+    @NonNull
+    private Todo todo = new Todo();
 
     public Weather getWeather() {
         return weather;

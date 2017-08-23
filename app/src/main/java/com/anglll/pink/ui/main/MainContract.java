@@ -14,5 +14,6 @@ public class MainContract {
     }
 
     interface Presenter extends BasePresenter {
+        void getWeatherInfo();
     }
 }
