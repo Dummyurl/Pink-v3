@@ -12,5 +12,5 @@ public class Config {
     //API_KEY
     public static final String API_KEY = "11e0b3cd-beae-4b57-92e3-29a54a4f1a57";
     public static final String HOST_WEATHER = "http://mobile.weather.com.cn";
-    public static final String HOST = "http://10.0.0.33:3000";
+    public static final String HOST = "http://10.0.0.37:3000";
 }

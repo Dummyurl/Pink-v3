@@ -2,6 +2,8 @@ package com.anglll.pink.ui.main;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
+import android.support.annotation.StringRes;
 import android.support.design.widget.AppBarLayout;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
@@ -17,9 +19,14 @@ import android.view.MenuItem;
 import com.anglll.pink.R;
 import com.anglll.pink.RxBus;
 import com.anglll.pink.base.BaseActivity;
+import com.anglll.pink.data.model.SongList;
 import com.anglll.pink.data.model.SuperModel;
+import com.anglll.pink.data.model.VideoMain;
+import com.anglll.pink.data.model.Weather;
 import com.anglll.pink.ui.TestActivity;
 import com.jaeger.library.StatusBarUtil;
+
+import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -29,7 +36,7 @@ import io.reactivex.disposables.Disposable;
 import io.reactivex.functions.Consumer;
 
 public class MainActivity extends BaseActivity
-        implements NavigationView.OnNavigationItemSelectedListener {
+        implements NavigationView.OnNavigationItemSelectedListener, MainContract.View {
 
     @BindView(R.id.toolbar)
     Toolbar mToolbar;
@@ -47,6 +54,8 @@ public class MainActivity extends BaseActivity
     private RecyclerView.RecycledViewPool recycledViewPool = new RecyclerView.RecycledViewPool();
     private MainController controller = new MainController(null, recycledViewPool);
     private SuperModel superModel = new SuperModel();
+    private Handler handler = new Handler();
+    private MainContract.Presenter presenter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -74,18 +83,29 @@ public class MainActivity extends BaseActivity
 //            superModel = savedInstanceState.getParcelable(SAVED_SUPER);
             // TODO: 2017/8/22 0022 获取存储的诗句
         }
-        switch (superModel.getType()) {
-            case SuperModel.TYPE_MUSIC:
-                break;
-            case SuperModel.TYPE_VIDEO:
-                break;
-            default://default TYPE_HOME
-        }
         updateController();
     }
 
     private void updateController() {
         controller.setData(superModel);
+    }
+
+    private void startRefresh() {
+        handler.post(new Runnable() {
+            @Override
+            public void run() {
+                mSwipeRefreshLayout.setRefreshing(true);
+            }
+        });
+    }
+
+    private void stopRefresh() {
+        handler.post(new Runnable() {
+            @Override
+            public void run() {
+                mSwipeRefreshLayout.setRefreshing(false);
+            }
+        });
     }
 
     @Override
@@ -122,8 +142,16 @@ public class MainActivity extends BaseActivity
                 }
                 break;
             case R.id.nav_music:
+                if (superModel.getType() != SuperModel.TYPE_MUSIC) {
+                    superModel.setType(SuperModel.TYPE_MUSIC);
+                    updateController();
+                }
                 break;
             case R.id.nav_video:
+                if (superModel.getType() != SuperModel.TYPE_VIDEO) {
+                    superModel.setType(SuperModel.TYPE_VIDEO);
+                    updateController();
+                }
                 break;
             case R.id.nav_send:
                 startActivity(new Intent(getContext(), TestActivity.class));
@@ -145,5 +173,40 @@ public class MainActivity extends BaseActivity
     protected void onRestoreInstanceState(Bundle savedInstanceState) {
         super.onRestoreInstanceState(savedInstanceState);
         controller.onRestoreInstanceState(savedInstanceState);
+    }
+
+    @Override
+    public void setPresenter(MainContract.Presenter presenter) {
+        this.presenter = presenter;
+    }
+
+    @Override
+    public void getWeatherSuccess(Weather weather) {
+
+    }
+
+    @Override
+    public void getWeatherFail(@StringRes int stringRes) {
+
+    }
+
+    @Override
+    public void getSongListSuccess(List<SongList> songLists) {
+
+    }
+
+    @Override
+    public void getSongListFail(@StringRes int stringRes) {
+
+    }
+
+    @Override
+    public void getVideoRecommendSuccess(List<VideoMain> videoMainList) {
+
+    }
+
+    @Override
+    public void getVideoRecommendFail(@StringRes int stringRes) {
+
     }
 }

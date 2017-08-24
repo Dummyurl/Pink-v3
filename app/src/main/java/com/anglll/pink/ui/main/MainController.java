@@ -4,17 +4,18 @@ import android.support.v7.widget.RecyclerView;
 
 import com.airbnb.epoxy.AutoModel;
 import com.airbnb.epoxy.TypedEpoxyController;
-import com.anglll.pink.BuildConfig;
-import com.anglll.pink.data.model.Event;
-import com.anglll.pink.data.model.HomeCard;
+import com.anglll.pink.data.model.SongList;
 import com.anglll.pink.data.model.SuperModel;
-import com.anglll.pink.data.model.Todo;
+import com.anglll.pink.data.model.VideoMain;
 import com.anglll.pink.ui.main.model.EventModelGroup;
+import com.anglll.pink.ui.main.model.MusicDividerModel_;
+import com.anglll.pink.ui.main.model.MusicHeaderModel_;
+import com.anglll.pink.ui.main.model.MusicListModel_;
 import com.anglll.pink.ui.main.model.MusicModel_;
+import com.anglll.pink.ui.main.model.VideoBanner_;
+import com.anglll.pink.ui.main.model.VideoCarouselsModel_;
+import com.anglll.pink.ui.main.model.VideoGroupModel;
 import com.anglll.pink.ui.main.model.WeatherModel_;
-
-import java.util.ArrayList;
-import java.util.List;
 
 /**
  * Created by yuan on 2017/8/7 0007.
@@ -29,6 +30,10 @@ public class MainController extends TypedEpoxyController<SuperModel> {
     WeatherModel_ weatherModel;
     @AutoModel
     MusicModel_ musicModel;
+    @AutoModel
+    MusicHeaderModel_ musicHeader;
+    @AutoModel
+    MusicDividerModel_ songListDivider;
 
 
     MainController(HomeCallbacks callback, RecyclerView.RecycledViewPool recycledViewPool) {
@@ -43,10 +48,10 @@ public class MainController extends TypedEpoxyController<SuperModel> {
                 showHomeView(superModel);
                 break;
             case SuperModel.TYPE_MUSIC:
-                showMusicView();
+                showMusicView(superModel);
                 break;
             case SuperModel.TYPE_VIDEO:
-                showVideoView();
+                showVideoView(superModel);
                 break;
             default:
         }
@@ -61,12 +66,34 @@ public class MainController extends TypedEpoxyController<SuperModel> {
         add(eventModelGroup);
     }
 
-    private void showMusicView() {
-
+    private void showMusicView(SuperModel superModel) {
+        add(musicHeader);
+        add(songListDivider);
+        for (SongList songList : superModel.getSongLists()) {
+             add(new MusicListModel_()
+                    .id(songList.getId()));
+        }
     }
 
-    private void showVideoView() {
-
+    private void showVideoView(SuperModel superModel) {
+        for (VideoMain videoMain : superModel.getVideoMainList()) {
+            switch (videoMain.getType().getId()) {
+                case 1://videos
+                case 2://articles
+                case 3://bangumis
+                    add(new VideoGroupModel(videoMain, callback, recycledViewPool));
+                    break;
+                case 5://carousels
+                    add(new VideoCarouselsModel_()
+                            .id(videoMain.getId()));
+                    break;
+                case 6://banners
+                    add(new VideoBanner_()
+                            .id(videoMain.getId()));
+                    break;
+                default:
+            }
+        }
     }
 
     public interface HomeCallbacks {

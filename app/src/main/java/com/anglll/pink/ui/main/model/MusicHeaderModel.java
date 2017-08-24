@@ -24,6 +24,11 @@ public abstract class MusicHeaderModel extends EpoxyModelWithHolder<MusicHeaderM
         super.unbind(holder);
     }
 
+    @Override
+    public int getSpanSize(int totalSpanCount, int position, int itemCount) {
+        return totalSpanCount;
+    }
+
     public static class MusicHeaderHolder extends EpoxyHolder {
 
         @Override

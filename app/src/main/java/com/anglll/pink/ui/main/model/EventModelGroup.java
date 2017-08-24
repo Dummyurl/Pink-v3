@@ -2,7 +2,6 @@ package com.anglll.pink.ui.main.model;
 
 import android.support.v7.widget.RecyclerView;
 
-import com.airbnb.epoxy.AutoModel;
 import com.airbnb.epoxy.EpoxyModel;
 import com.airbnb.epoxy.EpoxyModelGroup;
 import com.anglll.pink.R;
@@ -26,7 +25,8 @@ public class EventModelGroup extends EpoxyModelGroup {
         id(todo.id);
     }
 
-    private static List<EpoxyModel<?>> buildModels(Todo todo, MainController.HomeCallbacks homeCallbacks, RecyclerView.RecycledViewPool recycledViewPool) {
+    private static List<EpoxyModel<?>> buildModels(Todo todo, MainController.HomeCallbacks homeCallbacks,
+                                                   RecyclerView.RecycledViewPool recycledViewPool) {
         ArrayList<EpoxyModel<?>> models = new ArrayList<>();
         models.add(new EventHeaderModel_());
 
@@ -36,7 +36,7 @@ public class EventModelGroup extends EpoxyModelGroup {
                 itemList.add(new EventItemModel_()
                         .id(event.getId()));
             }
-            models.add(new EventModel_()
+            models.add(new CarouselModel_()
                     .recycledViewPool(recycledViewPool)
                     .models(itemList));
         } else {

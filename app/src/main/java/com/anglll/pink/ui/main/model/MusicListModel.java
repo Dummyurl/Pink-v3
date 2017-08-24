@@ -13,7 +13,7 @@ import butterknife.ButterKnife;
  * Created by yuan on 2017/8/23 0023.
  */
 @EpoxyModelClass(layout = R.layout.music_songlist_item)
-public abstract class MusicItemModel extends EpoxyModelWithHolder<MusicItemModel.MusicItemHoder> {
+public abstract class MusicListModel extends EpoxyModelWithHolder<MusicListModel.MusicItemHoder> {
 
     @Override
     public void bind(MusicItemHoder holder) {

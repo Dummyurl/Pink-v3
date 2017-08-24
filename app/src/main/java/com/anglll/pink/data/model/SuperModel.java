@@ -15,10 +15,18 @@ public class SuperModel {
     public static final int TYPE_VIDEO = 2;
     public int type = TYPE_HOME;
     private List<SongList> songLists = new ArrayList<>();
+    private List<VideoMain> videoMainList = new ArrayList<>();
     private Weather weather;
     private SongList songList;
-    @NonNull
     private Todo todo = new Todo();
+
+    public List<VideoMain> getVideoMainList() {
+        return videoMainList;
+    }
+
+    public void setVideoMainList(List<VideoMain> videoMainList) {
+        this.videoMainList = videoMainList;
+    }
 
     public Weather getWeather() {
         return weather;

@@ -7,7 +7,7 @@ import com.airbnb.epoxy.EpoxyAttribute;
 import com.airbnb.epoxy.EpoxyModel;
 import com.airbnb.epoxy.EpoxyModelClass;
 import com.airbnb.epoxy.EpoxyModelWithView;
-import com.anglll.pink.ui.main.view.VerticalView;
+import com.anglll.pink.ui.main.view.GridRecView;
 
 import java.util.List;
 
@@ -15,7 +15,7 @@ import java.util.List;
  * Created by yuan on 2017/8/9 0009.
  */
 @EpoxyModelClass
-public abstract class EventModel extends EpoxyModelWithView<VerticalView> {
+public abstract class CarouselModel extends EpoxyModelWithView<GridRecView> {
 
     @EpoxyAttribute
     List<? extends EpoxyModel<?>> models;
@@ -25,7 +25,7 @@ public abstract class EventModel extends EpoxyModelWithView<VerticalView> {
     RecyclerView.RecycledViewPool recycledViewPool;
 
     @Override
-    public void bind(VerticalView view) {
+    public void bind(GridRecView view) {
         if (recycledViewPool != null)
             view.setRecycledViewPool(recycledViewPool);
         if (numItemsExpectedOnDisplay != 0)
@@ -34,13 +34,13 @@ public abstract class EventModel extends EpoxyModelWithView<VerticalView> {
     }
 
     @Override
-    public void unbind(VerticalView view) {
+    public void unbind(GridRecView view) {
         view.clearModels();
     }
 
     @Override
-    protected VerticalView buildView(ViewGroup parent) {
-        return new VerticalView(parent.getContext(), null);
+    protected GridRecView buildView(ViewGroup parent) {
+        return new GridRecView(parent.getContext(), null);
     }
 
     @Override

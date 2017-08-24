@@ -25,7 +25,10 @@ public abstract class MusicDividerModel extends EpoxyModelWithHolder<MusicDivide
     public void unbind(MusicDividerHolder holder) {
         super.unbind(holder);
     }
-
+    @Override
+    public int getSpanSize(int totalSpanCount, int position, int itemCount) {
+        return totalSpanCount;
+    }
     class MusicDividerHolder extends EpoxyHolder {
 
         @Override
