@@ -84,6 +84,7 @@ public class MainActivity extends BaseActivity
             // TODO: 2017/8/22 0022 获取存储的诗句
         }
         updateController();
+        new MainPresenter(this);
     }
 
     private void updateController() {
@@ -145,12 +146,14 @@ public class MainActivity extends BaseActivity
                 if (superModel.getType() != SuperModel.TYPE_MUSIC) {
                     superModel.setType(SuperModel.TYPE_MUSIC);
                     updateController();
+                    presenter.getSongList("3361534");
                 }
                 break;
             case R.id.nav_video:
                 if (superModel.getType() != SuperModel.TYPE_VIDEO) {
                     superModel.setType(SuperModel.TYPE_VIDEO);
                     updateController();
+                    presenter.getVideoRecommend();
                 }
                 break;
             case R.id.nav_send:
