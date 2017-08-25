@@ -185,7 +185,8 @@ public class MainActivity extends BaseActivity
 
     @Override
     public void getWeatherSuccess(Weather weather) {
-
+        superModel.setWeather(weather);
+        updateController();
     }
 
     @Override
@@ -195,7 +196,8 @@ public class MainActivity extends BaseActivity
 
     @Override
     public void getSongListSuccess(List<SongList> songLists) {
-
+        superModel.setSongLists(songLists);
+        updateController();
     }
 
     @Override
@@ -205,7 +207,8 @@ public class MainActivity extends BaseActivity
 
     @Override
     public void getVideoRecommendSuccess(List<VideoMain> videoMainList) {
-
+        superModel.setVideoMainList(videoMainList);
+        updateController();
     }
 
     @Override

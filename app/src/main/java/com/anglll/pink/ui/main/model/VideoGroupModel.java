@@ -19,7 +19,7 @@ public class VideoGroupModel extends EpoxyModelGroup {
     public VideoGroupModel(VideoMain videoMain,
                            MainController.HomeCallbacks callbacks,
                            RecyclerView.RecycledViewPool recycledViewPool) {
-        super(R.layout.video_group);
+        super(R.layout.video_group,buildModels(videoMain,callbacks,recycledViewPool));
         id(videoMain.getId());
     }
 

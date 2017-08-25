@@ -1,4 +1,4 @@
-package com.yuan.lock;
+package com.anglll.pink;
 
 import android.content.Context;
 import android.support.test.InstrumentationRegistry;
