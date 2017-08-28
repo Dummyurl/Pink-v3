@@ -15,6 +15,11 @@ import butterknife.ButterKnife;
 @EpoxyModelClass(layout = R.layout.video_divider)
 public abstract class VideoDividerModel extends EpoxyModelWithHolder<VideoDividerModel.VideoDividerHolder> {
 
+    @Override
+    public int getSpanSize(int totalSpanCount, int position, int itemCount) {
+        return totalSpanCount;
+    }
+
     public static class VideoDividerHolder extends EpoxyHolder {
 
         @Override

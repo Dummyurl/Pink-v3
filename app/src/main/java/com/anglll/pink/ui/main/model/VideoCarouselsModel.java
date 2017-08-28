@@ -15,6 +15,10 @@ import butterknife.ButterKnife;
 @EpoxyModelClass(layout = R.layout.video_carousels)
 public abstract class VideoCarouselsModel extends EpoxyModelWithHolder<VideoCarouselsModel.VideoCarouselsHolder> {
 
+    @Override
+    public int getSpanSize(int totalSpanCount, int position, int itemCount) {
+        return totalSpanCount;
+    }
 
     public static class VideoCarouselsHolder extends EpoxyHolder {
 

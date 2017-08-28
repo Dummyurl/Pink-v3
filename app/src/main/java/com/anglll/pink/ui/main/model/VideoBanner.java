@@ -14,6 +14,10 @@ import butterknife.ButterKnife;
  */
 @EpoxyModelClass(layout = R.layout.video_banner)
 public abstract class VideoBanner extends EpoxyModelWithHolder<VideoBanner.VideoBannerHolder> {
+    @Override
+    public int getSpanSize(int totalSpanCount, int position, int itemCount) {
+        return totalSpanCount;
+    }
 
     public static class VideoBannerHolder extends EpoxyHolder {
 

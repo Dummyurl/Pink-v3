@@ -15,6 +15,11 @@ import butterknife.ButterKnife;
 @EpoxyModelClass(layout = R.layout.video_menu)
 public abstract class VideoMenuModel extends EpoxyModelWithHolder<VideoMenuModel.VideoMenuHolder> {
 
+    @Override
+    public int getSpanSize(int totalSpanCount, int position, int itemCount) {
+        return totalSpanCount;
+    }
+
     public static class VideoMenuHolder extends EpoxyHolder {
 
         @Override

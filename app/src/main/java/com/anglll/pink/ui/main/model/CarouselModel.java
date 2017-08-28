@@ -44,6 +44,11 @@ public abstract class CarouselModel extends EpoxyModelWithView<GridRecView> {
     }
 
     @Override
+    public int getSpanSize(int totalSpanCount, int position, int itemCount) {
+        return totalSpanCount;
+    }
+
+    @Override
     public boolean shouldSaveViewState() {
         return true;
     }

@@ -19,7 +19,7 @@ import java.util.List;
 public class GridRecView extends RecyclerView {
     private GridLayoutManager layoutManager;
     private SimpleEpoxyController controller;
-    private static final int SPAN_COUNT = 6;
+    public static final int SPAN_COUNT = 6;
 
     public GridRecView(Context context, @Nullable AttributeSet attrs) {
         super(context, attrs);

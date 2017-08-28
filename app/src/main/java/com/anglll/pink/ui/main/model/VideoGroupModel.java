@@ -1,6 +1,7 @@
 package com.anglll.pink.ui.main.model;
 
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 
 import com.airbnb.epoxy.EpoxyModel;
 import com.airbnb.epoxy.EpoxyModelGroup;
@@ -20,6 +21,7 @@ public class VideoGroupModel extends EpoxyModelGroup {
                            MainController.HomeCallbacks callbacks,
                            RecyclerView.RecycledViewPool recycledViewPool) {
         super(R.layout.video_group,buildModels(videoMain,callbacks,recycledViewPool));
+        Log.d("VideoGroupModel",String.valueOf(videoMain.getId()));
         id(videoMain.getId());
     }
 
@@ -40,10 +42,5 @@ public class VideoGroupModel extends EpoxyModelGroup {
         }
 
         return models;
-    }
-
-    @Override
-    public int getSpanSize(int totalSpanCount, int position, int itemCount) {
-        return totalSpanCount;
     }
 }
