@@ -10,17 +10,16 @@ import com.anglll.pink.R;
 import butterknife.ButterKnife;
 
 /**
- * Created by yuan on 2017/8/23 0023.
+ * Created by yuan on 8/30/17.
  */
-@EpoxyModelClass(layout = R.layout.article_item)
-public abstract class ArticleModel extends EpoxyModelWithHolder<ArticleModel.ArticleHolder> {
-
+@EpoxyModelClass(layout = R.layout.video_fun_v)
+public abstract class VideoFunModel extends EpoxyModelWithHolder<VideoFunModel.VideoFunHolder> {
     @Override
     public int getSpanSize(int totalSpanCount, int position, int itemCount) {
-        return totalSpanCount;
+        return totalSpanCount / 3;
     }
 
-    public static class ArticleHolder extends EpoxyHolder {
+    public static class VideoFunHolder extends EpoxyHolder {
 
         @Override
         protected void bindView(View itemView) {

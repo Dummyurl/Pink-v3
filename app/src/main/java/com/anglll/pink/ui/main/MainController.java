@@ -14,7 +14,7 @@ import com.anglll.pink.ui.main.model.MusicListModel_;
 import com.anglll.pink.ui.main.model.MusicModel_;
 import com.anglll.pink.ui.main.model.VideoBanner_;
 import com.anglll.pink.ui.main.model.VideoCarouselsModel_;
-import com.anglll.pink.ui.main.model.VideoGroupModel;
+import com.anglll.pink.ui.main.model.VideoModelGroup;
 import com.anglll.pink.ui.main.model.WeatherModel_;
 
 /**
@@ -81,7 +81,7 @@ public class MainController extends TypedEpoxyController<SuperModel> {
                 case 1://videos
                 case 2://articles
                 case 3://bangumis
-                    add(new VideoGroupModel(videoMain, callback, recycledViewPool));
+                    add(new VideoModelGroup(videoMain, callback, recycledViewPool));
                     break;
                 case 5://carousels
                     add(new VideoCarouselsModel_()

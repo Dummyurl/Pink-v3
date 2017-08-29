@@ -20,25 +20,41 @@ public class VideoModelGroup extends EpoxyModelGroup {
                            MainController.HomeCallbacks callbacks,
                            RecyclerView.RecycledViewPool recycledViewPool) {
         super(R.layout.video_group, buildModels(videoMain, callbacks, recycledViewPool));
-
+        id(videoMain.getId());
     }
 
     private static List<EpoxyModel<?>> buildModels(VideoMain videoMain,
                                                    MainController.HomeCallbacks callbacks,
                                                    RecyclerView.RecycledViewPool recycledViewPool) {
         ArrayList<EpoxyModel<?>> models = new ArrayList<>();
-        models.add(new VideoDividerModel_());
-        List<VideoVModel_> videoModelList = new ArrayList<>();
-        for (VideoMain.ContentsBean content : videoMain.getContents()) {
-            videoModelList.add(new VideoVModel_()
-                    .id(content.getId()));
+        models.add(new VideoDividerModel_()
+                .name(videoMain.getName()));
+        int type = videoMain.getType().getId();
+        List<EpoxyModel<?>> modelList =  new ArrayList<>();
+        switch (type){
+            case 2://articles
+                for (VideoMain.ContentsBean content : videoMain.getContents()) {
+                    modelList.add(new ArticleModel_()
+                            .id(content.getId()));
+                }
+                break;
+            case 3://bangumis
+                for (VideoMain.ContentsBean content : videoMain.getContents()) {
+                    modelList.add(new VideoFunModel_()
+                            .id(content.getId()));
+                }
+                break;
+            default:
+                for (VideoMain.ContentsBean content : videoMain.getContents()) {
+                    modelList.add(new VideoVModel_()
+                            .id(content.getId()));
+                }
         }
         models.add(new CarouselModel_()
                 .recycledViewPool(recycledViewPool)
-                .models(videoModelList));
-        if (videoMain.getMenuCount() > 0) {
-            models.add(new VideoMenuModel_());
-        }
+                .models(modelList));
+
+        models.add(new VideoMenuModel_());
         return models;
     }
 }
