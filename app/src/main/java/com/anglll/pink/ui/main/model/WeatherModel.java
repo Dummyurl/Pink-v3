@@ -14,6 +14,7 @@ import com.facebook.drawee.view.SimpleDraweeView;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+
 import static com.airbnb.epoxy.EpoxyAttribute.Option.DoNotHash;
 
 /**
@@ -23,11 +24,13 @@ import static com.airbnb.epoxy.EpoxyAttribute.Option.DoNotHash;
 public abstract class WeatherModel extends EpoxyModelWithHolder<WeatherModel.WeatherHolder> {
     @EpoxyAttribute
     Weather weather;
-    @EpoxyAttribute(DoNotHash) View.OnClickListener clickListener;
+    @EpoxyAttribute(DoNotHash)
+    View.OnClickListener clickListener;
 
     @Override
     public void bind(WeatherHolder holder) {
         holder.itemView.setOnClickListener(clickListener);
+        holder.bindData(weather);
     }
 
     @Override
@@ -62,6 +65,14 @@ public abstract class WeatherModel extends EpoxyModelWithHolder<WeatherModel.Wea
             ButterKnife.bind(this, itemView);
             this.itemView = itemView;
         }
-    }
 
+        public void bindData(Weather weather) {
+            if (weather == null)
+                return;
+            mWeatherTemp.setText(String.valueOf(weather.getNow().getTemperature()));
+            mWeatherInfo.setText(String.valueOf(weather.getNow().getText()));
+            mAddressParent.setText(String.valueOf(weather.getLocation().getCountry()));
+            mAddressChild.setText(weather.getLocation().getName());
+        }
+    }
 }

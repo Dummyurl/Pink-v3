@@ -31,7 +31,7 @@ public interface RemoteService {
 
     //获取用户歌单列表
     //http://localhost:3000/api/v1/music/songList.json
-    @GET("api/v1/music/songList.json")
+    @GET("api/v1/music/songLists.json")
     Flowable<List<SongList>> getUserSongList(
             @Query("uid") String uid
     );

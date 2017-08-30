@@ -59,7 +59,7 @@ public class MainController extends TypedEpoxyController<SuperModel> {
 
 
     private void showHomeView(SuperModel superModel) {
-        add(weatherModel);
+        add(weatherModel.weather(superModel.getWeather()));
         add(musicModel);
         EventModelGroup eventModelGroup =
                 new EventModelGroup(superModel.getTodo(), callback, recycledViewPool);
@@ -71,6 +71,7 @@ public class MainController extends TypedEpoxyController<SuperModel> {
         add(songListDivider);
         for (SongList songList : superModel.getSongLists()) {
              add(new MusicListModel_()
+                     .songList(songList)
                     .id(songList.getId()));
         }
     }

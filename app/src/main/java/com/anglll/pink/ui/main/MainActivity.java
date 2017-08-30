@@ -71,6 +71,10 @@ public class MainActivity extends BaseActivity
         mNavView.setNavigationItemSelectedListener(this);
         mNavView.getMenu().getItem(0).setChecked(true);
 
+        recycledViewPool.setMaxRecycledViews(R.layout.video_item_v, Integer.MAX_VALUE);
+        recycledViewPool.setMaxRecycledViews(R.layout.video_group, Integer.MAX_VALUE);
+        recycledViewPool.setMaxRecycledViews(R.layout.video_fun_v, Integer.MAX_VALUE);
+
         mRecyclerView.setRecycledViewPool(recycledViewPool);
         controller.setSpanCount(2);
         GridLayoutManager gridLayoutManager = new GridLayoutManager(getContext(), 2);
@@ -140,6 +144,7 @@ public class MainActivity extends BaseActivity
                 if (superModel.getType() != SuperModel.TYPE_HOME) {
                     superModel.setType(SuperModel.TYPE_HOME);
                     updateController();
+                    presenter.getWeatherInfo("ip");
                 }
                 break;
             case R.id.nav_music:
