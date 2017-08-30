@@ -58,4 +58,5 @@ dependencies {
     releaseCompile 'com.squareup.leakcanary:leakcanary-android-no-op:1.5.1'
     compile 'com.android.support:design:26.0.0-alpha1'
     compile 'com.android.support:cardview-v7:26.0.0-alpha1'
+    compile 'com.facebook.fresco.helper:fresco-helper:1.6.1'
 }

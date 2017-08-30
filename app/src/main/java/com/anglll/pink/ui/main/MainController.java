@@ -70,8 +70,8 @@ public class MainController extends TypedEpoxyController<SuperModel> {
         add(musicHeader);
         add(songListDivider);
         for (SongList songList : superModel.getSongLists()) {
-             add(new MusicListModel_()
-                     .songList(songList)
+            add(new MusicListModel_()
+                    .songList(songList)
                     .id(songList.getId()));
         }
     }
@@ -90,6 +90,7 @@ public class MainController extends TypedEpoxyController<SuperModel> {
                     break;
                 case 6://banners
                     add(new VideoBanner_()
+                            .content(videoMain.getContents().get(0))
                             .id(videoMain.getId()));
                     break;
                 default:

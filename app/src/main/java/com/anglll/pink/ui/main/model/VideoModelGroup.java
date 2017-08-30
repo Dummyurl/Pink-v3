@@ -28,25 +28,28 @@ public class VideoModelGroup extends EpoxyModelGroup {
                                                    RecyclerView.RecycledViewPool recycledViewPool) {
         ArrayList<EpoxyModel<?>> models = new ArrayList<>();
         models.add(new VideoDividerModel_()
-                .name(videoMain.getName()));
+                .videoMain(videoMain));
         int type = videoMain.getType().getId();
-        List<EpoxyModel<?>> modelList =  new ArrayList<>();
-        switch (type){
+        List<EpoxyModel<?>> modelList = new ArrayList<>();
+        switch (type) {
             case 2://articles
                 for (VideoMain.ContentsBean content : videoMain.getContents()) {
                     modelList.add(new ArticleModel_()
+                            .content(content)
                             .id(content.getId()));
                 }
                 break;
             case 3://bangumis
                 for (VideoMain.ContentsBean content : videoMain.getContents()) {
                     modelList.add(new VideoFunModel_()
+                            .content(content)
                             .id(content.getId()));
                 }
                 break;
             default:
                 for (VideoMain.ContentsBean content : videoMain.getContents()) {
                     modelList.add(new VideoVModel_()
+                            .content(content)
                             .id(content.getId()));
                 }
         }

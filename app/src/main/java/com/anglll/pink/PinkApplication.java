@@ -3,6 +3,7 @@ package com.anglll.pink;
 import android.app.Application;
 
 import com.facebook.drawee.backends.pipeline.Fresco;
+import com.facebook.fresco.helper.Phoenix;
 import com.facebook.imagepipeline.backends.okhttp3.OkHttpImagePipelineConfigFactory;
 import com.facebook.imagepipeline.core.ImagePipelineConfig;
 import com.squareup.leakcanary.LeakCanary;
@@ -40,12 +41,13 @@ public class PinkApplication extends Application {
     }
 
     private void initFresco() {
-        ImagePipelineConfig config = OkHttpImagePipelineConfigFactory
+/*        ImagePipelineConfig config = OkHttpImagePipelineConfigFactory
                 .newBuilder(this, new OkHttpClient())
 //                . // other setters
 //    . // setNetworkFetcher is already called for you
                 .build();
-        Fresco.initialize(this, config);
+        Fresco.initialize(this, config);*/
+        Phoenix.init(this);
     }
 
 }
