@@ -10,6 +10,7 @@ import com.airbnb.epoxy.EpoxyModelWithHolder;
 import com.anglll.pink.R;
 import com.anglll.pink.data.model.SongList;
 import com.facebook.drawee.view.SimpleDraweeView;
+import com.facebook.fresco.helper.Phoenix;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -28,6 +29,7 @@ public abstract class MusicListModel extends EpoxyModelWithHolder<MusicListModel
         if (songList != null) {
             holder.songListName.setText(String.valueOf(songList.getName()));
         }
+        holder.bindData(songList);
 
     }
 
@@ -52,6 +54,15 @@ public abstract class MusicListModel extends EpoxyModelWithHolder<MusicListModel
         @Override
         protected void bindView(View itemView) {
             ButterKnife.bind(this, itemView);
+        }
+
+
+        public void bindData(SongList songList) {
+            if (songList == null)
+                return;
+            songListName.setText(songList.getName());
+            Phoenix.with(songListCover).load(songList.getCoverImgUrl());
+            songCount.setText(String.valueOf(songList.getSongCount()));
         }
     }
 }

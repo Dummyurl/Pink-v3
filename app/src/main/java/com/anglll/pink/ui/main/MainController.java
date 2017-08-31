@@ -82,6 +82,7 @@ public class MainController extends TypedEpoxyController<SuperModel> {
                 case 1://videos
                 case 2://articles
                 case 3://bangumis
+                case 12://banana videos
                     add(new VideoModelGroup(videoMain, callback, recycledViewPool));
                     break;
                 case 5://carousels

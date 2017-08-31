@@ -74,6 +74,7 @@ public class MainActivity extends BaseActivity
         recycledViewPool.setMaxRecycledViews(R.layout.video_item_v, Integer.MAX_VALUE);
         recycledViewPool.setMaxRecycledViews(R.layout.video_group, Integer.MAX_VALUE);
         recycledViewPool.setMaxRecycledViews(R.layout.video_fun_v, Integer.MAX_VALUE);
+        recycledViewPool.setMaxRecycledViews(R.layout.video_rank, Integer.MAX_VALUE);
 
         mRecyclerView.setRecycledViewPool(recycledViewPool);
         controller.setSpanCount(2);

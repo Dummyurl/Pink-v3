@@ -46,6 +46,14 @@ public class VideoModelGroup extends EpoxyModelGroup {
                             .id(content.getId()));
                 }
                 break;
+            case 12://banana videos
+                for (VideoMain.ContentsBean content : videoMain.getContents()) {
+                    modelList.add(new VideoRankModel_()
+                            .content(content)
+                            .id(Integer.parseInt(content.getUrl())));
+                    // TODO: 2017/8/31 id问题
+                }
+                break;
             default:
                 for (VideoMain.ContentsBean content : videoMain.getContents()) {
                     modelList.add(new VideoVModel_()
