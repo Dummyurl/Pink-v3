@@ -2,13 +2,15 @@ package com.anglll.pink.data.model;
 
 import org.greenrobot.greendao.annotation.Entity;
 import org.greenrobot.greendao.annotation.Id;
+import org.greenrobot.greendao.annotation.ToMany;
+import org.greenrobot.greendao.annotation.Transient;
 
 import java.util.List;
 
 /**
  * Created by yuan on 2017/8/22 0022.
  */
-//@Entity
+@Entity
 public class SongList {
 
     /**
@@ -76,18 +78,12 @@ public class SongList {
     @Id
     private Long id;
     private List<String> tags;
+    @ToMany(referencedJoinProperty = "songListId")
     private List<Song> playList;
+    @Transient
     private int playIndex = -1;
+
     private Song playingSong;
-    private int songCount;
-
-    public int getSongCount() {
-        return songCount;
-    }
-
-    public void setSongCount(int songCount) {
-        this.songCount = songCount;
-    }
 
     public List<Song> getPlayList() {
         return playList;

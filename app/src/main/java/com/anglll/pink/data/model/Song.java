@@ -1,12 +1,15 @@
 package com.anglll.pink.data.model;
 
 
+import org.greenrobot.greendao.annotation.Entity;
+import org.greenrobot.greendao.annotation.Id;
+
 import java.util.List;
 
 /**
  * Created by yuan on 2017/8/8.
  */
-
+@Entity
 public class Song{
 
     /**
@@ -21,7 +24,8 @@ public class Song{
      */
 
     private String name;
-    private int id;
+    @Id
+    private Long id;
     private AlBean al;
     private int dt;
     private int copyright;
@@ -29,6 +33,15 @@ public class Song{
     private List<String> alia;
     private List<String> tns;
     private String path;
+    private long songListId;
+
+    public long getSongListId() {
+        return songListId;
+    }
+
+    public void setSongListId(long songListId) {
+        this.songListId = songListId;
+    }
 
     public String getPath() {
         return path;
@@ -46,11 +59,11 @@ public class Song{
         this.name = name;
     }
 
-    public int getId() {
+    public long getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(long id) {
         this.id = id;
     }
 
