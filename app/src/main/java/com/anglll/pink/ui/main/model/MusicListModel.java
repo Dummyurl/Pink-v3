@@ -62,7 +62,6 @@ public abstract class MusicListModel extends EpoxyModelWithHolder<MusicListModel
                 return;
             songListName.setText(songList.getName());
             Phoenix.with(songListCover).load(songList.getCoverImgUrl());
-            songCount.setText(String.valueOf(songList.getSongCount()));
         }
     }
 }

@@ -19,13 +19,18 @@ import android.view.MenuItem;
 import com.anglll.pink.R;
 import com.anglll.pink.RxBus;
 import com.anglll.pink.base.BaseActivity;
+import com.anglll.pink.data.db.DaoMaster;
+import com.anglll.pink.data.model.Creator;
+import com.anglll.pink.data.model.Song;
 import com.anglll.pink.data.model.SongList;
 import com.anglll.pink.data.model.SuperModel;
 import com.anglll.pink.data.model.VideoMain;
 import com.anglll.pink.data.model.Weather;
+import com.anglll.pink.data.source.db.DaoMasterHelper;
 import com.anglll.pink.ui.TestActivity;
 import com.jaeger.library.StatusBarUtil;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.BindView;
@@ -204,6 +209,19 @@ public class MainActivity extends BaseActivity
     public void getSongListSuccess(List<SongList> songLists) {
         superModel.setSongLists(songLists);
         updateController();
+        List<SongList> songListList = new ArrayList<>();
+        List<Creator> creators = new ArrayList<>();
+        for (SongList songList : songLists) {
+            songList.creator_id = songList.creator.userId;
+            songListList.add(songList);
+            creators.add(songList.creator);
+        }
+        DaoMasterHelper.getDaoSession()
+                .getCreatorDao()
+                .insertInTx(creators);
+        DaoMasterHelper.getDaoSession()
+                .getSongListDao()
+                .insertInTx(songListList);
     }
 
     @Override

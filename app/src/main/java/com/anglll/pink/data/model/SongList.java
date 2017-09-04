@@ -2,10 +2,18 @@ package com.anglll.pink.data.model;
 
 import org.greenrobot.greendao.annotation.Entity;
 import org.greenrobot.greendao.annotation.Id;
+import org.greenrobot.greendao.annotation.NotNull;
 import org.greenrobot.greendao.annotation.ToMany;
+import org.greenrobot.greendao.annotation.ToOne;
 import org.greenrobot.greendao.annotation.Transient;
 
 import java.util.List;
+import org.greenrobot.greendao.annotation.Generated;
+import org.greenrobot.greendao.DaoException;
+import com.anglll.pink.data.db.DaoSession;
+import com.anglll.pink.data.db.SongDao;
+import com.anglll.pink.data.db.CreatorDao;
+import com.anglll.pink.data.db.SongListDao;
 
 /**
  * Created by yuan on 2017/8/22 0022.
@@ -50,278 +58,334 @@ public class SongList {
      * id : 10602549
      */
 
-    private boolean subscribed;
-    private Creator creator;
-    private int status;
-    private boolean ordered;
-    private int adType;
-    private int userId;
-    private int specialType;
-    private boolean anonimous;
-    private long coverImgId;
-    private long createTime;
-    private int privacy;
-    private boolean newImported;
-    private int trackCount;
-    private boolean highQuality;
-    private long trackUpdateTime;
-    private long updateTime;
-    private String commentThreadId;
-    private String coverImgUrl;
-    private int playCount;
-    private int totalDuration;
-    private long trackNumberUpdateTime;
-    private int cloudTrackCount;
-    private int subscribedCount;
-    private String description;
-    private String name;
+    public boolean subscribed;
+    public Long creator_id;
+    @ToOne(joinProperty = "creator_id")
+    @NotNull
+    public Creator creator;
+    public int status;
+    public boolean ordered;
+    public int adType;
+    public int userId;
+    public int specialType;
+    public boolean anonimous;
+    public long coverImgId;
+    public long createTime;
+    public int privacy;
+    public boolean newImported;
+    public int trackCount;
+    public boolean highQuality;
+    public long trackUpdateTime;
+    public long updateTime;
+    public String commentThreadId;
+    public String coverImgUrl;
+    public int playCount;
+    public int totalDuration;
+    public long trackNumberUpdateTime;
+    public int cloudTrackCount;
+    public int subscribedCount;
+    public String description;
+    public String name;
     @Id
-    private Long id;
-    private List<String> tags;
+    public Long id;
     @ToMany(referencedJoinProperty = "songListId")
-    private List<Song> playList;
+    public List<Song> playList;
     @Transient
-    private int playIndex = -1;
-
-    private Song playingSong;
-
-    public List<Song> getPlayList() {
-        return playList;
+    public int playIndex = -1;
+    @Transient
+    public Song playingSong;
+    /** Used to resolve relations */
+    @Generated(hash = 2040040024)
+    private transient DaoSession daoSession;
+    /** Used for active entity operations. */
+    @Generated(hash = 741189411)
+    private transient SongListDao myDao;
+    @Generated(hash = 1151245159)
+    public SongList(boolean subscribed, Long creator_id, int status, boolean ordered,
+            int adType, int userId, int specialType, boolean anonimous, long coverImgId,
+            long createTime, int privacy, boolean newImported, int trackCount,
+            boolean highQuality, long trackUpdateTime, long updateTime,
+            String commentThreadId, String coverImgUrl, int playCount, int totalDuration,
+            long trackNumberUpdateTime, int cloudTrackCount, int subscribedCount,
+            String description, String name, Long id) {
+        this.subscribed = subscribed;
+        this.creator_id = creator_id;
+        this.status = status;
+        this.ordered = ordered;
+        this.adType = adType;
+        this.userId = userId;
+        this.specialType = specialType;
+        this.anonimous = anonimous;
+        this.coverImgId = coverImgId;
+        this.createTime = createTime;
+        this.privacy = privacy;
+        this.newImported = newImported;
+        this.trackCount = trackCount;
+        this.highQuality = highQuality;
+        this.trackUpdateTime = trackUpdateTime;
+        this.updateTime = updateTime;
+        this.commentThreadId = commentThreadId;
+        this.coverImgUrl = coverImgUrl;
+        this.playCount = playCount;
+        this.totalDuration = totalDuration;
+        this.trackNumberUpdateTime = trackNumberUpdateTime;
+        this.cloudTrackCount = cloudTrackCount;
+        this.subscribedCount = subscribedCount;
+        this.description = description;
+        this.name = name;
+        this.id = id;
     }
-
-    public void setPlayList(List<Song> playList) {
-        this.playList = playList;
+    @Generated(hash = 1144407077)
+    public SongList() {
     }
-
-    public int getPlayIndex() {
-        return playIndex;
+    public boolean getSubscribed() {
+        return this.subscribed;
     }
-
-    public void setPlayIndex(int playIndex) {
-        this.playIndex = playIndex;
-    }
-
-    public Song getPlayingSong() {
-        return playingSong;
-    }
-
-    public void setPlayingSong(Song playingSong) {
-        this.playingSong = playingSong;
-    }
-
-    public boolean isSubscribed() {
-        return subscribed;
-    }
-
     public void setSubscribed(boolean subscribed) {
         this.subscribed = subscribed;
     }
-
-    public Creator getCreator() {
-        return creator;
+    public Long getCreator_id() {
+        return this.creator_id;
     }
-
-    public void setCreator(Creator creator) {
-        this.creator = creator;
+    public void setCreator_id(Long creator_id) {
+        this.creator_id = creator_id;
     }
-
     public int getStatus() {
-        return status;
+        return this.status;
     }
-
     public void setStatus(int status) {
         this.status = status;
     }
-
-    public boolean isOrdered() {
-        return ordered;
+    public boolean getOrdered() {
+        return this.ordered;
     }
-
     public void setOrdered(boolean ordered) {
         this.ordered = ordered;
     }
-
     public int getAdType() {
-        return adType;
+        return this.adType;
     }
-
     public void setAdType(int adType) {
         this.adType = adType;
     }
-
     public int getUserId() {
-        return userId;
+        return this.userId;
     }
-
     public void setUserId(int userId) {
         this.userId = userId;
     }
-
     public int getSpecialType() {
-        return specialType;
+        return this.specialType;
     }
-
     public void setSpecialType(int specialType) {
         this.specialType = specialType;
     }
-
-    public boolean isAnonimous() {
-        return anonimous;
+    public boolean getAnonimous() {
+        return this.anonimous;
     }
-
     public void setAnonimous(boolean anonimous) {
         this.anonimous = anonimous;
     }
-
     public long getCoverImgId() {
-        return coverImgId;
+        return this.coverImgId;
     }
-
     public void setCoverImgId(long coverImgId) {
         this.coverImgId = coverImgId;
     }
-
     public long getCreateTime() {
-        return createTime;
+        return this.createTime;
     }
-
     public void setCreateTime(long createTime) {
         this.createTime = createTime;
     }
-
     public int getPrivacy() {
-        return privacy;
+        return this.privacy;
     }
-
     public void setPrivacy(int privacy) {
         this.privacy = privacy;
     }
-
-    public boolean isNewImported() {
-        return newImported;
+    public boolean getNewImported() {
+        return this.newImported;
     }
-
     public void setNewImported(boolean newImported) {
         this.newImported = newImported;
     }
-
     public int getTrackCount() {
-        return trackCount;
+        return this.trackCount;
     }
-
     public void setTrackCount(int trackCount) {
         this.trackCount = trackCount;
     }
-
-    public boolean isHighQuality() {
-        return highQuality;
+    public boolean getHighQuality() {
+        return this.highQuality;
     }
-
     public void setHighQuality(boolean highQuality) {
         this.highQuality = highQuality;
     }
-
     public long getTrackUpdateTime() {
-        return trackUpdateTime;
+        return this.trackUpdateTime;
     }
-
     public void setTrackUpdateTime(long trackUpdateTime) {
         this.trackUpdateTime = trackUpdateTime;
     }
-
     public long getUpdateTime() {
-        return updateTime;
+        return this.updateTime;
     }
-
     public void setUpdateTime(long updateTime) {
         this.updateTime = updateTime;
     }
-
     public String getCommentThreadId() {
-        return commentThreadId;
+        return this.commentThreadId;
     }
-
     public void setCommentThreadId(String commentThreadId) {
         this.commentThreadId = commentThreadId;
     }
-
     public String getCoverImgUrl() {
-        return coverImgUrl;
+        return this.coverImgUrl;
     }
-
     public void setCoverImgUrl(String coverImgUrl) {
         this.coverImgUrl = coverImgUrl;
     }
-
     public int getPlayCount() {
-        return playCount;
+        return this.playCount;
     }
-
     public void setPlayCount(int playCount) {
         this.playCount = playCount;
     }
-
     public int getTotalDuration() {
-        return totalDuration;
+        return this.totalDuration;
     }
-
     public void setTotalDuration(int totalDuration) {
         this.totalDuration = totalDuration;
     }
-
     public long getTrackNumberUpdateTime() {
-        return trackNumberUpdateTime;
+        return this.trackNumberUpdateTime;
     }
-
     public void setTrackNumberUpdateTime(long trackNumberUpdateTime) {
         this.trackNumberUpdateTime = trackNumberUpdateTime;
     }
-
     public int getCloudTrackCount() {
-        return cloudTrackCount;
+        return this.cloudTrackCount;
     }
-
     public void setCloudTrackCount(int cloudTrackCount) {
         this.cloudTrackCount = cloudTrackCount;
     }
-
     public int getSubscribedCount() {
-        return subscribedCount;
+        return this.subscribedCount;
     }
-
     public void setSubscribedCount(int subscribedCount) {
         this.subscribedCount = subscribedCount;
     }
-
     public String getDescription() {
-        return description;
+        return this.description;
     }
-
     public void setDescription(String description) {
         this.description = description;
     }
-
     public String getName() {
-        return name;
+        return this.name;
     }
-
     public void setName(String name) {
         this.name = name;
     }
-
-    public long getId() {
-        return id;
+    public Long getId() {
+        return this.id;
     }
-
-    public void setId(long id) {
+    public void setId(Long id) {
         this.id = id;
     }
-
-    public List<String> getTags() {
-        return tags;
+    @Generated(hash = 1767171241)
+    private transient Long creator__resolvedKey;
+    /** To-one relationship, resolved on first access. */
+    @Generated(hash = 324074231)
+    public Creator getCreator() {
+        Long __key = this.creator_id;
+        if (creator__resolvedKey == null || !creator__resolvedKey.equals(__key)) {
+            final DaoSession daoSession = this.daoSession;
+            if (daoSession == null) {
+                throw new DaoException("Entity is detached from DAO context");
+            }
+            CreatorDao targetDao = daoSession.getCreatorDao();
+            Creator creatorNew = targetDao.load(__key);
+            synchronized (this) {
+                creator = creatorNew;
+                creator__resolvedKey = __key;
+            }
+        }
+        return creator;
     }
-
-    public void setTags(List<String> tags) {
-        this.tags = tags;
+    /** called by internal mechanisms, do not call yourself. */
+    @Generated(hash = 487346457)
+    public void setCreator(Creator creator) {
+        synchronized (this) {
+            this.creator = creator;
+            creator_id = creator == null ? null : creator.getUserId();
+            creator__resolvedKey = creator_id;
+        }
+    }
+    /**
+     * To-many relationship, resolved on first access (and after reset).
+     * Changes to to-many relations are not persisted, make changes to the target entity.
+     */
+    @Generated(hash = 493600516)
+    public List<Song> getPlayList() {
+        if (playList == null) {
+            final DaoSession daoSession = this.daoSession;
+            if (daoSession == null) {
+                throw new DaoException("Entity is detached from DAO context");
+            }
+            SongDao targetDao = daoSession.getSongDao();
+            List<Song> playListNew = targetDao._querySongList_PlayList(id);
+            synchronized (this) {
+                if (playList == null) {
+                    playList = playListNew;
+                }
+            }
+        }
+        return playList;
+    }
+    /** Resets a to-many relationship, making the next get call to query for a fresh result. */
+    @Generated(hash = 640270382)
+    public synchronized void resetPlayList() {
+        playList = null;
+    }
+    /**
+     * Convenient call for {@link org.greenrobot.greendao.AbstractDao#delete(Object)}.
+     * Entity must attached to an entity context.
+     */
+    @Generated(hash = 128553479)
+    public void delete() {
+        if (myDao == null) {
+            throw new DaoException("Entity is detached from DAO context");
+        }
+        myDao.delete(this);
+    }
+    /**
+     * Convenient call for {@link org.greenrobot.greendao.AbstractDao#refresh(Object)}.
+     * Entity must attached to an entity context.
+     */
+    @Generated(hash = 1942392019)
+    public void refresh() {
+        if (myDao == null) {
+            throw new DaoException("Entity is detached from DAO context");
+        }
+        myDao.refresh(this);
+    }
+    /**
+     * Convenient call for {@link org.greenrobot.greendao.AbstractDao#update(Object)}.
+     * Entity must attached to an entity context.
+     */
+    @Generated(hash = 713229351)
+    public void update() {
+        if (myDao == null) {
+            throw new DaoException("Entity is detached from DAO context");
+        }
+        myDao.update(this);
+    }
+    /** called by internal mechanisms, do not call yourself. */
+    @Generated(hash = 1874485990)
+    public void __setDaoSession(DaoSession daoSession) {
+        this.daoSession = daoSession;
+        myDao = daoSession != null ? daoSession.getSongListDao() : null;
     }
 }
