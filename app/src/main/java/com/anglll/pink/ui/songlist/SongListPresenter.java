@@ -3,6 +3,7 @@ package com.anglll.pink.ui.songlist;
 import com.anglll.pink.data.model.SongList;
 import com.anglll.pink.data.retrofit.RetrofitAPI;
 import com.anglll.pink.data.source.AppRepository;
+import com.anglll.pink.data.source.db.DaoMasterHelper;
 
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.annotations.NonNull;
@@ -45,6 +46,20 @@ public class SongListPresenter implements SongListContract.Presenter {
         RetrofitAPI.getInstance()
                 .getRemoteService()
                 .getSongList(id)
+                .doOnNext(new Consumer<SongList>() {
+                    @Override
+                    public void accept(@NonNull SongList songList) throws Exception {
+                        DaoMasterHelper.getDaoSession()
+                                .getCreatorDao()
+                                .insertOrReplace(songList.creator);
+                        DaoMasterHelper.getDaoSession()
+                                .getSongDao()
+                                .insertOrReplaceInTx(songList.playList);
+                        DaoMasterHelper.getDaoSession()
+                                .getSongListDao()
+                                .insertOrReplace(songList);
+                    }
+                })
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new Consumer<SongList>() {

@@ -11,9 +11,9 @@ import java.util.List;
 import org.greenrobot.greendao.annotation.Generated;
 import org.greenrobot.greendao.DaoException;
 import com.anglll.pink.data.db.DaoSession;
-import com.anglll.pink.data.db.SongDao;
 import com.anglll.pink.data.db.CreatorDao;
 import com.anglll.pink.data.db.SongListDao;
+import com.anglll.pink.data.db.SongDao;
 
 /**
  * Created by yuan on 2017/8/22 0022.
