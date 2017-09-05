@@ -34,7 +34,7 @@ public class MainContract {
     interface Presenter extends BasePresenter {
         void getWeatherInfo(String location);
 
-        void getSongList(String uid);
+        void getSongList(long uid);
 
         void getVideoRecommend();
     }

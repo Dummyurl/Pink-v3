@@ -19,15 +19,14 @@ import android.view.MenuItem;
 import com.anglll.pink.R;
 import com.anglll.pink.RxBus;
 import com.anglll.pink.base.BaseActivity;
-import com.anglll.pink.data.db.DaoMaster;
 import com.anglll.pink.data.model.Creator;
-import com.anglll.pink.data.model.Song;
 import com.anglll.pink.data.model.SongList;
 import com.anglll.pink.data.model.SuperModel;
 import com.anglll.pink.data.model.VideoMain;
 import com.anglll.pink.data.model.Weather;
 import com.anglll.pink.data.source.db.DaoMasterHelper;
 import com.anglll.pink.ui.TestActivity;
+import com.anglll.pink.ui.songlist.SongListActivity;
 import com.jaeger.library.StatusBarUtil;
 
 import java.util.ArrayList;
@@ -157,7 +156,7 @@ public class MainActivity extends BaseActivity
                 if (superModel.getType() != SuperModel.TYPE_MUSIC) {
                     superModel.setType(SuperModel.TYPE_MUSIC);
                     updateController();
-                    presenter.getSongList("3361534");
+                    presenter.getSongList(3361534);
                 }
                 break;
             case R.id.nav_video:
@@ -168,7 +167,7 @@ public class MainActivity extends BaseActivity
                 }
                 break;
             case R.id.nav_send:
-                startActivity(new Intent(getContext(), TestActivity.class));
+                startActivity(new Intent(getContext(), SongListActivity.class));
                 break;
         }
         mDrawerLayout.closeDrawer(GravityCompat.START);
@@ -214,14 +213,15 @@ public class MainActivity extends BaseActivity
         for (SongList songList : songLists) {
             songList.creator_id = songList.creator.userId;
             songListList.add(songList);
-            creators.add(songList.creator);
+            if (!creators.contains(songList.creator))
+                creators.add(songList.creator);
         }
         DaoMasterHelper.getDaoSession()
                 .getCreatorDao()
-                .insertInTx(creators);
+                .insertOrReplaceInTx(creators);
         DaoMasterHelper.getDaoSession()
                 .getSongListDao()
-                .insertInTx(songListList);
+                .insertOrReplaceInTx(songListList);
     }
 
     @Override

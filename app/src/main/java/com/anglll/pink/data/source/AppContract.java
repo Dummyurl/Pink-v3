@@ -17,5 +17,5 @@ public interface AppContract {
 
     Flowable<List<VideoMain>> getRecommendVideo();
 
-    Flowable<List<SongList>> getSongLists(String uid);
+    Flowable<List<SongList>> getSongLists(long uid);
 }

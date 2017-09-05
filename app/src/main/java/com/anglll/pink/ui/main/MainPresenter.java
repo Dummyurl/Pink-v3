@@ -60,7 +60,7 @@ public class MainPresenter implements MainContract.Presenter {
     }
 
     @Override
-    public void getSongList(String uid) {
+    public void getSongList(long uid) {
         Disposable disposable = appRepository.getSongLists(uid)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())

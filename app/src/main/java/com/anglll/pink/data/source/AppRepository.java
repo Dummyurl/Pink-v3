@@ -42,7 +42,7 @@ public class AppRepository implements AppContract {
     }
 
     @Override
-    public Flowable<List<SongList>> getSongLists(String uid) {
-        return remoteService.getUserSongList(uid);
+    public Flowable<List<SongList>> getSongLists(long uid) {
+        return remoteService.getSongLists(uid);
     }
 }
