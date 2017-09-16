@@ -1,5 +1,6 @@
 package com.anglll.pink.data.retrofit;
 
+import com.anglll.pink.data.retrofit.api.LocalService;
 import com.anglll.pink.data.retrofit.api.RemoteService;
 import com.anglll.pink.utils.Config;
 
@@ -16,6 +17,7 @@ public class RetrofitAPI {
     private static RetrofitAPI instance;
     private RemoteService remoteService;
     private OkHttpClient normalClient = new OkHttpClient().newBuilder().build();
+    private LocalService localService;
 
     public static RetrofitAPI getInstance() {
         synchronized (RetrofitAPI.class) {
@@ -33,6 +35,15 @@ public class RetrofitAPI {
             }
         }
         return remoteService;
+    }
+
+    public LocalService getLocalService() {
+        synchronized (RetrofitAPI.class) {
+            if (this.localService == null) {
+                this.localService = new LocalService();
+            }
+        }
+        return localService;
     }
 
     public <T> T getRxJavaService(OkHttpClient client, String host, Class<T> serviceClass) {

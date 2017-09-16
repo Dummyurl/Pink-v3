@@ -210,6 +210,7 @@ public class MainActivity extends BaseActivity
         updateController();
         List<SongList> songListList = new ArrayList<>();
         List<Creator> creators = new ArrayList<>();
+
         for (SongList songList : songLists) {
             songList.creator_id = songList.creator.userId;
             songListList.add(songList);

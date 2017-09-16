@@ -35,11 +35,13 @@ public class Song {
     public String al_picUrl;
     public String tns;
     public String path;
-    @Index
+    public Long duration;
+    public Long index;
     public long songListId;
-    @Generated(hash = 1966804951)
+    @Generated(hash = 985678803)
     public Song(String name, Long id, Long ar_id, String ar_name, String alia, Long al_id,
-            String al_name, String al_picUrl, String tns, String path, long songListId) {
+            String al_name, String al_picUrl, String tns, String path, Long duration,
+            Long index, long songListId) {
         this.name = name;
         this.id = id;
         this.ar_id = ar_id;
@@ -50,22 +52,24 @@ public class Song {
         this.al_picUrl = al_picUrl;
         this.tns = tns;
         this.path = path;
+        this.duration = duration;
+        this.index = index;
         this.songListId = songListId;
     }
     @Generated(hash = 87031450)
     public Song() {
-    }
-    public Long getId() {
-        return this.id;
-    }
-    public void setId(Long id) {
-        this.id = id;
     }
     public String getName() {
         return this.name;
     }
     public void setName(String name) {
         this.name = name;
+    }
+    public Long getId() {
+        return this.id;
+    }
+    public void setId(Long id) {
+        this.id = id;
     }
     public Long getAr_id() {
         return this.ar_id;
@@ -114,6 +118,18 @@ public class Song {
     }
     public void setPath(String path) {
         this.path = path;
+    }
+    public Long getDuration() {
+        return this.duration;
+    }
+    public void setDuration(Long duration) {
+        this.duration = duration;
+    }
+    public Long getIndex() {
+        return this.index;
+    }
+    public void setIndex(Long index) {
+        this.index = index;
     }
     public long getSongListId() {
         return this.songListId;

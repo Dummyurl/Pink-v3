@@ -1,5 +1,7 @@
 package com.anglll.pink.data.source;
 
+import android.content.ContentResolver;
+
 import com.anglll.pink.data.model.SongList;
 import com.anglll.pink.data.model.VideoMain;
 import com.anglll.pink.data.model.Weather;
@@ -18,4 +20,8 @@ public interface AppContract {
     Flowable<List<VideoMain>> getRecommendVideo();
 
     Flowable<List<SongList>> getSongLists(long uid);
+
+    Flowable<SongList> getSongListByNet(ContentResolver cr, long id);
+
+    Flowable<SongList> getSongListByLocal(long id);
 }

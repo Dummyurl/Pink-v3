@@ -27,7 +27,7 @@ public class SongListActivity extends BaseActivity implements SongListContract.V
         setContentView(R.layout.activity_songlist);
         ButterKnife.bind(this);
         new SongListPresenter(this);
-        presenter.getSongList(4380864);
+        presenter.getSongList(getContentResolver(), 4380864);
     }
 
     @Override
