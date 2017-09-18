@@ -66,7 +66,7 @@ appRepository.getSongListByLocal(id)
         .subscribe(new Consumer<SongList>() {
             @Override
             public void accept(@NonNull SongList songList) throws Exception {
-
+                    view.getSongList(songList);
             }
         }, new Consumer<Throwable>() {
             @Override
@@ -74,33 +74,5 @@ appRepository.getSongListByLocal(id)
 
             }
         });
-/*        RetrofitAPI.getInstance()
-                .getRemoteService()
-                .getSongList(id)
-                .doOnNext(new Consumer<SongList>() {
-                    @Override
-                    public void accept(@NonNull SongList songList) throws Exception {
-                        for (int i = 0; i < songList.playList.size(); i++) {
-//                            songList.playList.get(i).setIndex((long) i);
-//                            songList.playList.get(i).setSongListId(songList.getId());
-                        }
-                        DaoMasterHelper.getDaoSession()
-                                .getSongDao()
-                                .insertOrReplaceInTx(songList.playList);
-                    }
-                })
-                .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new Consumer<SongList>() {
-                    @Override
-                    public void accept(@NonNull SongList songList) throws Exception {
-
-                    }
-                }, new Consumer<Throwable>() {
-                    @Override
-                    public void accept(@NonNull Throwable throwable) throws Exception {
-
-                    }
-                });*/
     }
 }

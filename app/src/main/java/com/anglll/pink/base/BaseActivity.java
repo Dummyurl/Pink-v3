@@ -3,7 +3,10 @@ package com.anglll.pink.base;
 import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.annotation.StringRes;
 import android.support.v7.app.AppCompatActivity;
+import android.widget.Toast;
+
 import io.reactivex.disposables.CompositeDisposable;
 import io.reactivex.disposables.Disposable;
 
@@ -39,7 +42,15 @@ public class BaseActivity extends AppCompatActivity {
         return null;
     }
 
-    protected Context getContext(){
+    protected Context getContext() {
         return this;
+    }
+
+    public void TT(@StringRes int stringRes) {
+        Toast.makeText(getContext(), getString(stringRes), Toast.LENGTH_SHORT).show();
+    }
+
+    public void TT(String msg) {
+        Toast.makeText(getContext(), msg, Toast.LENGTH_SHORT).show();
     }
 }

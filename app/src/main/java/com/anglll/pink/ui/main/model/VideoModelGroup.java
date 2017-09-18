@@ -17,14 +17,14 @@ import java.util.List;
 
 public class VideoModelGroup extends EpoxyModelGroup {
     public VideoModelGroup(VideoMain videoMain,
-                           MainController.HomeCallbacks callbacks,
+                           MainController.MainCallback callbacks,
                            RecyclerView.RecycledViewPool recycledViewPool) {
         super(R.layout.video_group, buildModels(videoMain, callbacks, recycledViewPool));
         id(videoMain.getId());
     }
 
     private static List<EpoxyModel<?>> buildModels(VideoMain videoMain,
-                                                   MainController.HomeCallbacks callbacks,
+                                                   MainController.MainCallback callbacks,
                                                    RecyclerView.RecycledViewPool recycledViewPool) {
         ArrayList<EpoxyModel<?>> models = new ArrayList<>();
         models.add(new VideoDividerModel_()

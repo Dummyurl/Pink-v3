@@ -19,13 +19,13 @@ import java.util.List;
 public class EventModelGroup extends EpoxyModelGroup {
 
     public EventModelGroup(Todo todo,
-                           MainController.HomeCallbacks homeCallbacks,
+                           MainController.MainCallback mainCallback,
                            RecyclerView.RecycledViewPool recycledViewPool) {
-        super(R.layout.home_calendar_model, buildModels(todo, homeCallbacks, recycledViewPool));
+        super(R.layout.home_calendar_model, buildModels(todo, mainCallback, recycledViewPool));
         id(todo.id);
     }
 
-    private static List<EpoxyModel<?>> buildModels(Todo todo, MainController.HomeCallbacks homeCallbacks,
+    private static List<EpoxyModel<?>> buildModels(Todo todo, MainController.MainCallback mainCallback,
                                                    RecyclerView.RecycledViewPool recycledViewPool) {
         ArrayList<EpoxyModel<?>> models = new ArrayList<>();
         models.add(new EventHeaderModel_());

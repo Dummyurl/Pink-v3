@@ -1,8 +1,12 @@
 package com.anglll.pink.ui.main;
 
+import android.content.ComponentName;
+import android.content.Context;
 import android.content.Intent;
+import android.content.ServiceConnection;
 import android.os.Bundle;
 import android.os.Handler;
+import android.os.IBinder;
 import android.support.annotation.StringRes;
 import android.support.design.widget.AppBarLayout;
 import android.support.design.widget.NavigationView;
@@ -19,12 +23,15 @@ import android.view.MenuItem;
 import com.anglll.pink.R;
 import com.anglll.pink.RxBus;
 import com.anglll.pink.base.BaseActivity;
+import com.anglll.pink.data.db.SongListDao;
 import com.anglll.pink.data.model.Creator;
 import com.anglll.pink.data.model.SongList;
 import com.anglll.pink.data.model.SuperModel;
 import com.anglll.pink.data.model.VideoMain;
 import com.anglll.pink.data.model.Weather;
+import com.anglll.pink.data.retrofit.RetrofitAPI;
 import com.anglll.pink.data.source.db.DaoMasterHelper;
+import com.anglll.pink.player.PlaybackService;
 import com.anglll.pink.ui.TestActivity;
 import com.anglll.pink.ui.songlist.SongListActivity;
 import com.jaeger.library.StatusBarUtil;
@@ -56,10 +63,34 @@ public class MainActivity extends BaseActivity
     @BindView(R.id.swipeRefreshLayout)
     SwipeRefreshLayout mSwipeRefreshLayout;
     private RecyclerView.RecycledViewPool recycledViewPool = new RecyclerView.RecycledViewPool();
-    private MainController controller = new MainController(null, recycledViewPool);
+    private MainController controller = new MainController(new MainController.MainCallback() {
+        @Override
+        public void onMusicPlayNext() {
+
+        }
+
+        @Override
+        public void onMusicPlayLast() {
+
+        }
+
+        @Override
+        public void onMusicPlay() {
+            TT("play");
+        }
+
+        @Override
+        public void onMusicPause() {
+
+        }
+    }, recycledViewPool);
     private SuperModel superModel = new SuperModel();
     private Handler handler = new Handler();
     private MainContract.Presenter presenter;
+    private boolean musicServiceConnected;
+    private boolean pinkServiceConnected;
+    private PlaybackService musicPlayer;
+    private SongList songList;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -94,6 +125,17 @@ public class MainActivity extends BaseActivity
         }
         updateController();
         new MainPresenter(this);
+        //
+        songList = DaoMasterHelper.getDaoSession()
+                .getSongListDao()
+                .queryBuilder()
+                .where(SongListDao.Properties.Id.eq(4380864))
+                .unique();
+
+        songList.getPlayList();
+        songList.getCreator();
+        Intent intent = new Intent(getContext(), PlaybackService.class);
+        bindService(intent, musicServiceConnection, Context.BIND_AUTO_CREATE);
     }
 
     private void updateController() {
@@ -240,4 +282,34 @@ public class MainActivity extends BaseActivity
     public void getVideoRecommendFail(@StringRes int stringRes) {
 
     }
+
+    private ServiceConnection musicServiceConnection = new ServiceConnection() {
+        @Override
+        public void onServiceConnected(ComponentName componentName, IBinder iBinder) {
+            musicServiceConnected = true;
+            musicPlayer = ((PlaybackService.PlayerBinder) iBinder).getService();
+            superModel.setMusicPlayer(musicPlayer);
+            // TODO: 2017/9/18 0018 临时自动启动
+            musicPlayer.play(songList);
+            updateController();
+        }
+
+        @Override
+        public void onServiceDisconnected(ComponentName componentName) {
+            musicServiceConnected = false;
+            musicPlayer = null;
+        }
+    };
+
+    private ServiceConnection pinkServiceConnection = new ServiceConnection() {
+        @Override
+        public void onServiceConnected(ComponentName componentName, IBinder iBinder) {
+            pinkServiceConnected = true;
+        }
+
+        @Override
+        public void onServiceDisconnected(ComponentName componentName) {
+            pinkServiceConnected = false;
+        }
+    };
 }

@@ -25,6 +25,7 @@
         </activity>
         <activity android:name=".ui.TestActivity" />
         <activity android:name=".ui.songlist.SongListActivity" />
+        <service android:name=".player.PlaybackService"/>
     </application>
 
 </manifest>

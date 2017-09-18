@@ -24,7 +24,7 @@ import com.anglll.pink.ui.main.model.WeatherModel_;
 public class MainController extends TypedEpoxyController<SuperModel> {
 
     private final RecyclerView.RecycledViewPool recycledViewPool;
-    private HomeCallbacks callback;
+    private MainCallback callback;
 
     @AutoModel
     WeatherModel_ weatherModel;
@@ -36,7 +36,7 @@ public class MainController extends TypedEpoxyController<SuperModel> {
     MusicDividerModel_ songListDivider;
 
 
-    MainController(HomeCallbacks callback, RecyclerView.RecycledViewPool recycledViewPool) {
+    MainController(MainCallback callback, RecyclerView.RecycledViewPool recycledViewPool) {
         this.callback = callback;
         this.recycledViewPool = recycledViewPool;
     }
@@ -60,7 +60,10 @@ public class MainController extends TypedEpoxyController<SuperModel> {
 
     private void showHomeView(SuperModel superModel) {
         add(weatherModel.weather(superModel.getWeather()));
-        add(musicModel);
+        musicModel
+                .player(superModel.getMusicPlayer())
+                .callback(callback)
+                .addIf(superModel.getMusicPlayer()!=null,this);
         EventModelGroup eventModelGroup =
                 new EventModelGroup(superModel.getTodo(), callback, recycledViewPool);
         add(eventModelGroup);
@@ -99,16 +102,15 @@ public class MainController extends TypedEpoxyController<SuperModel> {
         }
     }
 
-    public interface HomeCallbacks {
-        void onWeatherItemClicked();
-
-        void onMusicItemClicked();
-
-        void onMusicPlayClicked();
+    public interface MainCallback {
 
         void onMusicPlayNext();
 
-        void onMusicPlayPre();
+        void onMusicPlayLast();
+
+        void onMusicPlay();
+
+        void onMusicPause();
     }
 
 }

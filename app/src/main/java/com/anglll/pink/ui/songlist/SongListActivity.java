@@ -1,5 +1,7 @@
 package com.anglll.pink.ui.songlist;
 
+import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.annotation.StringRes;
@@ -8,6 +10,7 @@ import android.support.v7.widget.RecyclerView;
 import com.anglll.pink.R;
 import com.anglll.pink.base.BaseActivity;
 import com.anglll.pink.data.model.SongList;
+import com.anglll.pink.player.PlaybackService;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;

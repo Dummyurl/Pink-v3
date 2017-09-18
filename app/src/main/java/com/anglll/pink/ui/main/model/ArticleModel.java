@@ -57,6 +57,7 @@ public abstract class ArticleModel extends EpoxyModelWithHolder<ArticleModel.Art
                 return;
             commentCount.setText(NumberUtils.formatCount(content.getVisit().getComments()));
             articleTitle.setText(content.getTitle());
+            //// TODO: 2017/9/18 0018 owner 可能为空
             articleUp.setText(content.getOwner().getName());
             articleViewCount.setText(NumberUtils.formatCount(content.getVisit().getViews()));
         }

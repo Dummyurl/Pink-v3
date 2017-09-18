@@ -1,6 +1,5 @@
 package com.anglll.pink.player;
 
-import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 
 import com.anglll.pink.data.model.Song;
@@ -15,9 +14,7 @@ public interface IPlayback {
 
     boolean play(SongList songList);
 
-    boolean play(SongList songList, int index);
-
-    boolean play(Song song);
+    boolean play(int index);
 
     boolean playLast();
 
@@ -31,15 +28,13 @@ public interface IPlayback {
 
     Song getPlayingSong();
 
-    boolean seeTo(int progress);
+    boolean seekTo(int progress);
 
     PlayMode getPlayMode();
 
-    void switchPlayMode();
+    void setPlayMode(PlayMode playMode);
 
     void releasePlayer();
-
-    void removeCallbacks();
 
     void addCallback(Callback callback);
 
@@ -50,8 +45,10 @@ public interface IPlayback {
 
         void onSwitchNext(@Nullable Song next);
 
-        void onComplete(@Nullable Song next);
+        void onPlayComplete();
 
         void onPlayStatusChanged(boolean isPlaying);
+
+        void onProgressChanged(int progress, int total);
     }
 }

@@ -1,6 +1,7 @@
 package com.anglll.pink.data.model;
 
-import android.support.annotation.NonNull;
+
+import com.anglll.pink.player.PlaybackService;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -17,8 +18,9 @@ public class SuperModel {
     private List<SongList> songLists = new ArrayList<>();
     private List<VideoMain> videoMainList = new ArrayList<>();
     private Weather weather;
-    private SongList songList;
     private Todo todo = new Todo();
+    private PlaybackService musicPlayer;
+
 
     public List<VideoMain> getVideoMainList() {
         return videoMainList;
@@ -36,12 +38,12 @@ public class SuperModel {
         this.weather = weather;
     }
 
-    public SongList getSongList() {
-        return songList;
+    public PlaybackService getMusicPlayer() {
+        return musicPlayer;
     }
 
-    public void setSongList(SongList songList) {
-        this.songList = songList;
+    public void setMusicPlayer(PlaybackService musicPlayer) {
+        this.musicPlayer = musicPlayer;
     }
 
     public Todo getTodo() {
