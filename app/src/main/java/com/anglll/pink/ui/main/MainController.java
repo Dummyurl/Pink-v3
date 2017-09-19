@@ -62,7 +62,6 @@ public class MainController extends TypedEpoxyController<SuperModel> {
         add(weatherModel.weather(superModel.getWeather()));
         musicModel
                 .player(superModel.getMusicPlayer())
-                .callback(callback)
                 .addIf(superModel.getMusicPlayer()!=null,this);
         EventModelGroup eventModelGroup =
                 new EventModelGroup(superModel.getTodo(), callback, recycledViewPool);

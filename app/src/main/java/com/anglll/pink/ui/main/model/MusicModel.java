@@ -4,6 +4,7 @@ import android.support.annotation.Nullable;
 import android.support.v7.widget.AppCompatImageView;
 import android.util.Log;
 import android.view.View;
+import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
@@ -21,25 +22,24 @@ import com.facebook.drawee.view.SimpleDraweeView;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
+import butterknife.OnLongClick;
 
 /**
  * Created by yuan on 2017/8/7 0007.
  */
 @EpoxyModelClass(layout = R.layout.home_music_model)
-public abstract class MusicModel extends EpoxyModelWithHolder<MusicModel.MusicHolder> implements IPlayback.Callback, View.OnClickListener {
+public abstract class MusicModel extends EpoxyModelWithHolder<MusicModel.MusicHolder> implements IPlayback.Callback {
 
     @EpoxyAttribute
     PlaybackService player;
-    @EpoxyAttribute
-    MainController.MainCallback callback;
     private MusicHolder holder;
 
 
     @Override
     public void bind(MusicHolder holder) {
-        player.addCallback(this);
         this.holder = holder;
-        holder.bindSong(player.getPlayingSong(),player.getProgress());
+        player.addCallback(this);
+        holder.bindSong(player.getPlayingSong(), player.getProgress());
     }
 
     @Override
@@ -49,23 +49,18 @@ public abstract class MusicModel extends EpoxyModelWithHolder<MusicModel.MusicHo
     }
 
     @Override
-    public void onClick(View view) {
-
-    }
-
-    @Override
     public int getSpanSize(int totalSpanCount, int position, int itemCount) {
         return totalSpanCount;
     }
 
     @Override
     public void onSwitchLast(@Nullable Song last) {
-
+        holder.bindSong(last, 0);
     }
 
     @Override
     public void onSwitchNext(@Nullable Song next) {
-
+        holder.bindSong(next, 0);
     }
 
     @Override
@@ -75,15 +70,12 @@ public abstract class MusicModel extends EpoxyModelWithHolder<MusicModel.MusicHo
 
     @Override
     public void onPlayStatusChanged(boolean isPlaying) {
-
+        Log.d("playStatus", String.valueOf(isPlaying));
     }
 
     @Override
     public void onProgressChanged(int progress, int total) {
-        Log.d("progress", progress + "/" + total);
-        if (holder == null)
-            return;
-        holder.mProgressBar.setProgress(progress*100/total);
+        holder.mProgressBar.setProgress(progress * 100 / total);
     }
 
     public class MusicHolder extends EpoxyHolder {
@@ -99,6 +91,8 @@ public abstract class MusicModel extends EpoxyModelWithHolder<MusicModel.MusicHo
         AppCompatImageView mMusicPlay;
         @BindView(R.id.divider)
         TextView mDivider;
+        @BindView(R.id.play_icon)
+        ImageView mPlayIcon;
         View itemView;
 
         @Override
@@ -109,20 +103,34 @@ public abstract class MusicModel extends EpoxyModelWithHolder<MusicModel.MusicHo
 
         @OnClick(R.id.music_play)
         void playClicked(View view) {
-            if (callback != null) {
-                callback.onMusicPlay();
+
+        }
+
+        @OnClick(R.id.cardView)
+        void playOrPause(View view) {
+            if (player.isPlaying()) {
+                player.pause();
+                mPlayIcon.setVisibility(View.VISIBLE);
+            } else {
+                player.play();
+                mPlayIcon.setVisibility(View.GONE);
             }
+        }
+
+        @OnClick(R.id.music_play)
+        void playNext(View view) {
+            player.playNext();
         }
 
         public void bindSong(Song playingSong, int progress) {
             mMusicName.setText(playingSong.getName());
             mMusicArt.setText(playingSong.getAr_name());
-            updateProgress(progress,playingSong.getDuration());
+            updateProgress(progress, playingSong.getDuration());
         }
 
-        public void updateProgress(int progress, int total){
-            mProgressBar.setMax(total/1000);
-            mProgressBar.setProgress(progress/1000);
+        public void updateProgress(int progress, int total) {
+            mProgressBar.setMax(total / 1000);
+            mProgressBar.setProgress(progress / 1000);
         }
     }
 }
