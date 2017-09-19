@@ -103,13 +103,6 @@ public class MainController extends TypedEpoxyController<SuperModel> {
 
     public interface MainCallback {
 
-        void onMusicPlayNext();
-
-        void onMusicPlayLast();
-
-        void onMusicPlay();
-
-        void onMusicPause();
     }
 
 }

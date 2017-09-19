@@ -28,6 +28,7 @@ public class PlaybackService extends Service implements IPlayback.Callback, IPla
     private Player player;
     private boolean hasFocus;
     private NoisyReceiver noisyReceiver;
+    private boolean registed;
     private AudioManager audioManager;
     private IntentFilter noisyFilter;
     private PlayerBinder builder = new PlayerBinder();
@@ -151,11 +152,12 @@ public class PlaybackService extends Service implements IPlayback.Callback, IPla
     @Override
     public void onPlayStatusChanged(boolean isPlaying) {
         showNotification();
-/*        if (isPlaying) {
+        if (isPlaying && !registed) {
             registerReceiver(noisyReceiver, noisyFilter);
-        } else {
+        }
+        if (!isPlaying && registed) {
             unregisterReceiver(noisyReceiver);
-        }*/
+        }
     }
 
     @Override

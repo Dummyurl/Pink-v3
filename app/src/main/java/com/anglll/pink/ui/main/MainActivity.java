@@ -63,27 +63,7 @@ public class MainActivity extends BaseActivity
     @BindView(R.id.swipeRefreshLayout)
     SwipeRefreshLayout mSwipeRefreshLayout;
     private RecyclerView.RecycledViewPool recycledViewPool = new RecyclerView.RecycledViewPool();
-    private MainController controller = new MainController(new MainController.MainCallback() {
-        @Override
-        public void onMusicPlayNext() {
-
-        }
-
-        @Override
-        public void onMusicPlayLast() {
-
-        }
-
-        @Override
-        public void onMusicPlay() {
-            TT("play");
-        }
-
-        @Override
-        public void onMusicPause() {
-
-        }
-    }, recycledViewPool);
+    private MainController controller = new MainController(null, recycledViewPool);
     private SuperModel superModel = new SuperModel();
     private Handler handler = new Handler();
     private MainContract.Presenter presenter;
