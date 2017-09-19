@@ -3,6 +3,7 @@ package com.anglll.pink.data.model;
 import org.greenrobot.greendao.annotation.Entity;
 import org.greenrobot.greendao.annotation.Id;
 import org.greenrobot.greendao.annotation.NotNull;
+import org.greenrobot.greendao.annotation.OrderBy;
 import org.greenrobot.greendao.annotation.ToMany;
 import org.greenrobot.greendao.annotation.ToOne;
 import org.greenrobot.greendao.annotation.Transient;
@@ -94,6 +95,7 @@ public class SongList {
     @Id
     public Long id;
     @ToMany(referencedJoinProperty = "songListId")
+    @OrderBy("index ASC")
     public List<Song> playList;
     @Transient
     private static final int NO_POSITION = -1;

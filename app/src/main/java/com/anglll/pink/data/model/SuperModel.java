@@ -1,6 +1,7 @@
 package com.anglll.pink.data.model;
 
 
+import com.anglll.pink.core.PinkService;
 import com.anglll.pink.player.PlaybackService;
 
 import java.util.ArrayList;
@@ -20,7 +21,7 @@ public class SuperModel {
     private Weather weather;
     private Todo todo = new Todo();
     private PlaybackService musicPlayer;
-
+    private PinkService pinkService;
 
     public List<VideoMain> getVideoMainList() {
         return videoMainList;

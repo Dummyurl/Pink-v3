@@ -9,11 +9,7 @@ import org.greenrobot.greendao.annotation.Generated;
 /**
  * Created by yuan on 2017/8/8.
  */
-@Entity(
-        indexes = {
-                @Index(value = "index DESC")
-        }
-)
+@Entity
 public class Song {
 
 
