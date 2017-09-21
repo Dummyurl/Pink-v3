@@ -1,16 +1,15 @@
 package com.anglll.pink.ui.songlist;
 
-import android.content.Context;
-import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.annotation.StringRes;
+import android.support.v7.widget.GridLayoutManager;
+import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 
 import com.anglll.pink.R;
 import com.anglll.pink.base.BaseActivity;
 import com.anglll.pink.data.model.SongList;
-import com.anglll.pink.player.PlaybackService;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -29,9 +28,15 @@ public class SongListActivity extends BaseActivity implements SongListContract.V
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_songlist);
         ButterKnife.bind(this);
+        SongListController controller = new SongListController();
+        LinearLayoutManager layoutManager
+                = new LinearLayoutManager(getContext(),LinearLayoutManager.VERTICAL,false);
+        mRecyclerView.setLayoutManager(layoutManager);
+        mRecyclerView.setAdapter(controller.getAdapter());
         new SongListPresenter(this);
         presenter.getSongList(getContentResolver(), 4380864);
     }
+
 
     @Override
     public void setPresenter(SongListContract.Presenter presenter) {
