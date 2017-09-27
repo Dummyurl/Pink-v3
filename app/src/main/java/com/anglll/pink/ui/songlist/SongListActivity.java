@@ -3,7 +3,6 @@ package com.anglll.pink.ui.songlist;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.annotation.StringRes;
-import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 
@@ -19,22 +18,26 @@ import butterknife.ButterKnife;
  */
 
 public class SongListActivity extends BaseActivity implements SongListContract.View {
+    public static final String SONG_LIST_ID = "songList_id";
     @BindView(R.id.recyclerView)
     RecyclerView mRecyclerView;
     private SongListContract.Presenter presenter;
+    private SongListController controller;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_songlist);
         ButterKnife.bind(this);
-        SongListController controller = new SongListController();
+        controller = new SongListController();
         LinearLayoutManager layoutManager
-                = new LinearLayoutManager(getContext(),LinearLayoutManager.VERTICAL,false);
+                = new LinearLayoutManager(getContext(), LinearLayoutManager.VERTICAL, false);
         mRecyclerView.setLayoutManager(layoutManager);
         mRecyclerView.setAdapter(controller.getAdapter());
         new SongListPresenter(this);
-        presenter.getSongList(getContentResolver(), 4380864);
+        long songListId = getIntent().getLongExtra(SONG_LIST_ID, 0);
+        if (songListId > 0)
+            presenter.getSongList(getContentResolver(), songListId);
     }
 
 
@@ -45,7 +48,7 @@ public class SongListActivity extends BaseActivity implements SongListContract.V
 
     @Override
     public void getSongList(SongList songList) {
-
+        controller.setData(songList);
     }
 
     @Override

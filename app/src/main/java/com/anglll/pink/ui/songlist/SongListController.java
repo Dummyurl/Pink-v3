@@ -12,11 +12,15 @@ import com.anglll.pink.ui.songlist.model.MusicItemModel_;
 
 public class SongListController extends TypedEpoxyController<SongList> {
 
+
     @Override
     protected void buildModels(SongList songList) {
-        for (Song song : songList.playList) {
+        for (int i = 0; i < songList.getPlayList().size(); i++) {
+            Song song = songList.getPlayList().get(i);
             add(new MusicItemModel_()
-                    .id(song.getId()));
+                    .id(song.getId())
+                    .index(i)
+                    .song(song));
         }
     }
 }

@@ -39,26 +39,6 @@ public class MainPresenter implements MainContract.Presenter {
 
     }
 
-
-    @Override
-    public void getWeatherInfo(String location) {
-        Disposable disposable = appRepository.getWeather(location)
-                .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new Consumer<Weather>() {
-                    @Override
-                    public void accept(@NonNull Weather weather) throws Exception {
-                        view.getWeatherSuccess(weather);
-                    }
-                }, new Consumer<Throwable>() {
-                    @Override
-                    public void accept(@NonNull Throwable throwable) throws Exception {
-                        view.getWeatherFail(R.string.error_network_request);
-                    }
-                });
-        listCompositeDisposable.add(disposable);
-    }
-
     @Override
     public void getSongList(long uid) {
         Disposable disposable = appRepository.getSongLists(uid)

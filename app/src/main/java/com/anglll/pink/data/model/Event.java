@@ -1,16 +1,19 @@
 package com.anglll.pink.data.model;
 
-import android.os.Parcel;
-import android.os.Parcelable;
-
 import com.anglll.pink.utils.IDUtils;
 
 /**
  * Created by yuan on 2017/8/8.
  */
 
-public class Event implements Parcelable {
+public class Event {
     long id = IDUtils.generateID();
+    private String calendar_id;
+    private String title;
+    private String dtstart;
+    private String dtend;
+    private String rrule;
+    private String event_timezone;
 
     public long getId() {
         return id;
@@ -20,32 +23,51 @@ public class Event implements Parcelable {
         this.id = id;
     }
 
-    @Override
-    public int describeContents() {
-        return 0;
+    public String getCalendar_id() {
+        return calendar_id;
     }
 
-    @Override
-    public void writeToParcel(Parcel dest, int flags) {
-        dest.writeLong(this.id);
+    public void setCalendar_id(String calendar_id) {
+        this.calendar_id = calendar_id;
     }
 
-    public Event() {
+    public String getTitle() {
+        return title;
     }
 
-    protected Event(Parcel in) {
-        this.id = in.readLong();
+    public void setTitle(String title) {
+        this.title = title;
     }
 
-    public static final Parcelable.Creator<Event> CREATOR = new Parcelable.Creator<Event>() {
-        @Override
-        public Event createFromParcel(Parcel source) {
-            return new Event(source);
-        }
+    public String getDtstart() {
+        return dtstart;
+    }
 
-        @Override
-        public Event[] newArray(int size) {
-            return new Event[size];
-        }
-    };
+    public void setDtstart(String dtstart) {
+        this.dtstart = dtstart;
+    }
+
+    public String getDtend() {
+        return dtend;
+    }
+
+    public void setDtend(String dtend) {
+        this.dtend = dtend;
+    }
+
+    public String getRrule() {
+        return rrule;
+    }
+
+    public void setRrule(String rrule) {
+        this.rrule = rrule;
+    }
+
+    public String getEvent_timezone() {
+        return event_timezone;
+    }
+
+    public void setEvent_timezone(String event_timezone) {
+        this.event_timezone = event_timezone;
+    }
 }

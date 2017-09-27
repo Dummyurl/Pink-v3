@@ -1,5 +1,6 @@
 package com.anglll.pink.ui.main.model;
 
+import android.content.Intent;
 import android.view.View;
 import android.widget.TextView;
 
@@ -9,11 +10,13 @@ import com.airbnb.epoxy.EpoxyModelClass;
 import com.airbnb.epoxy.EpoxyModelWithHolder;
 import com.anglll.pink.R;
 import com.anglll.pink.data.model.SongList;
+import com.anglll.pink.ui.songlist.SongListActivity;
 import com.facebook.drawee.view.SimpleDraweeView;
 import com.facebook.fresco.helper.Phoenix;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import butterknife.OnClick;
 
 /**
  * Created by yuan on 2017/8/23 0023.
@@ -50,18 +53,28 @@ public abstract class MusicListModel extends EpoxyModelWithHolder<MusicListModel
         TextView songListName;
         @BindView(R.id.song_count)
         TextView songCount;
+        private SongList songList;
 
         @Override
         protected void bindView(View itemView) {
             ButterKnife.bind(this, itemView);
         }
 
-
         public void bindData(SongList songList) {
+            this.songList = songList;
             if (songList == null)
                 return;
             songListName.setText(songList.getName());
             Phoenix.with(songListCover).load(songList.getCoverImgUrl());
+        }
+
+        @OnClick(R.id.item_layout)
+        void clickItem(View view) {
+            if (songList == null)
+                return;
+            Intent intent = new Intent(view.getContext(), SongListActivity.class);
+            intent.putExtra(SongListActivity.SONG_LIST_ID, songList.getId());
+            view.getContext().startActivity(intent);
         }
     }
 }

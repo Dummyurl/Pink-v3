@@ -171,7 +171,6 @@ public class MainActivity extends BaseActivity
                 if (superModel.getType() != SuperModel.TYPE_HOME) {
                     superModel.setType(SuperModel.TYPE_HOME);
                     updateController();
-                    presenter.getWeatherInfo("ip");
                 }
                 break;
             case R.id.nav_music:
@@ -213,17 +212,6 @@ public class MainActivity extends BaseActivity
     @Override
     public void setPresenter(MainContract.Presenter presenter) {
         this.presenter = presenter;
-    }
-
-    @Override
-    public void getWeatherSuccess(Weather weather) {
-        superModel.setWeather(weather);
-        updateController();
-    }
-
-    @Override
-    public void getWeatherFail(@StringRes int stringRes) {
-
     }
 
     @Override

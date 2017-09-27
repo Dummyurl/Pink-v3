@@ -18,10 +18,6 @@ public class MainContract {
 
     interface View extends BaseView<Presenter> {
 
-        void getWeatherSuccess(Weather weather);
-
-        void getWeatherFail(@StringRes int stringRes);
-
         void getSongListSuccess(List<SongList> songLists);
 
         void getSongListFail(@StringRes int stringRes);
@@ -32,7 +28,6 @@ public class MainContract {
     }
 
     interface Presenter extends BasePresenter {
-        void getWeatherInfo(String location);
 
         void getSongList(long uid);
 
