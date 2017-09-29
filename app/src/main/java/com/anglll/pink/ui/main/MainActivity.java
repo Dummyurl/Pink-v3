@@ -23,6 +23,7 @@ import android.view.MenuItem;
 import com.anglll.pink.R;
 import com.anglll.pink.RxBus;
 import com.anglll.pink.base.BaseActivity;
+import com.anglll.pink.core.PinkService;
 import com.anglll.pink.data.db.SongListDao;
 import com.anglll.pink.data.model.Creator;
 import com.anglll.pink.data.model.SongList;
@@ -114,6 +115,8 @@ public class MainActivity extends BaseActivity
 
         songList.getPlayList();
         songList.getCreator();
+        Intent pinkIntent = new Intent(getContext(), PinkService.class);
+        bindService(pinkIntent, musicServiceConnection, Context.BIND_AUTO_CREATE);
         Intent intent = new Intent(getContext(), PlaybackService.class);
         bindService(intent, musicServiceConnection, Context.BIND_AUTO_CREATE);
     }
