@@ -1,6 +1,7 @@
 package com.anglll.pink.base;
 
 import android.content.Context;
+import android.content.res.Resources;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.annotation.StringRes;
@@ -52,5 +53,15 @@ public class BaseActivity extends AppCompatActivity {
 
     public void TT(String msg) {
         Toast.makeText(getContext(), msg, Toast.LENGTH_SHORT).show();
+    }
+
+    public int getStatusBarHeight() {
+        int resourceId = getResources().getIdentifier("status_bar_height", "dimen", "android");
+        return getResources().getDimensionPixelSize(resourceId);
+    }
+
+    public int getNavigationBarHeight() {
+        int resourceId = getResources().getIdentifier("navigation_bar_height", "dimen", "android");
+        return getResources().getDimensionPixelSize(resourceId);
     }
 }

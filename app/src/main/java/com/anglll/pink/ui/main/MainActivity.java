@@ -18,16 +18,19 @@ import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.MenuItem;
 
 import com.anglll.pink.R;
 import com.anglll.pink.RxBus;
 import com.anglll.pink.base.BaseActivity;
+import com.anglll.pink.core.PinkListener;
 import com.anglll.pink.core.PinkService;
 import com.anglll.pink.data.db.SongListDao;
 import com.anglll.pink.data.model.Creator;
 import com.anglll.pink.data.model.SongList;
 import com.anglll.pink.data.model.SuperModel;
+import com.anglll.pink.data.model.Todo;
 import com.anglll.pink.data.model.VideoMain;
 import com.anglll.pink.data.model.Weather;
 import com.anglll.pink.data.retrofit.RetrofitAPI;
@@ -48,7 +51,7 @@ import io.reactivex.disposables.Disposable;
 import io.reactivex.functions.Consumer;
 
 public class MainActivity extends BaseActivity
-        implements NavigationView.OnNavigationItemSelectedListener, MainContract.View {
+        implements NavigationView.OnNavigationItemSelectedListener, MainContract.View, PinkListener {
 
     @BindView(R.id.toolbar)
     Toolbar mToolbar;
@@ -71,6 +74,8 @@ public class MainActivity extends BaseActivity
     private boolean musicServiceConnected;
     private boolean pinkServiceConnected;
     private PlaybackService musicPlayer;
+    private PinkService.PinkBinder pinkBinder;
+
     private SongList songList;
 
     @Override
@@ -100,6 +105,7 @@ public class MainActivity extends BaseActivity
         mRecyclerView.setHasFixedSize(true);
         mRecyclerView.setItemAnimator(new DefaultItemAnimator());
         mRecyclerView.setAdapter(controller.getAdapter());
+        mSwipeRefreshLayout.setEnabled(false);
         if (savedInstanceState != null) {
 //            superModel = savedInstanceState.getParcelable(SAVED_SUPER);
             // TODO: 2017/8/22 0022 获取存储的诗句
@@ -112,13 +118,10 @@ public class MainActivity extends BaseActivity
                 .queryBuilder()
                 .where(SongListDao.Properties.Id.eq(4380864))
                 .unique();
-
-        songList.getPlayList();
-        songList.getCreator();
         Intent pinkIntent = new Intent(getContext(), PinkService.class);
-        bindService(pinkIntent, musicServiceConnection, Context.BIND_AUTO_CREATE);
+        bindService(pinkIntent, pinkServiceConnection, Context.BIND_AUTO_CREATE);
         Intent intent = new Intent(getContext(), PlaybackService.class);
-        bindService(intent, musicServiceConnection, Context.BIND_AUTO_CREATE);
+//        bindService(intent, musicServiceConnection, Context.BIND_AUTO_CREATE);
     }
 
     private void updateController() {
@@ -261,7 +264,7 @@ public class MainActivity extends BaseActivity
             musicPlayer = ((PlaybackService.PlayerBinder) iBinder).getService();
             superModel.setMusicPlayer(musicPlayer);
             // TODO: 2017/9/18 0018 临时自动启动
-            musicPlayer.play(songList);
+//            musicPlayer.play(songList);
             updateController();
         }
 
@@ -276,6 +279,7 @@ public class MainActivity extends BaseActivity
         @Override
         public void onServiceConnected(ComponentName componentName, IBinder iBinder) {
             pinkServiceConnected = true;
+            pinkBinder = ((PinkService.PinkBinder) iBinder);
         }
 
         @Override
@@ -283,4 +287,20 @@ public class MainActivity extends BaseActivity
             pinkServiceConnected = false;
         }
     };
+
+    @Override
+    public void onTodoLoaded(boolean isSuccess, Todo todo, String msg) {
+        if (!isSuccess)
+            TT(msg);
+        superModel.setTodo(todo);
+        updateController();
+    }
+
+    @Override
+    public void onWeatherLoaded(boolean isSuccess, Weather weather, String msg) {
+        if (!isSuccess)
+            TT(msg);
+        superModel.setWeather(weather);
+        updateController();
+    }
 }

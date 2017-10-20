@@ -8,6 +8,7 @@ import android.provider.MediaStore;
 import com.anglll.pink.data.db.SongListDao;
 import com.anglll.pink.data.model.Song;
 import com.anglll.pink.data.model.SongList;
+import com.anglll.pink.data.model.Todo;
 import com.anglll.pink.data.model.VideoMain;
 import com.anglll.pink.data.model.Weather;
 import com.anglll.pink.data.retrofit.RetrofitAPI;
@@ -111,5 +112,10 @@ public class AppRepository implements AppContract {
     @Override
     public Flowable<SongList> getSongListByLocal(long id) {
         return localService.getSongList(id);
+    }
+
+    @Override
+    public Flowable<Todo> getTodo(ContentResolver cr) {
+        return localService.getTodo(cr);
     }
 }

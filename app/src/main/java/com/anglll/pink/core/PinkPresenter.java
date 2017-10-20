@@ -1,6 +1,10 @@
 package com.anglll.pink.core;
 
+import android.content.Context;
+import android.util.Log;
+
 import com.anglll.pink.R;
+import com.anglll.pink.data.model.Todo;
 import com.anglll.pink.data.model.Weather;
 import com.anglll.pink.data.source.AppRepository;
 
@@ -17,11 +21,13 @@ import io.reactivex.schedulers.Schedulers;
 
 public class PinkPresenter implements PinkContract.Presenter {
 
+    private final Context context;
     private AppRepository appRepository;
     private PinkContract.View view;
     private ListCompositeDisposable listCompositeDisposable;
 
-    public PinkPresenter(PinkContract.View view) {
+    public PinkPresenter(Context context, PinkContract.View view) {
+        this.context = context;
         this.view = view;
         this.listCompositeDisposable = new ListCompositeDisposable();
         this.appRepository = AppRepository.getInstance();
@@ -49,11 +55,12 @@ public class PinkPresenter implements PinkContract.Presenter {
                 .subscribe(new Consumer<Weather>() {
                     @Override
                     public void accept(@NonNull Weather weather) throws Exception {
-                        view.getWeatherSuccess(weather);
+                        view.onWeatherLoaded(true, weather, null);
                     }
                 }, new Consumer<Throwable>() {
                     @Override
                     public void accept(@NonNull Throwable throwable) throws Exception {
+                        view.onWeatherLoaded(false, null, context.getString(R.string.error_request));
                     }
                 });
         listCompositeDisposable.add(disposable);
@@ -61,6 +68,20 @@ public class PinkPresenter implements PinkContract.Presenter {
 
     @Override
     public void getTodo() {
-
+        Disposable disposable = appRepository.getTodo(context.getContentResolver())
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new Consumer<Todo>() {
+                    @Override
+                    public void accept(@NonNull Todo todo) throws Exception {
+                        view.onTodoLoaded(true, todo, null);
+                    }
+                }, new Consumer<Throwable>() {
+                    @Override
+                    public void accept(@NonNull Throwable throwable) throws Exception {
+                        view.onTodoLoaded(false, null, context.getString(R.string.error_request));
+                    }
+                });
+        listCompositeDisposable.add(disposable);
     }
 }

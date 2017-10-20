@@ -6,4 +6,6 @@
     <color name="white">#ffffff</color>
     <color name="watermelon">#fd4c5b</color>
     <color name="warm_grey">#999999</color>
+
+    <color name="home_bg">#293a4c</color>
 </resources>

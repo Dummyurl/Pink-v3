@@ -3,12 +3,10 @@ package com.anglll.pink.ui.main;
 import com.anglll.pink.R;
 import com.anglll.pink.data.model.SongList;
 import com.anglll.pink.data.model.VideoMain;
-import com.anglll.pink.data.model.Weather;
 import com.anglll.pink.data.source.AppRepository;
 
 import java.util.List;
 
-import io.reactivex.Scheduler;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.annotations.NonNull;
 import io.reactivex.disposables.Disposable;
@@ -52,7 +50,7 @@ public class MainPresenter implements MainContract.Presenter {
                 }, new Consumer<Throwable>() {
                     @Override
                     public void accept(@NonNull Throwable throwable) throws Exception {
-                        view.getSongListFail(R.string.error_network_request);
+                        view.getSongListFail(R.string.error_request);
                     }
                 });
         listCompositeDisposable.add(disposable);
@@ -71,7 +69,7 @@ public class MainPresenter implements MainContract.Presenter {
                 }, new Consumer<Throwable>() {
                     @Override
                     public void accept(@NonNull Throwable throwable) throws Exception {
-                        view.getVideoRecommendFail(R.string.error_network_request);
+                        view.getVideoRecommendFail(R.string.error_request);
                     }
                 });
         listCompositeDisposable.add(disposable);

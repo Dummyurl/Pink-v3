@@ -11,13 +11,9 @@ import com.anglll.pink.data.model.Weather;
 
 public class PinkContract {
     interface View extends BaseView<Presenter> {
-        void getWeatherSuccess(Weather weather);
+        void onTodoLoaded(boolean isSuccess, Todo todo, String msg);
 
-        void getWeatherFail(String msg);
-
-        void getTodoSuccess(Todo todo);
-
-        void getTodoFail(String msg);
+        void onWeatherLoaded(boolean isSuccess, Weather weather, String msg);
     }
 
     interface Presenter extends BasePresenter {
