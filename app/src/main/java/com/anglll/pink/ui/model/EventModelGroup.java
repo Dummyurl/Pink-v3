@@ -1,4 +1,4 @@
-package com.anglll.pink.ui.main.model;
+package com.anglll.pink.ui.model;
 
 import android.support.v7.widget.RecyclerView;
 
@@ -34,6 +34,7 @@ public class EventModelGroup extends EpoxyModelGroup {
             List<EventItemModel_> itemList = new ArrayList<>();
             for (Event event : todo.getEvents()) {
                 itemList.add(new EventItemModel_()
+                        .event(event)
                         .id(event.getId()));
             }
             models.add(new CarouselModel_()
@@ -42,8 +43,6 @@ public class EventModelGroup extends EpoxyModelGroup {
         } else {
             models.add(new EventEmptyModel_());
         }
-
-
         return models;
     }
 

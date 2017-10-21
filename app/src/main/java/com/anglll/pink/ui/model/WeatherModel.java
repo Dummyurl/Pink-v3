@@ -1,4 +1,4 @@
-package com.anglll.pink.ui.main.model;
+package com.anglll.pink.ui.model;
 
 import android.support.v7.widget.AppCompatImageView;
 import android.view.View;
@@ -69,7 +69,8 @@ public abstract class WeatherModel extends EpoxyModelWithHolder<WeatherModel.Wea
         public void bindData(Weather weather) {
             if (weather == null)
                 return;
-            mWeatherTemp.setText(String.valueOf(weather.getNow().getTemperature()));
+            mWeatherTemp.setText(String.valueOf(weather.getNow().getTemperature()
+                    + itemView.getContext().getString(R.string.temperature_unit)));
             mWeatherInfo.setText(String.valueOf(weather.getNow().getText()));
             mAddressParent.setText(String.valueOf(weather.getLocation().getCountry()));
             mAddressChild.setText(weather.getLocation().getName());

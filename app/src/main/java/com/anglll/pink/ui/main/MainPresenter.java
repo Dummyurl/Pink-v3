@@ -7,6 +7,7 @@ import com.anglll.pink.data.source.AppRepository;
 
 import java.util.List;
 
+import io.reactivex.Flowable;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.annotations.NonNull;
 import io.reactivex.disposables.Disposable;
@@ -70,6 +71,21 @@ public class MainPresenter implements MainContract.Presenter {
                     @Override
                     public void accept(@NonNull Throwable throwable) throws Exception {
                         view.getVideoRecommendFail(R.string.error_request);
+                    }
+                });
+        listCompositeDisposable.add(disposable);
+    }
+
+    @Override
+    public void getOffSongList() {
+        Disposable disposable = appRepository.getOffSongList()
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new Consumer<SongList>() {
+                    @Override
+                    public void accept(@NonNull SongList songList) throws Exception {
+                        if (songList.getId() > 0)
+                            view.getOffSongList(songList);
                     }
                 });
         listCompositeDisposable.add(disposable);

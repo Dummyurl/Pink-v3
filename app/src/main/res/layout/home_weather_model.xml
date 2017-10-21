@@ -8,7 +8,11 @@
 
     <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="160dp">
+        android:layout_height="160dp"
+        android:paddingBottom="28dp"
+        android:paddingEnd="30dp"
+        android:paddingStart="30dp"
+        android:paddingTop="30dp">
 
         <com.facebook.drawee.view.SimpleDraweeView
             android:id="@+id/simpleDraweeView"
@@ -20,9 +24,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentBottom="true"
-            android:layout_alignParentStart="true"
-            android:layout_marginBottom="22dp"
-            android:layout_marginStart="30dp"
+            android:layout_marginBottom="-7dp"
             android:textSize="42sp"
             tools:text="37℃" />
 
@@ -31,7 +33,6 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentBottom="true"
-            android:layout_marginBottom="30dp"
             android:layout_marginStart="5dp"
             android:layout_toEndOf="@+id/weather_temp"
             tools:text="多云转晴" />
@@ -42,7 +43,6 @@
             android:layout_height="wrap_content"
             android:layout_alignBottom="@+id/weather_info"
             android:layout_alignParentEnd="true"
-            android:layout_marginEnd="30dp"
             android:textSize="16sp"
             tools:text="08:30" />
 
@@ -52,7 +52,6 @@
             android:layout_height="wrap_content"
             android:layout_alignParentTop="true"
             android:layout_alignStart="@+id/weather_temp"
-            android:layout_marginTop="30dp"
             android:textSize="16sp"
             tools:text="New York" />
 
@@ -67,11 +66,10 @@
 
         <android.support.v7.widget.AppCompatImageView
             android:id="@+id/weather_icon"
-            android:layout_width="40dp"
-            android:layout_height="40dp"
+            android:layout_width="60dp"
+            android:layout_height="60dp"
             android:layout_alignParentEnd="true"
             android:layout_alignTop="@+id/address_parent"
-            android:layout_marginEnd="30dp"
             app:srcCompat="@drawable/test_weather" />
 
     </RelativeLayout>

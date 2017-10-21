@@ -25,6 +25,8 @@ public class MainContract {
         void getVideoRecommendSuccess(List<VideoMain> videoMainList);
 
         void getVideoRecommendFail(@StringRes int stringRes);
+
+        void getOffSongList(SongList songList);
     }
 
     interface Presenter extends BasePresenter {
@@ -32,5 +34,7 @@ public class MainContract {
         void getSongList(long uid);
 
         void getVideoRecommend();
+
+        void getOffSongList();
     }
 }

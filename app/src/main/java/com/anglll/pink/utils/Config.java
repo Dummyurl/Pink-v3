@@ -15,4 +15,5 @@ public class Config {
         public static final String HOST = "http://10.0.0.37:3000";
 //    public static final String HOST = "http://192.168.1.105:3000";
     public static final java.lang.String DB_NAME = "pink";
+    public static final String OFF_SONG_LIST = "off_song_list";
 }

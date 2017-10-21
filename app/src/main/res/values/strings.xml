@@ -43,4 +43,7 @@
     <string name="hot_ranking">热歌榜</string>
     <string name="error_request">网络请求失败</string>
     <string name="load_more_content">更多内容</string>
+    <string name="no_todo_thing">暂无待办事项</string>
+    <string name="todo">待办事项</string>
+    <string name="temperature_unit">°</string>
 </resources>

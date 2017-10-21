@@ -1,4 +1,4 @@
-package com.anglll.pink.ui.main.model;
+package com.anglll.pink.ui.model;
 
 /**
  * Created by yuan on 2017/8/23 0023.

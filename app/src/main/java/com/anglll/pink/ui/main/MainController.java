@@ -7,15 +7,16 @@ import com.airbnb.epoxy.TypedEpoxyController;
 import com.anglll.pink.data.model.SongList;
 import com.anglll.pink.data.model.SuperModel;
 import com.anglll.pink.data.model.VideoMain;
-import com.anglll.pink.ui.main.model.EventModelGroup;
-import com.anglll.pink.ui.main.model.MusicDividerModel_;
-import com.anglll.pink.ui.main.model.MusicHeaderModel_;
-import com.anglll.pink.ui.main.model.MusicListModel_;
-import com.anglll.pink.ui.main.model.MusicModel_;
-import com.anglll.pink.ui.main.model.VideoBanner_;
-import com.anglll.pink.ui.main.model.VideoCarouselsModel_;
-import com.anglll.pink.ui.main.model.VideoModelGroup;
-import com.anglll.pink.ui.main.model.WeatherModel_;
+import com.anglll.pink.ui.model.EventModelGroup;
+import com.anglll.pink.ui.model.MusicCarouselsModel_;
+import com.anglll.pink.ui.model.MusicDividerModel_;
+import com.anglll.pink.ui.model.MusicHeaderModel_;
+import com.anglll.pink.ui.model.MusicListModel_;
+import com.anglll.pink.ui.model.MusicModel_;
+import com.anglll.pink.ui.model.VideoBanner_;
+import com.anglll.pink.ui.model.VideoCarouselsModel_;
+import com.anglll.pink.ui.model.VideoModelGroup;
+import com.anglll.pink.ui.model.WeatherModel_;
 
 /**
  * Created by yuan on 2017/8/7 0007.
@@ -34,6 +35,8 @@ public class MainController extends TypedEpoxyController<SuperModel> {
     MusicHeaderModel_ musicHeader;
     @AutoModel
     MusicDividerModel_ songListDivider;
+    @AutoModel
+    MusicCarouselsModel_ musicCarousels;
 
 
     MainController(MainCallback callback, RecyclerView.RecycledViewPool recycledViewPool) {
@@ -62,15 +65,16 @@ public class MainController extends TypedEpoxyController<SuperModel> {
         add(weatherModel.weather(superModel.getWeather()));
         musicModel
                 .player(superModel.getMusicPlayer())
-                .addIf(superModel.getMusicPlayer()!=null,this);
+                .addIf(superModel.getMusicPlayer() != null, this);
         EventModelGroup eventModelGroup =
                 new EventModelGroup(superModel.getTodo(), callback, recycledViewPool);
         add(eventModelGroup);
     }
 
     private void showMusicView(SuperModel superModel) {
+        add(musicCarousels);
         add(musicHeader);
-        add(songListDivider);
+        add(songListDivider.title("我的歌单"));
         for (SongList songList : superModel.getSongLists()) {
             add(new MusicListModel_()
                     .songList(songList)
@@ -93,7 +97,7 @@ public class MainController extends TypedEpoxyController<SuperModel> {
                     break;
                 case 6://banners
                     add(new VideoBanner_()
-                            .content(videoMain.getContents().get(0))
+                            .contents(videoMain.getContents())
                             .id(videoMain.getId()));
                     break;
                 default:

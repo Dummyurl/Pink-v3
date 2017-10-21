@@ -1,24 +1,27 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:gravity="center_vertical"
     android:orientation="horizontal"
-    android:padding="20dp">
+    android:paddingBottom="@dimen/card_inner_padding_top"
+    android:paddingEnd="@dimen/card_inner_padding_start"
+    android:paddingStart="@dimen/card_inner_padding_start"
+    android:paddingTop="@dimen/card_inner_padding_top">
 
     <TextView
         android:id="@+id/event_title"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_weight="1"
-        android:textSize="18sp"
-        tools:text="16个待办事项" />
+        android:text="@string/todo"
+        android:textSize="16sp" />
 
     <android.support.v7.widget.AppCompatImageView
         android:id="@+id/event_add"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:src="@drawable/ic_add_black_24dp" />
+        app:srcCompat="@drawable/ic_add_black_24dp" />
 </LinearLayout>

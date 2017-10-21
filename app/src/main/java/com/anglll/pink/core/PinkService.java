@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.os.Binder;
 import android.os.IBinder;
 import android.support.annotation.Nullable;
+import android.support.annotation.StringRes;
 
 import com.anglll.pink.RxBus;
 import com.anglll.pink.data.model.Todo;
@@ -27,8 +28,7 @@ import io.reactivex.functions.Consumer;
 public class PinkService extends Service implements PinkContract.View {
     private CompositeDisposable mCompositeDisposable;
     private PinkContract.Presenter presenter;
-    private PinkBinder pinkBinder = new PinkBinder();
-    private List<PinkListener> pinkListeners = new ArrayList<>();
+    private PinkBinder pinkBinder;
 
     @Override
     public void onCreate() {
@@ -38,7 +38,8 @@ public class PinkService extends Service implements PinkContract.View {
     }
 
     private void initView() {
-
+        new PinkPresenter(this);
+        pinkBinder = new PinkBinder(getContext(), presenter);
     }
 
     @Nullable
@@ -71,15 +72,15 @@ public class PinkService extends Service implements PinkContract.View {
     }
 
     @Override
-    public void onTodoLoaded(boolean isSuccess, Todo todo, String msg) {
-        for (PinkListener listener : pinkListeners)
-            listener.onTodoLoaded(isSuccess, todo, msg);
+    public void onTodoLoaded(boolean isSuccess, Todo todo, @StringRes int msgRes) {
+        for (PinkListener listener : pinkBinder.getListeners())
+            listener.onTodoLoaded(isSuccess, todo,msgRes );
     }
 
     @Override
-    public void onWeatherLoaded(boolean isSuccess, Weather weather, String msg) {
-        for (PinkListener listener : pinkListeners)
-            listener.onWeatherLoaded(isSuccess, weather, msg);
+    public void onWeatherLoaded(boolean isSuccess, Weather weather, @StringRes int msgRes) {
+        for (PinkListener listener : pinkBinder.getListeners())
+            listener.onWeatherLoaded(isSuccess, weather, msgRes);
     }
 
     @Override
@@ -97,41 +98,6 @@ public class PinkService extends Service implements PinkContract.View {
                     .observeOn(AndroidSchedulers.mainThread())
                     .subscribe(rxBusConsumer);
             mCompositeDisposable.add(disposable);
-        }
-    }
-
-    public class PinkBinder extends Binder implements PinkContract.Presenter {
-
-        public void addPinkListener(PinkListener listener) {
-            pinkListeners.add(listener);
-        }
-
-        public void removeListener(PinkListener listener) {
-            pinkListeners.remove(listener);
-        }
-
-        public void clearListener() {
-            pinkListeners.clear();
-        }
-
-        @Override
-        public void subscribe() {
-
-        }
-
-        @Override
-        public void unSubscribe() {
-
-        }
-
-        @Override
-        public void getWeatherInfo(String location) {
-            presenter.getWeatherInfo(location);
-        }
-
-        @Override
-        public void getTodo() {
-            presenter.getTodo();
         }
     }
 }

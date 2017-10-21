@@ -1,4 +1,4 @@
-package com.anglll.pink.ui.main.model;
+package com.anglll.pink.ui.model;
 
 import android.view.View;
 
@@ -12,24 +12,15 @@ import butterknife.ButterKnife;
 /**
  * Created by yuan on 2017/8/23 0023.
  */
+@EpoxyModelClass(layout = R.layout.video_carousels)
+public abstract class VideoCarouselsModel extends EpoxyModelWithHolder<VideoCarouselsModel.VideoCarouselsHolder> {
 
-@EpoxyModelClass(layout = R.layout.music_divider)
-public abstract class MusicDividerModel extends EpoxyModelWithHolder<MusicDividerModel.MusicDividerHolder> {
-
-    @Override
-    public void bind(MusicDividerHolder holder) {
-        super.bind(holder);
-    }
-
-    @Override
-    public void unbind(MusicDividerHolder holder) {
-        super.unbind(holder);
-    }
     @Override
     public int getSpanSize(int totalSpanCount, int position, int itemCount) {
         return totalSpanCount;
     }
-    class MusicDividerHolder extends EpoxyHolder {
+
+    public static class VideoCarouselsHolder extends EpoxyHolder {
 
         @Override
         protected void bindView(View itemView) {

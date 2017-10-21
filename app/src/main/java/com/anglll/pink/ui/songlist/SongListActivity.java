@@ -37,7 +37,7 @@ public class SongListActivity extends BaseActivity implements SongListContract.V
         new SongListPresenter(this);
         long songListId = getIntent().getLongExtra(SONG_LIST_ID, 0);
         if (songListId > 0)
-            presenter.getSongList(getContentResolver(), songListId);
+            presenter.getSongList(songListId);
     }
 
 
@@ -53,6 +53,16 @@ public class SongListActivity extends BaseActivity implements SongListContract.V
 
     @Override
     public void getSongListFail(@StringRes int stringRes) {
+
+    }
+
+    @Override
+    public void getSongListNet(SongList songList) {
+
+    }
+
+    @Override
+    public void getSongListNetFail(@StringRes int stringRes) {
 
     }
 }

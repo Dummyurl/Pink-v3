@@ -3,19 +3,24 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:orientation="horizontal">
+    android:gravity="center_vertical"
+    android:orientation="horizontal"
+    android:paddingBottom="5dp"
+    android:paddingTop="5dp">
 
     <View
         android:id="@+id/divider_color_block"
         android:layout_width="4dp"
-        android:layout_height="20dp"
+        android:layout_height="15dp"
         android:background="#f0f" />
 
     <TextView
         android:id="@+id/divider_title"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginStart="5dp"
         android:maxLines="1"
-        android:text="@string/test_text" />
+        android:layout_marginEnd="9dp"
+        android:text="我的歌单" />
 
 </LinearLayout>

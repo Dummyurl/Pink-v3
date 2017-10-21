@@ -1,8 +1,5 @@
 package com.anglll.pink.core;
 
-import android.content.Context;
-import android.util.Log;
-
 import com.anglll.pink.R;
 import com.anglll.pink.data.model.Todo;
 import com.anglll.pink.data.model.Weather;
@@ -21,13 +18,11 @@ import io.reactivex.schedulers.Schedulers;
 
 public class PinkPresenter implements PinkContract.Presenter {
 
-    private final Context context;
     private AppRepository appRepository;
     private PinkContract.View view;
     private ListCompositeDisposable listCompositeDisposable;
 
-    public PinkPresenter(Context context, PinkContract.View view) {
-        this.context = context;
+    public PinkPresenter(PinkContract.View view) {
         this.view = view;
         this.listCompositeDisposable = new ListCompositeDisposable();
         this.appRepository = AppRepository.getInstance();
@@ -55,12 +50,12 @@ public class PinkPresenter implements PinkContract.Presenter {
                 .subscribe(new Consumer<Weather>() {
                     @Override
                     public void accept(@NonNull Weather weather) throws Exception {
-                        view.onWeatherLoaded(true, weather, null);
+                        view.onWeatherLoaded(true, weather, 0);
                     }
                 }, new Consumer<Throwable>() {
                     @Override
                     public void accept(@NonNull Throwable throwable) throws Exception {
-                        view.onWeatherLoaded(false, null, context.getString(R.string.error_request));
+                        view.onWeatherLoaded(false, null, R.string.error_request);
                     }
                 });
         listCompositeDisposable.add(disposable);
@@ -68,18 +63,18 @@ public class PinkPresenter implements PinkContract.Presenter {
 
     @Override
     public void getTodo() {
-        Disposable disposable = appRepository.getTodo(context.getContentResolver())
+        Disposable disposable = appRepository.getTodo()
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new Consumer<Todo>() {
                     @Override
                     public void accept(@NonNull Todo todo) throws Exception {
-                        view.onTodoLoaded(true, todo, null);
+                        view.onTodoLoaded(true, todo, 0);
                     }
                 }, new Consumer<Throwable>() {
                     @Override
                     public void accept(@NonNull Throwable throwable) throws Exception {
-                        view.onTodoLoaded(false, null, context.getString(R.string.error_request));
+                        view.onTodoLoaded(false, null, 0);
                     }
                 });
         listCompositeDisposable.add(disposable);

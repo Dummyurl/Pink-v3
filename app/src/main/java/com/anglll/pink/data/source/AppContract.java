@@ -1,7 +1,5 @@
 package com.anglll.pink.data.source;
 
-import android.content.ContentResolver;
-
 import com.anglll.pink.data.model.SongList;
 import com.anglll.pink.data.model.Todo;
 import com.anglll.pink.data.model.VideoMain;
@@ -22,9 +20,11 @@ public interface AppContract {
 
     Flowable<List<SongList>> getSongLists(long uid);
 
-    Flowable<SongList> getSongListByNet(ContentResolver cr, long id);
+    Flowable<SongList> getSongListByNet(long id);
 
     Flowable<SongList> getSongListByLocal(long id);
 
-    Flowable<Todo> getTodo(ContentResolver cr);
+    Flowable<Todo> getTodo();
+
+    Flowable<SongList> getOffSongList();
 }

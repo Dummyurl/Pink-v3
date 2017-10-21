@@ -45,8 +45,25 @@ public class SongListPresenter implements SongListContract.Presenter {
     }
 
     @Override
-    public void getSongList(ContentResolver cr, long id) {
-/*        appRepository.getSongListByNet(cr, id)
+    public void getSongList(long id) {
+        appRepository.getSongListByLocal(id)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new Consumer<SongList>() {
+                    @Override
+                    public void accept(@NonNull SongList songList) throws Exception {
+                        view.getSongList(songList);
+                    }
+                }, new Consumer<Throwable>() {
+                    @Override
+                    public void accept(@NonNull Throwable throwable) throws Exception {
+                    }
+                });
+    }
+
+    @Override
+    public void getSongListByNet(long id) {
+        appRepository.getSongListByNet(id)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new Consumer<SongList>() {
@@ -59,20 +76,6 @@ public class SongListPresenter implements SongListContract.Presenter {
                     public void accept(@NonNull Throwable throwable) throws Exception {
 
                     }
-                });*/
-appRepository.getSongListByLocal(id)
-        .subscribeOn(Schedulers.io())
-        .observeOn(AndroidSchedulers.mainThread())
-        .subscribe(new Consumer<SongList>() {
-            @Override
-            public void accept(@NonNull SongList songList) throws Exception {
-                    view.getSongList(songList);
-            }
-        }, new Consumer<Throwable>() {
-            @Override
-            public void accept(@NonNull Throwable throwable) throws Exception {
-
-            }
-        });
+                });
     }
 }

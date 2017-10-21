@@ -1,4 +1,4 @@
-package com.anglll.pink.ui.main.model;
+package com.anglll.pink.ui.model;
 
 import android.support.v7.widget.AppCompatImageView;
 import android.view.View;

@@ -8,6 +8,7 @@ import org.greenrobot.greendao.annotation.ToMany;
 import org.greenrobot.greendao.annotation.ToOne;
 import org.greenrobot.greendao.annotation.Transient;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
@@ -25,7 +26,7 @@ import com.anglll.pink.player.PlayMode;
  * Created by yuan on 2017/8/22 0022.
  */
 @Entity
-public class SongList {
+public class SongList{
 
     /**
      * subscribed : false

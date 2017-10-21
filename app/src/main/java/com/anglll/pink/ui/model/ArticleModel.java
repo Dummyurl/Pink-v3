@@ -1,7 +1,6 @@
-package com.anglll.pink.ui.main.model;
+package com.anglll.pink.ui.model;
 
 import android.view.View;
-import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.airbnb.epoxy.EpoxyAttribute;

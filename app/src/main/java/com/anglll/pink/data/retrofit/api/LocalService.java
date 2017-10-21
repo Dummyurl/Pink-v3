@@ -1,15 +1,21 @@
 package com.anglll.pink.data.retrofit.api;
 
 import android.content.ContentResolver;
+import android.content.Context;
 import android.database.Cursor;
 import android.net.Uri;
 import android.provider.CalendarContract;
+import android.text.TextUtils;
 
+import com.anglll.pink.PinkApplication;
 import com.anglll.pink.data.db.SongListDao;
 import com.anglll.pink.data.model.Event;
 import com.anglll.pink.data.model.SongList;
 import com.anglll.pink.data.model.Todo;
 import com.anglll.pink.data.source.db.DaoMasterHelper;
+import com.anglll.pink.utils.ACache;
+import com.anglll.pink.utils.Config;
+import com.google.gson.Gson;
 
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -26,6 +32,16 @@ import io.reactivex.annotations.NonNull;
  */
 
 public class LocalService {
+    private final ACache aCache;
+    private ContentResolver cr;
+    private Gson gson;
+
+    public LocalService() {
+        aCache = ACache.get(PinkApplication.getInstance());
+        cr = PinkApplication.getInstance().getContentResolver();
+        gson = new Gson();
+    }
+
     public Flowable<SongList> getSongList(final long id) {
         return Flowable.create(new FlowableOnSubscribe<SongList>() {
             @Override
@@ -44,7 +60,7 @@ public class LocalService {
         }, BackpressureStrategy.ERROR);
     }
 
-    public Flowable<Todo> getTodo(final ContentResolver cr) {
+    public Flowable<Todo> getTodo() {
         return Flowable.create(new FlowableOnSubscribe<Todo>() {
             @Override
             public void subscribe(@NonNull FlowableEmitter<Todo> e) throws Exception {
@@ -91,6 +107,22 @@ public class LocalService {
                     cursor.close();
                 }
                 e.onNext(todo);
+            }
+        }, BackpressureStrategy.ERROR);
+    }
+
+    public Flowable<SongList> getOffSongList() {
+        return Flowable.create(new FlowableOnSubscribe<SongList>() {
+            @Override
+            public void subscribe(@NonNull FlowableEmitter<SongList> e) throws Exception {
+                String json = aCache.getAsString(Config.OFF_SONG_LIST);
+                SongList songList= gson.fromJson(json, SongList.class);
+                if(songList == null){
+                   songList = new SongList();
+                    songList.setId((long) -1);
+                }
+                    e.onNext(songList);
+                    e.onComplete();
             }
         }, BackpressureStrategy.ERROR);
     }

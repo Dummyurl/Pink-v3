@@ -1,7 +1,6 @@
-package com.anglll.pink.ui.main.model;
+package com.anglll.pink.ui.model;
 
 import android.view.View;
-import android.widget.TextView;
 
 import com.airbnb.epoxy.EpoxyAttribute;
 import com.airbnb.epoxy.EpoxyHolder;
@@ -12,7 +11,7 @@ import com.anglll.pink.data.model.VideoMain;
 import com.facebook.drawee.view.SimpleDraweeView;
 import com.facebook.fresco.helper.Phoenix;
 
-import java.io.LineNumberInputStream;
+import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -20,15 +19,15 @@ import butterknife.ButterKnife;
 /**
  * Created by yuan on 2017/8/23 0023.
  */
-@EpoxyModelClass(layout = R.layout.video_divider)
-public abstract class VideoDividerModel extends EpoxyModelWithHolder<VideoDividerModel.VideoDividerHolder> {
+@EpoxyModelClass(layout = R.layout.video_banner)
+public abstract class VideoBanner extends EpoxyModelWithHolder<VideoBanner.VideoBannerHolder> {
     @EpoxyAttribute
-    VideoMain videoMain;
+    List<VideoMain.ContentsBean> contents;
 
     @Override
-    public void bind(VideoDividerHolder holder) {
+    public void bind(VideoBannerHolder holder) {
         super.bind(holder);
-        holder.bindData(videoMain);
+        holder.bindData(contents);
     }
 
     @Override
@@ -36,22 +35,19 @@ public abstract class VideoDividerModel extends EpoxyModelWithHolder<VideoDivide
         return totalSpanCount;
     }
 
-    public static class VideoDividerHolder extends EpoxyHolder {
-        @BindView(R.id.icon)
-        SimpleDraweeView icon;
-        @BindView(R.id.title)
-        TextView title;
+    public static class VideoBannerHolder extends EpoxyHolder {
+        @BindView(R.id.banner)
+        SimpleDraweeView banner;
 
         @Override
         protected void bindView(View itemView) {
             ButterKnife.bind(this, itemView);
         }
 
-        public void bindData(VideoMain videoMain) {
-            if (videoMain == null)
+        public void bindData(List<VideoMain.ContentsBean> content) {
+            if (content == null || content.isEmpty())
                 return;
-            Phoenix.with(icon).load(videoMain.getImage());
-            title.setText(videoMain.getName());
+            Phoenix.with(banner).load(content.get(0).getImage());
         }
     }
 }

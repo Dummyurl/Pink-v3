@@ -1,4 +1,4 @@
-package com.anglll.pink.ui.main.model;
+package com.anglll.pink.ui.model;
 
 import android.support.v7.widget.RecyclerView;
 import android.view.ViewGroup;
@@ -7,7 +7,6 @@ import com.airbnb.epoxy.EpoxyAttribute;
 import com.airbnb.epoxy.EpoxyModel;
 import com.airbnb.epoxy.EpoxyModelClass;
 import com.airbnb.epoxy.EpoxyModelWithView;
-import com.anglll.pink.ui.main.view.GridRecView;
 
 import java.util.List;
 

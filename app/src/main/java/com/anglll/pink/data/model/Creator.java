@@ -4,11 +4,13 @@ import org.greenrobot.greendao.annotation.Entity;
 import org.greenrobot.greendao.annotation.Id;
 import org.greenrobot.greendao.annotation.Generated;
 
+import java.io.Serializable;
+
 /**
  * Created by yuan on 2017/9/5 0005.
  */
 @Entity
-public class Creator {
+public class Creator{
 
     /**
      * userId : 3361534

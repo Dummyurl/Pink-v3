@@ -6,11 +6,13 @@ import org.greenrobot.greendao.annotation.Id;
 import org.greenrobot.greendao.annotation.Index;
 import org.greenrobot.greendao.annotation.Generated;
 
+import java.io.Serializable;
+
 /**
  * Created by yuan on 2017/8/8.
  */
 @Entity
-public class Song {
+public class Song{
 
 
     /**

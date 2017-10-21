@@ -5,6 +5,8 @@ import android.database.Cursor;
 import android.net.Uri;
 import android.provider.MediaStore;
 
+import com.anglll.pink.Injection;
+import com.anglll.pink.PinkApplication;
 import com.anglll.pink.data.db.SongListDao;
 import com.anglll.pink.data.model.Song;
 import com.anglll.pink.data.model.SongList;
@@ -37,10 +39,12 @@ public class AppRepository implements AppContract {
     private static AppRepository instance;
     private final RemoteService remoteService;
     private final LocalService localService;
+    private final ContentResolver cr;
 
     private AppRepository() {
         remoteService = RetrofitAPI.getInstance().getRemoteService();
         localService = RetrofitAPI.getInstance().getLocalService();
+        cr = Injection.provideContext().getContentResolver();
     }
 
     public static AppRepository getInstance() {
@@ -69,7 +73,7 @@ public class AppRepository implements AppContract {
 
 
     @Override
-    public Flowable<SongList> getSongListByNet(final ContentResolver cr, long id) {
+    public Flowable<SongList> getSongListByNet( long id) {
         return remoteService.getSongList(id)
                 .map(new Function<SongList, SongList>() {
                     @Override
@@ -115,7 +119,12 @@ public class AppRepository implements AppContract {
     }
 
     @Override
-    public Flowable<Todo> getTodo(ContentResolver cr) {
-        return localService.getTodo(cr);
+    public Flowable<Todo> getTodo() {
+        return localService.getTodo();
+    }
+
+    @Override
+    public Flowable<SongList> getOffSongList() {
+        return localService.getOffSongList();
     }
 }

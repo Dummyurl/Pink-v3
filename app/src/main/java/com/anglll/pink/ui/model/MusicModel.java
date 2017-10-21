@@ -1,4 +1,4 @@
-package com.anglll.pink.ui.main.model;
+package com.anglll.pink.ui.model;
 
 import android.support.annotation.Nullable;
 import android.support.v7.widget.AppCompatImageView;
@@ -16,13 +16,11 @@ import com.anglll.pink.R;
 import com.anglll.pink.data.model.Song;
 import com.anglll.pink.player.IPlayback;
 import com.anglll.pink.player.PlaybackService;
-import com.anglll.pink.ui.main.MainController;
 import com.facebook.drawee.view.SimpleDraweeView;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
-import butterknife.OnLongClick;
 
 /**
  * Created by yuan on 2017/8/7 0007.

@@ -13,17 +13,18 @@ import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v4.widget.SwipeRefreshLayout;
-import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.support.v7.widget.Toolbar;
-import android.util.Log;
 import android.view.MenuItem;
+import android.widget.ImageButton;
+import android.widget.LinearLayout;
+import android.widget.TextView;
 
 import com.anglll.pink.R;
 import com.anglll.pink.RxBus;
 import com.anglll.pink.base.BaseActivity;
+import com.anglll.pink.core.PinkBinder;
 import com.anglll.pink.core.PinkListener;
 import com.anglll.pink.core.PinkService;
 import com.anglll.pink.data.db.SongListDao;
@@ -33,10 +34,8 @@ import com.anglll.pink.data.model.SuperModel;
 import com.anglll.pink.data.model.Todo;
 import com.anglll.pink.data.model.VideoMain;
 import com.anglll.pink.data.model.Weather;
-import com.anglll.pink.data.retrofit.RetrofitAPI;
 import com.anglll.pink.data.source.db.DaoMasterHelper;
 import com.anglll.pink.player.PlaybackService;
-import com.anglll.pink.ui.TestActivity;
 import com.anglll.pink.ui.songlist.SongListActivity;
 import com.jaeger.library.StatusBarUtil;
 
@@ -45,16 +44,16 @@ import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import butterknife.OnClick;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.annotations.NonNull;
 import io.reactivex.disposables.Disposable;
 import io.reactivex.functions.Consumer;
 
 public class MainActivity extends BaseActivity
-        implements NavigationView.OnNavigationItemSelectedListener, MainContract.View, PinkListener {
+        implements NavigationView.OnNavigationItemSelectedListener, MainContract.View,
+        PinkListener {
 
-    @BindView(R.id.toolbar)
-    Toolbar mToolbar;
     @BindView(R.id.app_bar_layout)
     AppBarLayout mAppBarLayout;
     @BindView(R.id.nav_view)
@@ -66,6 +65,16 @@ public class MainActivity extends BaseActivity
     public static final String SAVED_SUPER = "saved_super";
     @BindView(R.id.swipeRefreshLayout)
     SwipeRefreshLayout mSwipeRefreshLayout;
+    @BindView(R.id.left_btn)
+    ImageButton mLeftBtn;
+    @BindView(R.id.title)
+    TextView mTitle;
+    @BindView(R.id.sub_title)
+    TextView mSubTitle;
+    @BindView(R.id.right_btn)
+    ImageButton mRightBtn;
+    @BindView(R.id.toolbar)
+    LinearLayout mToolbar;
     private RecyclerView.RecycledViewPool recycledViewPool = new RecyclerView.RecycledViewPool();
     private MainController controller = new MainController(null, recycledViewPool);
     private SuperModel superModel = new SuperModel();
@@ -74,7 +83,7 @@ public class MainActivity extends BaseActivity
     private boolean musicServiceConnected;
     private boolean pinkServiceConnected;
     private PlaybackService musicPlayer;
-    private PinkService.PinkBinder pinkBinder;
+    private PinkBinder pinkBinder;
 
     private SongList songList;
 
@@ -84,11 +93,12 @@ public class MainActivity extends BaseActivity
         setContentView(R.layout.activity_main);
         ButterKnife.bind(this);
         StatusBarUtil.setTranslucentForDrawerLayout(this, mDrawerLayout, 0);
-        setSupportActionBar(mToolbar);
+/*        setSupportActionBar(mToolbar);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
                 this, mDrawerLayout, mToolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
         mDrawerLayout.addDrawerListener(toggle);
-        toggle.syncState();
+        toggle.syncState();*/
+        mTitle.setText(R.string.home);
         mNavView.setNavigationItemSelectedListener(this);
         mNavView.getMenu().getItem(0).setChecked(true);
 
@@ -103,6 +113,7 @@ public class MainActivity extends BaseActivity
         gridLayoutManager.setSpanSizeLookup(controller.getSpanSizeLookup());
         mRecyclerView.setLayoutManager(gridLayoutManager);
         mRecyclerView.setHasFixedSize(true);
+        mRecyclerView.addItemDecoration(new MainItemDecoration(getContext()));
         mRecyclerView.setItemAnimator(new DefaultItemAnimator());
         mRecyclerView.setAdapter(controller.getAdapter());
         mSwipeRefreshLayout.setEnabled(false);
@@ -112,16 +123,17 @@ public class MainActivity extends BaseActivity
         }
         updateController();
         new MainPresenter(this);
-        //
-        songList = DaoMasterHelper.getDaoSession()
+        Intent pinkIntent = new Intent(getContext(), PinkService.class);
+        startService(pinkIntent);
+        bindService(pinkIntent, pinkServiceConnection, Context.BIND_AUTO_CREATE);
+/*        Intent intent = new Intent(getContext(), PlaybackService.class);
+        bindService(intent, musicServiceConnection, Context.BIND_AUTO_CREATE);*/
+        presenter.getOffSongList();
+/*        songList = DaoMasterHelper.getDaoSession()
                 .getSongListDao()
                 .queryBuilder()
                 .where(SongListDao.Properties.Id.eq(4380864))
-                .unique();
-        Intent pinkIntent = new Intent(getContext(), PinkService.class);
-        bindService(pinkIntent, pinkServiceConnection, Context.BIND_AUTO_CREATE);
-        Intent intent = new Intent(getContext(), PlaybackService.class);
-//        bindService(intent, musicServiceConnection, Context.BIND_AUTO_CREATE);
+                .unique();*/
     }
 
     private void updateController() {
@@ -146,6 +158,12 @@ public class MainActivity extends BaseActivity
         });
     }
 
+    @OnClick(R.id.left_btn)
+    void openDrawer() {
+        if (!mDrawerLayout.isDrawerOpen(GravityCompat.START))
+            mDrawerLayout.openDrawer(GravityCompat.START);
+    }
+
     @Override
     protected Disposable subscribeEvents() {
         return RxBus.get()
@@ -161,9 +179,8 @@ public class MainActivity extends BaseActivity
 
     @Override
     public void onBackPressed() {
-        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
-        if (drawer.isDrawerOpen(GravityCompat.START)) {
-            drawer.closeDrawer(GravityCompat.START);
+        if (mDrawerLayout.isDrawerOpen(GravityCompat.START)) {
+            mDrawerLayout.closeDrawer(GravityCompat.START);
         } else {
             super.onBackPressed();
         }
@@ -257,6 +274,11 @@ public class MainActivity extends BaseActivity
 
     }
 
+    @Override
+    public void getOffSongList(SongList songList) {
+
+    }
+
     private ServiceConnection musicServiceConnection = new ServiceConnection() {
         @Override
         public void onServiceConnected(ComponentName componentName, IBinder iBinder) {
@@ -279,7 +301,8 @@ public class MainActivity extends BaseActivity
         @Override
         public void onServiceConnected(ComponentName componentName, IBinder iBinder) {
             pinkServiceConnected = true;
-            pinkBinder = ((PinkService.PinkBinder) iBinder);
+            pinkBinder = ((PinkBinder) iBinder);
+            pinkBinder.addPinkListener(MainActivity.this);
         }
 
         @Override
@@ -289,17 +312,20 @@ public class MainActivity extends BaseActivity
     };
 
     @Override
-    public void onTodoLoaded(boolean isSuccess, Todo todo, String msg) {
+    public void onTodoLoaded(boolean isSuccess, Todo todo, @StringRes int msgRes) {
         if (!isSuccess)
-            TT(msg);
+            return;
         superModel.setTodo(todo);
         updateController();
     }
 
     @Override
-    public void onWeatherLoaded(boolean isSuccess, Weather weather, String msg) {
-        if (!isSuccess)
-            TT(msg);
+    public void onWeatherLoaded(boolean isSuccess, Weather weather, @StringRes int msgRes) {
+        if (!isSuccess) {
+            if (msgRes != 0)
+                TT(getString(msgRes));
+            return;
+        }
         superModel.setWeather(weather);
         updateController();
     }

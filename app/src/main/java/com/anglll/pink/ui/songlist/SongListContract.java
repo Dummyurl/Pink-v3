@@ -1,6 +1,5 @@
 package com.anglll.pink.ui.songlist;
 
-import android.content.ContentResolver;
 import android.support.annotation.StringRes;
 
 import com.anglll.pink.base.BasePresenter;
@@ -17,9 +16,15 @@ public class SongListContract {
         void getSongList(SongList songList);
 
         void getSongListFail(@StringRes int stringRes);
+
+        void getSongListNet(SongList songList);
+
+        void getSongListNetFail(@StringRes int stringRes);
     }
 
     interface Presenter extends BasePresenter {
-        void getSongList(ContentResolver cr, long id);
+        void getSongList(long id);
+
+        void getSongListByNet(long id);
     }
 }
