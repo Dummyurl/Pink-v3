@@ -27,7 +27,6 @@ import com.anglll.pink.base.BaseActivity;
 import com.anglll.pink.core.PinkBinder;
 import com.anglll.pink.core.PinkListener;
 import com.anglll.pink.core.PinkService;
-import com.anglll.pink.data.db.SongListDao;
 import com.anglll.pink.data.model.Creator;
 import com.anglll.pink.data.model.SongList;
 import com.anglll.pink.data.model.SuperModel;
@@ -35,6 +34,7 @@ import com.anglll.pink.data.model.Todo;
 import com.anglll.pink.data.model.VideoMain;
 import com.anglll.pink.data.model.Weather;
 import com.anglll.pink.data.source.db.DaoMasterHelper;
+import com.anglll.pink.event.SongListEvent;
 import com.anglll.pink.player.PlaybackService;
 import com.anglll.pink.ui.songlist.SongListActivity;
 import com.jaeger.library.StatusBarUtil;
@@ -86,6 +86,7 @@ public class MainActivity extends BaseActivity
     private PinkBinder pinkBinder;
 
     private SongList songList;
+    private Intent musicServiceIntent;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -126,14 +127,8 @@ public class MainActivity extends BaseActivity
         Intent pinkIntent = new Intent(getContext(), PinkService.class);
         startService(pinkIntent);
         bindService(pinkIntent, pinkServiceConnection, Context.BIND_AUTO_CREATE);
-/*        Intent intent = new Intent(getContext(), PlaybackService.class);
-        bindService(intent, musicServiceConnection, Context.BIND_AUTO_CREATE);*/
+        musicServiceIntent = new Intent(getContext(), PlaybackService.class);
         presenter.getOffSongList();
-/*        songList = DaoMasterHelper.getDaoSession()
-                .getSongListDao()
-                .queryBuilder()
-                .where(SongListDao.Properties.Id.eq(4380864))
-                .unique();*/
     }
 
     private void updateController() {
@@ -171,10 +166,21 @@ public class MainActivity extends BaseActivity
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new Consumer<Object>() {
                     @Override
-                    public void accept(@NonNull Object o) throws Exception {
-
+                    public void accept(@NonNull Object event) throws Exception {
+                        if (event instanceof SongListEvent) {
+                            songList = ((SongListEvent) event).getSongList();
+                            playMusic();
+                        }
                     }
                 });
+    }
+
+    private void playMusic() {
+        if (musicServiceConnected) {
+            musicPlayer.play(songList);
+        } else {
+            bindService(musicServiceIntent, musicServiceConnection, Context.BIND_AUTO_CREATE);
+        }
     }
 
     @Override
@@ -238,29 +244,14 @@ public class MainActivity extends BaseActivity
     }
 
     @Override
-    public void getSongListSuccess(List<SongList> songLists) {
+    public void getSongList(List<SongList> songLists) {
         superModel.setSongLists(songLists);
         updateController();
-        List<SongList> songListList = new ArrayList<>();
-        List<Creator> creators = new ArrayList<>();
-
-        for (SongList songList : songLists) {
-            songList.creator_id = songList.creator.userId;
-            songListList.add(songList);
-            if (!creators.contains(songList.creator))
-                creators.add(songList.creator);
-        }
-        DaoMasterHelper.getDaoSession()
-                .getCreatorDao()
-                .insertOrReplaceInTx(creators);
-        DaoMasterHelper.getDaoSession()
-                .getSongListDao()
-                .insertOrReplaceInTx(songListList);
     }
 
     @Override
     public void getSongListFail(@StringRes int stringRes) {
-
+        TT(getString(stringRes));
     }
 
     @Override
@@ -271,7 +262,7 @@ public class MainActivity extends BaseActivity
 
     @Override
     public void getVideoRecommendFail(@StringRes int stringRes) {
-
+        TT(getString(stringRes));
     }
 
     @Override
@@ -285,8 +276,7 @@ public class MainActivity extends BaseActivity
             musicServiceConnected = true;
             musicPlayer = ((PlaybackService.PlayerBinder) iBinder).getService();
             superModel.setMusicPlayer(musicPlayer);
-            // TODO: 2017/9/18 0018 临时自动启动
-//            musicPlayer.play(songList);
+            musicPlayer.play(songList);
             updateController();
         }
 

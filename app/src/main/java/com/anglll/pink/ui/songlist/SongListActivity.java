@@ -7,8 +7,11 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 
 import com.anglll.pink.R;
+import com.anglll.pink.RxBus;
 import com.anglll.pink.base.BaseActivity;
+import com.anglll.pink.data.model.Song;
 import com.anglll.pink.data.model.SongList;
+import com.anglll.pink.event.SongListEvent;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -17,25 +20,28 @@ import butterknife.ButterKnife;
  * Created by yuan on 2017/9/5 0005.
  */
 
-public class SongListActivity extends BaseActivity implements SongListContract.View {
+public class SongListActivity extends BaseActivity implements SongListContract.View,
+        SongListController.SongListCallback {
     public static final String SONG_LIST_ID = "songList_id";
     @BindView(R.id.recyclerView)
     RecyclerView mRecyclerView;
     private SongListContract.Presenter presenter;
     private SongListController controller;
+    private long songListId;
+    private SongList songList;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_songlist);
         ButterKnife.bind(this);
-        controller = new SongListController();
+        controller = new SongListController(this);
         LinearLayoutManager layoutManager
                 = new LinearLayoutManager(getContext(), LinearLayoutManager.VERTICAL, false);
         mRecyclerView.setLayoutManager(layoutManager);
         mRecyclerView.setAdapter(controller.getAdapter());
         new SongListPresenter(this);
-        long songListId = getIntent().getLongExtra(SONG_LIST_ID, 0);
+        songListId = getIntent().getLongExtra(SONG_LIST_ID, 0);
         if (songListId > 0)
             presenter.getSongList(songListId);
     }
@@ -48,21 +54,25 @@ public class SongListActivity extends BaseActivity implements SongListContract.V
 
     @Override
     public void getSongList(SongList songList) {
-        controller.setData(songList);
+        if (songList != null) {
+            this.songList = songList;
+            updateController();
+        }
     }
 
     @Override
     public void getSongListFail(@StringRes int stringRes) {
+        TT(stringRes);
+    }
 
+    private void updateController() {
+        controller.setData(songList);
     }
 
     @Override
-    public void getSongListNet(SongList songList) {
-
-    }
-
-    @Override
-    public void getSongListNetFail(@StringRes int stringRes) {
-
+    public void onSongClick(Song song, int index) {
+        songList.setPlayIndex(index);
+        songList.setPlayingSong(song);
+        RxBus.get().post(new SongListEvent(songList));
     }
 }

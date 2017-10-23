@@ -8,6 +8,7 @@ import android.provider.CalendarContract;
 import android.text.TextUtils;
 
 import com.anglll.pink.PinkApplication;
+import com.anglll.pink.data.db.DaoMaster;
 import com.anglll.pink.data.db.SongListDao;
 import com.anglll.pink.data.model.Event;
 import com.anglll.pink.data.model.SongList;
@@ -40,6 +41,21 @@ public class LocalService {
         aCache = ACache.get(PinkApplication.getInstance());
         cr = PinkApplication.getInstance().getContentResolver();
         gson = new Gson();
+    }
+
+    public Flowable<List<SongList>> getSongLists() {
+        return Flowable.create(new FlowableOnSubscribe<List<SongList>>() {
+            @Override
+            public void subscribe(@NonNull FlowableEmitter<List<SongList>> e) throws Exception {
+                List<SongList> songLists = DaoMasterHelper.getDaoSession()
+                        .getSongListDao()
+                        .queryBuilder()
+                        .list();
+                if (songLists == null)
+                    songLists = new ArrayList<>();
+                e.onNext(songLists);
+            }
+        }, BackpressureStrategy.ERROR);
     }
 
     public Flowable<SongList> getSongList(final long id) {
@@ -116,13 +132,13 @@ public class LocalService {
             @Override
             public void subscribe(@NonNull FlowableEmitter<SongList> e) throws Exception {
                 String json = aCache.getAsString(Config.OFF_SONG_LIST);
-                SongList songList= gson.fromJson(json, SongList.class);
-                if(songList == null){
-                   songList = new SongList();
+                SongList songList = gson.fromJson(json, SongList.class);
+                if (songList == null) {
+                    songList = new SongList();
                     songList.setId((long) -1);
                 }
-                    e.onNext(songList);
-                    e.onComplete();
+                e.onNext(songList);
+                e.onComplete();
             }
         }, BackpressureStrategy.ERROR);
     }

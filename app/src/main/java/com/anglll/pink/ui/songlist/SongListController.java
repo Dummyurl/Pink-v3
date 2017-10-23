@@ -4,7 +4,7 @@ package com.anglll.pink.ui.songlist;
 import com.airbnb.epoxy.TypedEpoxyController;
 import com.anglll.pink.data.model.Song;
 import com.anglll.pink.data.model.SongList;
-import com.anglll.pink.ui.songlist.model.MusicItemModel_;
+import com.anglll.pink.ui.model.MusicItemModel_;
 
 /**
  * Created by yuan on 2017/9/5 0005.
@@ -12,6 +12,11 @@ import com.anglll.pink.ui.songlist.model.MusicItemModel_;
 
 public class SongListController extends TypedEpoxyController<SongList> {
 
+    private final SongListCallback callback;
+
+    SongListController(SongListCallback callback) {
+        this.callback = callback;
+    }
 
     @Override
     protected void buildModels(SongList songList) {
@@ -20,7 +25,13 @@ public class SongListController extends TypedEpoxyController<SongList> {
             add(new MusicItemModel_()
                     .id(song.getId())
                     .index(i)
+                    .callback(callback)
                     .song(song));
         }
+    }
+
+
+    public interface SongListCallback {
+        void onSongClick(Song song,int index);
     }
 }

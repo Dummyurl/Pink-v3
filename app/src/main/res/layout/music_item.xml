@@ -1,66 +1,50 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="50dp"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:background="#999"
+    android:id="@+id/layout_song_item"
+    android:background="?attr/selectableItemBackground"
     android:orientation="horizontal">
 
     <TextView
         android:id="@+id/index"
-        android:layout_width="wrap_content"
-        android:layout_height="match_parent"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
         android:gravity="center"
         tools:text="100" />
 
     <RelativeLayout
         android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_weight="1">
+        android:layout_height="match_parent"
+        android:layout_weight="1"
+        android:padding="5dp">
 
-        <LinearLayout
-            android:layout_width="match_parent"
+        <TextView
+            android:id="@+id/name"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentTop="true"
-            android:orientation="horizontal">
+            android:singleLine="true"
+            tools:text="Purple Passion" />
 
-            <TextView
-                android:id="@+id/name"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                tools:text="Purple Passion" />
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                tools:text="(紫色激情)" />
-        </LinearLayout>
-
-        <LinearLayout
-            android:layout_width="match_parent"
+        <TextView
+            android:id="@+id/artist"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentBottom="true"
-            android:orientation="horizontal">
-
-            <TextView
-                android:id="@+id/artist"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                tools:text="李宗盛" />
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                tools:text="-山丘" />
-        </LinearLayout>
+            android:singleLine="true"
+            android:textSize="12sp"
+            tools:text="李宗盛" />
     </RelativeLayout>
 
-    <android.support.v7.widget.AppCompatButton
+    <android.support.v7.widget.AppCompatImageView
+        android:layout_width="50dp"
+        android:layout_height="match_parent"
         android:background="?attr/selectableItemBackground"
-        android:src="@android:drawable/ic_dialog_info"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"/>
+        android:scaleType="center"
+        app:srcCompat="@drawable/ic_more_vert_black_24dp" />
 
 
 </LinearLayout>

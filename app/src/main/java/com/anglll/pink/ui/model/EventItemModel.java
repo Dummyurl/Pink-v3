@@ -13,6 +13,7 @@ import com.anglll.pink.data.model.Event;
 import java.text.DecimalFormat;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.Locale;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -62,8 +63,10 @@ public abstract class EventItemModel extends EpoxyModelWithHolder<EventItemModel
             long time = Long.parseLong(event.getDtstart());
             Calendar calendar = Calendar.getInstance();
             calendar.setTime(new Date(time));
-            mEventTime.setText(new DecimalFormat("00").format(calendar.get(Calendar.HOUR_OF_DAY)));
-            mEventTime.setText(new DecimalFormat("00").format(calendar.get(Calendar.MINUTE)));
+            String timeString = String.format(Locale.getDefault(), "%02d", calendar.get(Calendar.HOUR_OF_DAY))
+                    + ":"
+                    + String.format(Locale.getDefault(), "%02d", calendar.get(Calendar.MINUTE));
+            mEventTime.setText(timeString);
         }
     }
 }

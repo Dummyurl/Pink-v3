@@ -65,12 +65,6 @@ public class PlaybackService extends Service implements IPlayback.Callback, IPla
     }
 
     @Override
-    public boolean play(int index) {
-        requestAudioFocus();
-        return player.play(index);
-    }
-
-    @Override
     public boolean playLast() {
         requestAudioFocus();
         return player.playLast();

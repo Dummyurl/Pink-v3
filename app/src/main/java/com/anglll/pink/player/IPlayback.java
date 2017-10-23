@@ -14,8 +14,6 @@ public interface IPlayback {
 
     boolean play(SongList songList);
 
-    boolean play(int index);
-
     boolean playLast();
 
     boolean playNext();

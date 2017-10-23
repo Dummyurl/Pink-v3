@@ -18,7 +18,7 @@ public class MainContract {
 
     interface View extends BaseView<Presenter> {
 
-        void getSongListSuccess(List<SongList> songLists);
+        void getSongList(List<SongList> songLists);
 
         void getSongListFail(@StringRes int stringRes);
 

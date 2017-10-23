@@ -18,7 +18,8 @@ public interface AppContract {
 
     Flowable<List<VideoMain>> getRecommendVideo();
 
-    Flowable<List<SongList>> getSongLists(long uid);
+    Flowable<List<SongList>> getSongListsByNet(long uid);
+    Flowable<List<SongList>> getSongListsByLocal();
 
     Flowable<SongList> getSongListByNet(long id);
 

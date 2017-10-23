@@ -104,15 +104,6 @@ public class Player implements MediaPlayer.OnPreparedListener,
     }
 
     @Override
-    public boolean play(int index) {
-        if (index < 0 || index >= this.songList.getNumOfSongs())
-            return false;
-        playProgress = 0;
-        this.songList.setPlayIndex(index);
-        return play();
-    }
-
-    @Override
     public boolean playLast() {
         playProgress = 0;
         boolean hasLast = songList.hasLast();

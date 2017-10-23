@@ -8,6 +8,7 @@ import android.provider.MediaStore;
 import com.anglll.pink.Injection;
 import com.anglll.pink.PinkApplication;
 import com.anglll.pink.data.db.SongListDao;
+import com.anglll.pink.data.model.Creator;
 import com.anglll.pink.data.model.Song;
 import com.anglll.pink.data.model.SongList;
 import com.anglll.pink.data.model.Todo;
@@ -20,6 +21,7 @@ import com.anglll.pink.data.source.db.DaoMasterHelper;
 
 import org.reactivestreams.Publisher;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -67,13 +69,38 @@ public class AppRepository implements AppContract {
     }
 
     @Override
-    public Flowable<List<SongList>> getSongLists(long uid) {
-        return remoteService.getSongLists(uid);
+    public Flowable<List<SongList>> getSongListsByNet(long uid) {
+        return remoteService.getSongLists(uid)
+                .doOnNext(new Consumer<List<SongList>>() {
+                    @Override
+                    public void accept(@NonNull List<SongList> songLists) throws Exception {
+                        List<SongList> songListList = new ArrayList<>();
+                        List<Creator> creators = new ArrayList<>();
+
+                        for (SongList songList : songLists) {
+                            songList.creator_id = songList.creator.userId;
+                            songListList.add(songList);
+                            if (!creators.contains(songList.creator))
+                                creators.add(songList.creator);
+                        }
+                        DaoMasterHelper.getDaoSession()
+                                .getCreatorDao()
+                                .insertOrReplaceInTx(creators);
+                        DaoMasterHelper.getDaoSession()
+                                .getSongListDao()
+                                .insertOrReplaceInTx(songListList);
+                    }
+                });
+    }
+
+    @Override
+    public Flowable<List<SongList>> getSongListsByLocal() {
+        return localService.getSongLists();
     }
 
 
     @Override
-    public Flowable<SongList> getSongListByNet( long id) {
+    public Flowable<SongList> getSongListByNet(long id) {
         return remoteService.getSongList(id)
                 .map(new Function<SongList, SongList>() {
                     @Override

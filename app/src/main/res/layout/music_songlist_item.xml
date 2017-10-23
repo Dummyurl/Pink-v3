@@ -10,22 +10,21 @@
 
     <com.facebook.drawee.view.SimpleDraweeView
         android:id="@+id/song_list_cover"
-        android:layout_width="50dp"
-        android:layout_height="50dp" />
+        android:layout_width="55dp"
+        android:layout_height="55dp" />
 
     <RelativeLayout
         android:layout_width="0dp"
         android:layout_height="match_parent"
         android:layout_weight="1"
-        android:paddingBottom="5dp"
-        android:paddingTop="5dp">
+        android:padding="5dp">
 
         <TextView
             android:id="@+id/song_list_name"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_alignParentTop="true"
-            android:maxLines="1"
+            android:singleLine="true"
             tools:text="歌单名称" />
 
         <TextView
@@ -33,7 +32,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_alignParentBottom="true"
-            android:maxLines="1"
+            android:singleLine="true"
             android:textSize="12sp"
             tools:text="334首" />
     </RelativeLayout>

@@ -46,4 +46,5 @@
     <string name="no_todo_thing">暂无待办事项</string>
     <string name="todo">待办事项</string>
     <string name="temperature_unit">°</string>
+    <string name="fail_get_song_list_detail">获取播放列表失败</string>
 </resources>
