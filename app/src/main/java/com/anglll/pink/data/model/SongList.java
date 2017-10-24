@@ -95,6 +95,7 @@ public class SongList{
     public String name;
     @Id
     public Long id;
+    public Long index;
     @ToMany(referencedJoinProperty = "songListId")
     @OrderBy("index ASC")
     public List<Song> playList;
@@ -115,14 +116,13 @@ public class SongList{
     @Generated(hash = 741189411)
     private transient SongListDao myDao;
 
-    @Generated(hash = 1151245159)
-    public SongList(boolean subscribed, Long creator_id, int status, boolean ordered,
-                    int adType, int userId, int specialType, boolean anonimous, long coverImgId,
-                    long createTime, int privacy, boolean newImported, int trackCount,
-                    boolean highQuality, long trackUpdateTime, long updateTime,
-                    String commentThreadId, String coverImgUrl, int playCount, int totalDuration,
-                    long trackNumberUpdateTime, int cloudTrackCount, int subscribedCount,
-                    String description, String name, Long id) {
+    @Generated(hash = 1318873149)
+    public SongList(boolean subscribed, Long creator_id, int status, boolean ordered, int adType,
+            int userId, int specialType, boolean anonimous, long coverImgId, long createTime,
+            int privacy, boolean newImported, int trackCount, boolean highQuality, long trackUpdateTime,
+            long updateTime, String commentThreadId, String coverImgUrl, int playCount,
+            int totalDuration, long trackNumberUpdateTime, int cloudTrackCount, int subscribedCount,
+            String description, String name, Long id, Long index) {
         this.subscribed = subscribed;
         this.creator_id = creator_id;
         this.status = status;
@@ -149,10 +149,20 @@ public class SongList{
         this.description = description;
         this.name = name;
         this.id = id;
+        this.index = index;
     }
 
     @Generated(hash = 1144407077)
     public SongList() {
+    }
+
+
+    public Long getIndex() {
+        return index;
+    }
+
+    public void setIndex(Long index) {
+        this.index = index;
     }
 
     public boolean getSubscribed() {

@@ -9,6 +9,7 @@ import android.util.AttributeSet;
 
 import com.airbnb.epoxy.EpoxyModel;
 import com.airbnb.epoxy.SimpleEpoxyController;
+import com.anglll.pink.ui.main.VideoItemDecoration;
 
 import java.util.List;
 
@@ -27,6 +28,7 @@ public class GridRecView extends RecyclerView {
         layoutManager =
                 new GridLayoutManager(context, SPAN_COUNT, LinearLayoutManager.VERTICAL, false);
         setLayoutManager(layoutManager);
+        addItemDecoration(new VideoItemDecoration(getContext()));
     }
 
     public void setInitialPrefetchItemCount(int count) {

@@ -77,7 +77,7 @@ public class MainActivity extends BaseActivity
     LinearLayout mToolbar;
     private RecyclerView.RecycledViewPool recycledViewPool = new RecyclerView.RecycledViewPool();
     private MainController controller = new MainController(null, recycledViewPool);
-    private SuperModel superModel = new SuperModel();
+    private SuperModel superModel;
     private Handler handler = new Handler();
     private MainContract.Presenter presenter;
     private boolean musicServiceConnected;
@@ -107,14 +107,14 @@ public class MainActivity extends BaseActivity
         recycledViewPool.setMaxRecycledViews(R.layout.video_group, Integer.MAX_VALUE);
         recycledViewPool.setMaxRecycledViews(R.layout.video_fun_v, Integer.MAX_VALUE);
         recycledViewPool.setMaxRecycledViews(R.layout.video_rank, Integer.MAX_VALUE);
-
+        superModel = new SuperModel(getContext());
         mRecyclerView.setRecycledViewPool(recycledViewPool);
         controller.setSpanCount(2);
         GridLayoutManager gridLayoutManager = new GridLayoutManager(getContext(), 2);
         gridLayoutManager.setSpanSizeLookup(controller.getSpanSizeLookup());
         mRecyclerView.setLayoutManager(gridLayoutManager);
         mRecyclerView.setHasFixedSize(true);
-        mRecyclerView.addItemDecoration(new MainItemDecoration(getContext()));
+        mRecyclerView.addItemDecoration(superModel.getItemDecoration());
         mRecyclerView.setItemAnimator(new DefaultItemAnimator());
         mRecyclerView.setAdapter(controller.getAdapter());
         mSwipeRefreshLayout.setEnabled(false);

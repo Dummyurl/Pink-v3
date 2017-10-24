@@ -77,8 +77,10 @@ public class AppRepository implements AppContract {
                         List<SongList> songListList = new ArrayList<>();
                         List<Creator> creators = new ArrayList<>();
 
-                        for (SongList songList : songLists) {
+                        for (int i = 0; i < songLists.size(); i++) {
+                            SongList songList = songLists.get(i);
                             songList.creator_id = songList.creator.userId;
+                            songList.index = (long) i;
                             songListList.add(songList);
                             if (!creators.contains(songList.creator))
                                 creators.add(songList.creator);

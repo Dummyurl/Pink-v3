@@ -50,6 +50,7 @@ public class LocalService {
                 List<SongList> songLists = DaoMasterHelper.getDaoSession()
                         .getSongListDao()
                         .queryBuilder()
+                        .orderAsc(SongListDao.Properties.Index)
                         .list();
                 if (songLists == null)
                     songLists = new ArrayList<>();
